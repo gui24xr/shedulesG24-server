@@ -8,6 +8,7 @@ const usersService = new UsersService()
 
 export const authControllers = {
 
+
     login: async (req,res,next)=>{
         try{
             const userFromAuth0Token = await getUserDataFromAuth0Token(req.headers.authorization)
@@ -23,7 +24,7 @@ export const authControllers = {
             const token = jwt.sign({userId:authUser.id},process.env.SERVER_JWT_SIGN,{expiresIn: "1h"})
             console.log('Generated token: ', token)
 
-            res.cookie('g24token',token,{
+            res.cookie(process.env.SERVER_COOKIES_JWT_NAME,token,{
                //httpOnly: true,
                 //secure: true,
                 //sameSite: "none",
@@ -39,7 +40,15 @@ export const authControllers = {
             console.error(error)
             res.status(500).json({error:error})
         }
-    }
+    },
+
+    logout: (req,res,next) =>{
+        res.clearCookie(process.env.SERVER_COOKIES_JWT, { path: '/' }); // Elimina la cookie en el navegador
+        res.status(200).json({ message: 'Cookies eliminadas' });
+    },
+
+
+    
 }
 
 
