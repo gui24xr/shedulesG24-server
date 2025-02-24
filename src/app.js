@@ -6,7 +6,9 @@ import passport from './config/passport.js'
 import { router as pdfRouter } from './api/test/createpdf.js'
 import { router as authRouter } from './api/auth/routes.js'
 import { router as companiesRouter } from './api/companies/companies.routes.js'
+import { router as offeringsRouter } from './api/offerings/routes.js'
 import { router as shedulesRouter } from './api/shedules/routes.js'
+import { router as customersRouter } from './api/customers/customers.routes.js'
 
 export const app = express()
 
@@ -27,6 +29,8 @@ app.use('/api/docs', pdfRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/companies', companiesRouter)
 app.use('/api/shedules', shedulesRouter)
-console.log("Registrando authRouter en /api/auth:", authRouter.stack.length, "rutas");
+app.use('/api/offerings', offeringsRouter)
+app.use('/api/customers', customersRouter)
+
 
    

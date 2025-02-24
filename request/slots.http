@@ -11,8 +11,8 @@ POST http://localhost:8085/api/shedules/slots/single
 Content-Type: application/json
 
 {
-    "sheduleId": "67ae19385d401c1ea1eceec5",
-    "startDateTime": "1985-12-23T08:45",
+    "sheduleId": "67bcbf1af32c675e089ebc99",
+    "startDateTime": "2015-11-26T08:00",
     "durationInMinutes": 15
 }
   
@@ -22,8 +22,8 @@ POST http://localhost:8085/api/shedules/slots/many
 Content-Type: application/json
 
 {
-    "sheduleId": "67ae19385d401c1ea1eceec5",
-    "startDateTime": "1985-12-23T12:00",
+    "sheduleId": "67bcbf1af32c675e089ebc99",
+    "startDateTime": "2015-11-26T08:00",
     "durationInMinutes": 15,
     "betweenInervalInMinutes": 5,
     "slotsQuantity":5

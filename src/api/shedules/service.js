@@ -1,17 +1,13 @@
 import { Shedule } from "../../database/models/models.shedule.js";
 import { SlotsManager } from "./slotsmanager.js";
+import { ShedulesRepository } from "./repository.js";
 
-
+const shedulesRepository = new ShedulesRepository()
 export class ShedulesService{
 
     async createShedule(){
         try{
-            const newShedule = new Shedule({
-                slots:[],
-                additionalSlots: [],
-                waitingList:[]
-            })
-            await newShedule.save()
+            const newShedule = await shedulesRepository.createEmptyShedule()
             return newShedule
         }catch(error){
             throw error
@@ -20,7 +16,7 @@ export class ShedulesService{
 
     async getShedules(){
         try{
-            const shedules = await Shedule.find().lean()
+            const shedules = await shedulesRepository.getShedules()
             return shedules
         }catch(error){
             throw error
@@ -30,19 +26,12 @@ export class ShedulesService{
     async addSlot({sheduleId,startDateTime,durationInMinutes}){
         try{
             console.log('LLego a addSlot: ', sheduleId,startDateTime,durationInMinutes)
-
-           
-            const foundShedule = await Shedule.findOne({_id:sheduleId})
-            if (!foundShedule) throw  new Error('No existe la agenda donde se pretende agregar el turno')
-            
+            const foundShedule = await shedulesRepository.getSheduleById(sheduleId)
+    
             const newSlotItem = SlotsManager.getSlotItem(startDateTime,durationInMinutes)
-           checkScheduleSlotsConflict(foundShedule.slots,newSlotItem) 
 
-            
-            foundShedule.slots.push({...newSlotItem,bookings:[]})
-            await foundShedule.save()
-
-            console.log('Shedule actualizada: ',foundShedule)
+            checkScheduleSlotsConflict(foundShedule.slots,newSlotItem)
+            await shedulesRepository.addSlotsToShedule(sheduleId,[newSlotItem])
             return foundShedule
         }catch(error){
             console.error(error)
@@ -54,17 +43,13 @@ export class ShedulesService{
         try{    
             const newSlotsArray = SlotsManager.getSlotItemsArray({startDateTime,durationInMinutes,betweenInervalInMinutes,slotsQuantity})
 
-            const foundShedule = await Shedule.findOne({_id:sheduleId})
-            if (!foundShedule) throw  new Error('No existe la agenda donde se pretende agregar la lista de turnos')
+            const foundShedule = await shedulesRepository.getSheduleById(sheduleId)
             
             newSlotsArray.forEach(item =>{
                 checkScheduleSlotsConflict(foundShedule.slots,item) 
             })
 
-            newSlotsArray.forEach(item => {
-                foundShedule.slots.push({...item,bookings:[]})
-            })
-            await foundShedule.save()
+            await shedulesRepository.addSlotsToShedule(sheduleId,newSlotsArray)
             return SlotsManager.sortShedulesSlotsArray(foundShedule.slots)
         }catch(error){
             throw error
@@ -110,10 +95,10 @@ function checkScheduleSlotsConflict(sheduleSlotsArray,newSlot){
         const filteredSortedSlots = sortedSlots.filter(slot => new Date(slot.endDateTime) > new Date(newSlot.startDateTime))
         
         console.log('-----SLOTS ORDENADOS-----------------------------------------------')
-        sortedSlots.forEach(item => console.log(item._id,' ' ,item.startDateTime,"  ",item.durationInMinutes," ", item.endDateTime))
+        sortedSlots.forEach(item => console.log(item.id,' ' ,item.startDateTime,"  ",item.durationInMinutes," ", item.endDateTime))
     
         console.log('-----SLOTS FILTRADOS-----------------------------------------------')
-        filteredSortedSlots.forEach(item => console.log(item._id,' ',item.startDateTime,"  ",item.durationInMinutes," ", item.endDateTime))
+        filteredSortedSlots.forEach(item => console.log(item.id,' ',item.startDateTime,"  ",item.durationInMinutes," ", item.endDateTime))
 
         
         filteredSortedSlots.forEach(slot =>{

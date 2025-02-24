@@ -19,7 +19,7 @@ export const shedulesControllers = {
             const {sheduleId,startDateTime,durationInMinutes} = req.body
             const createdSlot = await shedulesService.addSlot({sheduleId,startDateTime,durationInMinutes})
             return res.status(201).json({
-                slot: createdSlot
+                shedule: createdSlot
             })
         }catch(error){
             return res.status(500).json({error:error})

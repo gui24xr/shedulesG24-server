@@ -1,0 +1,31 @@
+
+###
+GET http://localhost:8085/api/offerings
+
+###
+POST http://localhost:8085/api/offerings
+Content-Type: application/json
+
+{
+    "userId": "67b0c43dc2c2ed3e808d75a4",
+    "companyId": "67b87f3ae5425fab7ea2391a",
+    "name": "Peluqueria 1",
+    "description": "Servicio de peluqueria",
+    "agentName": "Figaro",
+    "agentLastName": "Peluqueta"
+}
+
+###
+
+POST http://localhost:8085/api/companies/67bb7edca77efab10ed9a8c9/offerings
+Content-Type: application/json
+
+{
+    "userId": "67bb7cc4c2c2ed3e808d7e75",
+ 
+    "name": "Peluqueria 22",
+    "description": "Servicio de peluqueria 2",
+    "agentName": "Figaro 22",
+    "agentLastName": "Peluqueta 2"
+}
+

@@ -8,7 +8,6 @@ export class UserDTO{
         this.profilePicture = user.profilePicture
         this.lastLogin = user.lastLogin
         this.enabled = user.enabled
-        this.hasCompanyData = user.companies.length > 0  ? true : false
     }
 }
 

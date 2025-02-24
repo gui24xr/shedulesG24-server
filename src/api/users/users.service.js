@@ -1,4 +1,4 @@
-import { Company } from "../../database/models/models.company.js";
+
 import { User } from "../../database/models/models.user.js";
 import { UserDTO } from "./users.dto.js";
 
@@ -29,6 +29,8 @@ export class UsersService {
     }
   }
 
+  /*
+
   async addCompany({userId,companyId}) {
     try{
       const foundUser = await User.findOne({_id:userId})
@@ -39,7 +41,9 @@ export class UsersService {
     }catch(error){
         throw error
     }
+
   }
+    */
 
   
 }

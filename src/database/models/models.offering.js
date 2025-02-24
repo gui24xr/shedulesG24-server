@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 
-const solutionSchema = new mongoose.Schema({
-  company: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Company",
-  },
+const offeringSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -23,7 +19,12 @@ const solutionSchema = new mongoose.Schema({
       required: false,
     },
   },
+  shedule: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Shedule",
+    default: null
+  }
 });
 
-const modelName = "Solution";
-export const Solution = mongoose.model(modelName, solutionSchema);
+const modelName = "Offering";
+export const Offering = mongoose.model(modelName, offeringSchema);

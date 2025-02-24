@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const customerSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
   dni: {
+    type: String,
+    required: false,
+  },
+  customerNumer:{
     type: String,
     required: false,
   },

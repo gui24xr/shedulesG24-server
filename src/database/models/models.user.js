@@ -39,11 +39,7 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: new Date()
   },
-  companies: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Company" }], 
-    required: false,
-    default: []
-  }
+
   
 
   });
