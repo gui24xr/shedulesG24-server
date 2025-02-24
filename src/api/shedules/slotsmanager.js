@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 
 export class SlotsManager {
-  static getSlotItem(startDateTime, durationInMinutes) {
+  static createSlotItem(startDateTime, durationInMinutes) {
     const startDateTimeISO = DateTime.fromISO(startDateTime, { zone: "UTC" });
     const endDateTime = startDateTimeISO
       .plus({ minutes: durationInMinutes })
@@ -24,16 +24,41 @@ export class SlotsManager {
   }
 
 
-  static getSlotItemsArray({startDateTime,durationInMinutes,betweenInervalInMinutes,slotsQuantity}) {
+  static createSlotsGroupArray({startDateTime,durationInMinutes,betweenInervalInMinutes,slotsQuantity}) {
     const newSlotsArray = []
     let startDateTimeNewSlot = startDateTime  
     for (let i=0;i<slotsQuantity;i++){
-        newSlotsArray.push(this.getSlotItem(startDateTimeNewSlot,durationInMinutes))
+        newSlotsArray.push(this.createSlotItem(startDateTimeNewSlot,durationInMinutes))
         startDateTimeNewSlot = this.resultingTime(startDateTimeNewSlot,durationInMinutes + betweenInervalInMinutes)
     }
     return newSlotsArray
   }
 
+
+ static checkSlotsConflict(slotsArray,newSlot){
+
+    try{
+        const sortedSlots = slotsArray.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime))
+
+        const filteredSortedSlots = sortedSlots.filter(slot => new Date(slot.endDateTime) > new Date(newSlot.startDateTime))
+        
+        //console.log('-----SLOTS ORDENADOS-----------------------------------------------')
+        sortedSlots.forEach(item => console.log(item.id,' ' ,item.startDateTime,"  ",item.durationInMinutes," ", item.endDateTime))
+    
+        //console.log('-----SLOTS FILTRADOS-----------------------------------------------')
+        filteredSortedSlots.forEach(item => console.log(item.id,' ',item.startDateTime,"  ",item.durationInMinutes," ", item.endDateTime))
+
+        
+        filteredSortedSlots.forEach(slot =>{
+            SlotsManager.checkSlotsCollision(newSlot,slot)
+            //console.log('***** \n Sin Conflicto entre slots: \n', newSlot, '\n', slot)
+        })
+    }catch(error){
+        throw error
+    }
+  
+
+}
 
 
   static checkSlotsCollision(slotX, slotY) {
@@ -58,7 +83,7 @@ export class SlotsManager {
     }
   }
 
-  static sortShedulesSlotsArray(sheduleSlotsArray) {
+  static sortSlotsGroup(sheduleSlotsArray) {
     return sheduleSlotsArray.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime))
   }
   

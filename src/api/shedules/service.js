@@ -1,6 +1,6 @@
-import { Shedule } from "../../database/models/models.shedule.js";
 import { SlotsManager } from "./slotsmanager.js";
 import { ShedulesRepository } from "./repository.js";
+
 
 const shedulesRepository = new ShedulesRepository()
 export class ShedulesService{
@@ -17,47 +17,59 @@ export class ShedulesService{
     async getShedules(){
         try{
             const shedules = await shedulesRepository.getShedules()
-            return shedules
+            const mappedShedulesInfo = shedules.map( sheduleItem => ({
+                ...sheduleItem,
+                slots: SlotsManager.sortSlotsGroup(sheduleItem.slots)
+            }))
+            return mappedShedulesInfo
         }catch(error){
             throw error
         }
     }
 
-    async addSlot({sheduleId,startDateTime,durationInMinutes}){
+    async getSheduleById(id){
         try{
-            console.log('LLego a addSlot: ', sheduleId,startDateTime,durationInMinutes)
-            const foundShedule = await shedulesRepository.getSheduleById(sheduleId)
-    
-            const newSlotItem = SlotsManager.getSlotItem(startDateTime,durationInMinutes)
-
-            checkScheduleSlotsConflict(foundShedule.slots,newSlotItem)
-            await shedulesRepository.addSlotsToShedule(sheduleId,[newSlotItem])
-            return foundShedule
+            const foundShedule = await shedulesRepository.getSheduleById(id)
+            return {...foundShedule, slots: SlotsManager.sortSlotsGroup(foundShedule.slots)}
         }catch(error){
-            console.error(error)
-            throw(error)
+            throw error
         }
     }
 
-    async addSlotsMany({sheduleId,startDateTime,durationInMinutes,betweenInervalInMinutes,slotsQuantity}){
-        try{    
-            const newSlotsArray = SlotsManager.getSlotItemsArray({startDateTime,durationInMinutes,betweenInervalInMinutes,slotsQuantity})
 
+    async InsertSlotToShedule({sheduleId,startDateTime,durationInMinutes}){
+        try{
             const foundShedule = await shedulesRepository.getSheduleById(sheduleId)
+            const newSlotItem = SlotsManager.createSlotItem(startDateTime,durationInMinutes)
+
+            SlotsManager.checkSlotsConflict(foundShedule.slots,newSlotItem)
+            await shedulesRepository.insertSlotsGroupToShedule(sheduleId,[newSlotItem])
+            return  newSlotItem 
+        }catch(error){
+            throw error
+        }
+    }
+
+    async InsertSlotsGroupToShedule({sheduleId,startDateTime,durationInMinutes,betweenInervalInMinutes,slotsQuantity}){
+        try{    
+            const foundShedule = await shedulesRepository.getSheduleById(sheduleId)
+
+            const newSlotsGroup = SlotsManager.createSlotsGroupArray({startDateTime,durationInMinutes,betweenInervalInMinutes,slotsQuantity})
             
-            newSlotsArray.forEach(item =>{
-                checkScheduleSlotsConflict(foundShedule.slots,item) 
+            newSlotsGroup.forEach(item =>{
+                SlotsManager.checkSlotsConflict(foundShedule.slots,item) 
             })
 
-            await shedulesRepository.addSlotsToShedule(sheduleId,newSlotsArray)
-            return SlotsManager.sortShedulesSlotsArray(foundShedule.slots)
+            await shedulesRepository.insertSlotsGroupToShedule(sheduleId,newSlotsGroup)
+
+            return SlotsManager.sortSlotsGroup(newSlotsGroup)
         }catch(error){
             throw error
         }
     }
 
 
-    async addAdditionalSlot({sheduleId,startDateTime}){
+    async insertAdditionalSlot({sheduleId,startDateTime}){
         try{
            //creo un sobre turno con array de reservas vacio
            //Pero antes copruebo que no haya otros sobre turnos a esa hora?
@@ -66,7 +78,7 @@ export class ShedulesService{
         }
     }
 
-    async addCustomeToWaitingList({sheduleId,customeId,possibleDatesArray}){
+    async addCustomerToWaitingList({sheduleId,customeId,possibleDatesArray}){
         try{
             
          }catch(error){
@@ -85,31 +97,3 @@ export class ShedulesService{
 
 }
 
-
-
-function checkScheduleSlotsConflict(sheduleSlotsArray,newSlot){
-
-    try{
-        const sortedSlots = sheduleSlotsArray.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime))
-
-        const filteredSortedSlots = sortedSlots.filter(slot => new Date(slot.endDateTime) > new Date(newSlot.startDateTime))
-        
-        console.log('-----SLOTS ORDENADOS-----------------------------------------------')
-        sortedSlots.forEach(item => console.log(item.id,' ' ,item.startDateTime,"  ",item.durationInMinutes," ", item.endDateTime))
-    
-        console.log('-----SLOTS FILTRADOS-----------------------------------------------')
-        filteredSortedSlots.forEach(item => console.log(item.id,' ',item.startDateTime,"  ",item.durationInMinutes," ", item.endDateTime))
-
-        
-        filteredSortedSlots.forEach(slot =>{
-            SlotsManager.checkSlotsCollision(newSlot,slot)
-            console.log('***** \n Sin Conflicto entre slots: \n', newSlot, '\n', slot)
-        })
-
-
-    }catch(error){
-        throw error
-    }
-  
-
-}
