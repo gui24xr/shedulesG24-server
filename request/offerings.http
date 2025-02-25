@@ -7,8 +7,8 @@ POST http://localhost:8085/api/offerings
 Content-Type: application/json
 
 {
-    "userId": "67b0c43dc2c2ed3e808d75a4",
-    "companyId": "67b87f3ae5425fab7ea2391a",
+    "userId": "667bb7cc4c2c2ed3e808d7e75",
+    "companyId": "67bb7edca77efab10ed9a8c9",
     "name": "Peluqueria 1",
     "description": "Servicio de peluqueria",
     "agentName": "Figaro",

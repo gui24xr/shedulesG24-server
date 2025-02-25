@@ -15,23 +15,60 @@ const sheduleSchema = new mongoose.Schema({
       type: Number,
       required: true,
       default: 0
-  },
-  bookings:[{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Booking",
-  }]
-  }],
-  
-  additionalSlots:[{
+    },
+    bookings:{
+      currentBooking:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Booking",
+        default: null
+      },
+      canceledBookings:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Booking",
+        default: []
+      }]
+    },  
+  }], 
+  overBookSlots:[{
     startDateTime:{
       type: Date,
       required: true,
       default: new Date()
-  },
-   bookings:[{
-     type: mongoose.Schema.Types.ObjectId,
-     ref: "Booking",
-   }]
+    },
+    priority: { 
+      type: String, 
+      enum: ["normal", "urgent", "critical"],
+    },
+    bookings:{
+      currentBooking:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Booking",
+        default: null
+      },
+      canceledBookings:[{
+        id:{
+          type: mongoose.Schema.Types.ObjectId
+        },
+        customer:{
+          customerNumber:{
+            type: String,
+            required: false,
+          },
+          name: {
+            type: String,
+            required: false,
+          },
+          lastName: {
+            type: String,
+            required: false,
+          },
+        },
+        canceledAt: {
+          type: Date,
+          default: Date.now,
+        },
+      }]
+    },  
   }],
 
   waitingList:[{

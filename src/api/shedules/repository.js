@@ -5,13 +5,28 @@ export class ShedulesRepository {
     try {
       const newShedule = new Shedule({
         slots: [],
-        additionalSlots: [],
+        overBookSlots: [],
         waitingList: [],
       });
       await newShedule.save();
       return getMapRecord(newShedule);
     } catch (error) {
       throw error;
+    }
+  }
+
+  async populateShedule(sheduleItem){
+    try{
+      const populatedShedule = await sheduleItem.populate([
+        { path: 'slots.bookings.currentBooking' },
+        { path: 'slots.bookings.canceledBookings' },
+        { path: 'overBookSlots.bookings.currentBooking' },
+        { path: 'overBookSlots.bookings.canceledBookings' },
+        { path: 'waitingList.customer' }
+      ])
+      return populatedShedule
+    }catch(error){
+      throw error
     }
   }
 
@@ -30,9 +45,22 @@ export class ShedulesRepository {
       const foundShedule = await Shedule.findOne({ _id: id }).lean();
       if (!foundShedule)
         throw new Error(
-          "No existe la agenda donde se pretende agregar el turno"
+          "No existe la agenda buscada..."
         );
       return getMapRecord(foundShedule);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getSheduleSlots(sheduleId) {
+    try {
+      const foundShedule = await Shedule.findOne({ _id: sheduleId }).select("slots.startDateTime slots.endDateTime slots.durationInMinutes").lean();
+      if (!foundShedule)
+        throw new Error(
+          "No existe la agenda buscada..."
+        );
+      return foundShedule.slots;
     } catch (error) {
       throw error;
     }
@@ -46,7 +74,7 @@ export class ShedulesRepository {
         {
           $push: {
             slots: {
-              $each: arraySlots.map((slot) => ({ ...slot, bookings: [] })), // Agregar cada slot con un array de bookings vacío
+              $each: arraySlots.map((slot) => ({ ...slot/*, bookings: []*/})), // Agregar cada slot con un array de bookings vacío
             },
           },
         },
@@ -73,9 +101,16 @@ function getMapRecord(record) {
       startDateTime: item.startDateTime,
       endDateTime: item.endDateTime,
       durationInMinutes: item.durationInMinutes,
-      bookings: [],
+      bookings: {
+        currentBooking:item.bookings.currentBooking,
+        canceledBookings:item.bookings.canceledBookings.map(canceledBooking => ({
+          id: canceledBooking.bookingId,
+          customer: canceledBooking.customer.lastName + ' ' + canceledBooking.customer.name,
+          canceledAt: canceledBooking.canceledAt
+        }))
+      }
     })),
-    additionalSlots: record.additionalSlots,
+    overBookSlots: record.overBookSlots,
     waitingList: record.waitingList,
   };
 }

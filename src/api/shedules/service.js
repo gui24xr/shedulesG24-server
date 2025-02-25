@@ -39,10 +39,12 @@ export class ShedulesService{
 
     async InsertSlotToShedule({sheduleId,startDateTime,durationInMinutes}){
         try{
-            const foundShedule = await shedulesRepository.getSheduleById(sheduleId)
+            const sheduleSlotsList = await shedulesRepository.getSheduleSlots(sheduleId)
             const newSlotItem = SlotsManager.createSlotItem(startDateTime,durationInMinutes)
 
-            SlotsManager.checkSlotsConflict(foundShedule.slots,newSlotItem)
+
+
+            SlotsManager.checkSlotsConflict(sheduleSlotsList,newSlotItem)
             await shedulesRepository.insertSlotsGroupToShedule(sheduleId,[newSlotItem])
             return  newSlotItem 
         }catch(error){
@@ -52,12 +54,12 @@ export class ShedulesService{
 
     async InsertSlotsGroupToShedule({sheduleId,startDateTime,durationInMinutes,betweenInervalInMinutes,slotsQuantity}){
         try{    
-            const foundShedule = await shedulesRepository.getSheduleById(sheduleId)
+            const sheduleSlotsList = await shedulesRepository.getSheduleSlots(sheduleId)
 
             const newSlotsGroup = SlotsManager.createSlotsGroupArray({startDateTime,durationInMinutes,betweenInervalInMinutes,slotsQuantity})
             
             newSlotsGroup.forEach(item =>{
-                SlotsManager.checkSlotsConflict(foundShedule.slots,item) 
+                SlotsManager.checkSlotsConflict(sheduleSlotsList,item) 
             })
 
             await shedulesRepository.insertSlotsGroupToShedule(sheduleId,newSlotsGroup)

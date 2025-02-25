@@ -1,13 +1,10 @@
 import mongoose from "mongoose";
 
 const bookingSchema = new mongoose.Schema({
-  solution: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Solution",
-  },
   customer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Customer",
+    default: null
   },
   status: {
     type: String,
@@ -15,13 +12,16 @@ const bookingSchema = new mongoose.Schema({
     default: "pending",
   },
   scheduledAt: {
-    type: Date,  // Fecha y hora combinadas
-    required: true,  // El campo es obligatorio
+    type: Date,  
+    required: true, 
+    default: Date.now()
   },
-  duration: {
-    type: Number,
-    required: true,
-  },
+  sheduleInfo: 
+    {
+      sheduleId: {type: mongoose.Schema.Types.ObjectId, default: null, required: false,},
+      slotId: {type: mongoose.Schema.Types.ObjectId, default: null,required: false,}
+    }
+  ,
   notes: {
     type: String,
     required: false,

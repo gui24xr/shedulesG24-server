@@ -1,0 +1,24 @@
+
+POST http://localhost:8085/api/customers
+Content-Type: application/json
+
+{
+    "dni" : "11823814",
+    "customerNumber": "A24",
+    "name" : "2Guillermo",
+    "lastName": "2Apellido",
+    "phoneNumber": "21159149165",
+    "email": "unameail@gmail.com"
+}
+###
+GET http://localhost:8085/api/customers
+
+###
+GET http://localhost:8085/api/customers/67be0a8e0b8b4c0f0f74ccb5
+
+
+###
+DELETE http://localhost:8085/api/customers?ids=67be0a8e0b8b4c0f0f74ccb5,67be0bba147fa96b0bf77b45
+
+Content-Type: : application/json
+

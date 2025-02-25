@@ -2,7 +2,7 @@ GET http://localhost:8085/api/shedules
 
 ###
 
-GET http://localhost:8085/api/shedules/67bccd4a88db04f2ffda2e9
+GET http://localhost:8085/api/shedules/67bde3b1795bef5891f4c3ec
 ###
 
 POST http://localhost:8085/api/shedules
@@ -14,18 +14,18 @@ POST http://localhost:8085/api/shedules/slots/single
 Content-Type: application/json
 
 {
-    "sheduleId": "67bccbc23f59f6e7d409460c",
-    "startDateTime": "2016-11-26T08:00",
+    "sheduleId": "67bde3b1795bef5891f4c3ec",
+    "startDateTime": "2015-11-26T08:00",
     "durationInMinutes": 15
 }
   
 ###
 
-POST http://localhost:8085/api/shedules/slots/many
+POST http://localhost:8085/api/shedules/slots/group
 Content-Type: application/json
 
 {
-    "sheduleId": "67bccbc23f59f6e7d409460c",
+    "sheduleId": "67bde3b1795bef5891f4c3ec",
     "startDateTime": "1985-11-27T08:00",
     "durationInMinutes": 15,
     "betweenInervalInMinutes": 5,
