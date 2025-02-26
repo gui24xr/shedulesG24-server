@@ -22,9 +22,10 @@ const bookingSchema = new mongoose.Schema({
       slotId: {type: mongoose.Schema.Types.ObjectId, default: null,required: false,}
     }
   ,
-  notes: {
+  note: {
     type: String,
     required: false,
+    default: null
   },
 });
 

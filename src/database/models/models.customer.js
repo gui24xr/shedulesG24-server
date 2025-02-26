@@ -9,7 +9,7 @@ const customerSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  name: {
+  firstName: {
     type: String,
     required: false,
   },

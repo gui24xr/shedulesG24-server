@@ -10,6 +10,7 @@ import { router as offeringsRouter } from './api/offerings/routes.js'
 import { router as shedulesRouter } from './api/shedules/routes.js'
 import { router as customersRouter } from './api/customers/customers.routes.js'
 import { router as bookingsRouter } from './api/bookings/bookings.routes.js'
+import { router as companyBranchsRouter } from './api/companyBranchs/routes.js'
 import {z} from 'zod'
 
 export const app = express()
@@ -34,7 +35,7 @@ app.use('/api/shedules', shedulesRouter)
 app.use('/api/offerings', offeringsRouter)
 app.use('/api/customers', customersRouter)
 app.use('/api/bookings', bookingsRouter)
-
+app.use('/api/branchs', companyBranchsRouter)
 
   
 app.use((error, req, res, next) => {

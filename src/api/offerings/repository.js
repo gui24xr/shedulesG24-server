@@ -17,7 +17,7 @@ export class OfferingRepository{
                 name: name,
                 description: description,
                 agent:{
-                    name: agentName,
+                    firstName: agentName,
                     lastName: agentLastName
                 },
                 shedule: sheduleId
@@ -37,7 +37,7 @@ function getMapRecord(record){
         id: record._id.toString(),
         name: record.description,
         agent: {
-            name: record.agent.name,
+            firstName: record.agent.name,
             lastName: record.agent.lastName
         },
         shedule: record.shedule.toString()

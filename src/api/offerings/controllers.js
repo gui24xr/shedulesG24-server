@@ -14,8 +14,8 @@ export class OfferingControllers{
 
     async createOffering(req,res,next){
         try{
-            const {userId,companyId,name,description,agentName,agentLastName} = req.body
-            const createdOffered = await offeringsService.createOfferingWithEmptyShedule({name,description,agentName,agentLastName})
+            const {userId,companyId,name,description,agentFirstName,agentLastName} = req.body
+            const createdOffered = await offeringsService.createOfferingWithEmptyShedule({name,description,agentFirstName,agentLastName})
             return res.status(201).json({
                 createdOffered
             }) 

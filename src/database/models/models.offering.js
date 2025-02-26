@@ -10,7 +10,7 @@ const offeringSchema = new mongoose.Schema({
     required: false,
   },
   agent: {
-    name: {
+    firstName: {
       type: String,
       required: false,
     },
@@ -22,6 +22,11 @@ const offeringSchema = new mongoose.Schema({
   shedule: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Shedule",
+    default: null
+  },
+  companyBranch: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "CompanyBranch",
     default: null
   }
 });

@@ -4,7 +4,7 @@ export class CustomersRepository {
   async createCustomer({
     dni,
     customerNumber,
-    name,
+    firstName,
     lastName,
     phoneNumber,
     email,
@@ -13,7 +13,7 @@ export class CustomersRepository {
       const createdCustomer = await Customer.create({
         dni,
         customerNumber,
-        name,
+        firstName,
         lastName,
         phoneNumber,
         email,

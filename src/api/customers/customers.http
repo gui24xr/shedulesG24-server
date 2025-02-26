@@ -5,7 +5,7 @@ Content-Type: application/json
 {
     "dni" : "11823814",
     "customerNumber": "A24",
-    "name" : "2Guillermo",
+    "firstName" : "2Guillermo",
     "lastName": "2Apellido",
     "phoneNumber": "21159149165",
     "email": "unameail@gmail.com"

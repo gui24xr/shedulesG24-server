@@ -15,94 +15,62 @@ const companySchema = new mongoose.Schema({
       required: false,
       default: null,
     },
-    location: {
-      street: {
-        type: String,
-        required: false,
-        default: null,
-      },
-      streetNumber: {
-        type: String,
-        required: false,
-        default: null,
-      },
-      floor: {
-        type: String,
-        required: false,
-        default: null,
-      },
-      apartment: {
-        type: String,
-        required: false,
-        default: null,
-      },
-      state: {
-        type: String,
-        required: false,
-        default: null,
-      },
-      country: {
-        type: String,
-        required: false,
-        default: null,
-      },
-      postalCode: {
-        type: String,
-        required: false,
-        default: null,
-      },
-      coordinates: {
-        type: [Number], // Un array de dos números: [longitud, latitud]
-        required: false,
-        default:null
-      },
-    },
-    contactData: {
-      phonesNumbers: {
-        type: [String],
-        required: false,
-        default: [],
-      },
-      email: {
-        type: String,
-        required: true,
-        match: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
-        default:null
-      },
-    },
-  },
-  
-  businessData: {
-    whatsappNumbers: {
+    phonesNumbers: {
       type: [String],
       required: false,
-      default: []
+      default: [],
     },
     email: {
       type: String,
-      required: false,
+      required: true,
       match: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
-      default:null
+      default: null,
+    },
+    location: {
+      type: {
+        street: { type: String, required: false, default: null },
+        streeNumber: { type: String, required: false, default: null },
+        floor: { type: String, required: false, default: null },
+        apartment: { type: String, required: false, default: null },
+        city: { type: String, required: false, default: null },
+        postalCode: { type: String, required: false, default: null },
+        state: { type: String, required: false, default: null },
+        country: { type: String, required: false, default: null },
+        latitude: { type: Number, required: false, default: null },
+        longitude: { type: Number, required: false, default: null },
+      },
+      default: null,  
     },
   },
+  offerings: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Offering",
+      default: [],
+    },
+  ],
 
-  offerings:[{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Customer",
-    default: []
-  }],
+  branchs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CompanyBranchs",
+      default: [],
+    },
+  ],
 
-  customersCounter:{
+  customersCounter: {
     type: Number,
     required: true,
-    default : 0
+    default: 0,
   },
 
-  customers:[{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Customer",
-    default: []
-  }]
+  customers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Customer",
+      default: [],
+    },
+  ],
 });
 
 const modelName = "Company";
