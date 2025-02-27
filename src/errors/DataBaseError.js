@@ -1,4 +1,4 @@
-export class DataBaseError extends Error(){
+export class DataBaseError extends Error{
     constructor(message) {
         super("Error en base de datos...");
         this.name = 'DataBaseError';

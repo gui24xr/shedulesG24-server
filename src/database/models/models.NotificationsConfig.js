@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const notificationsConfigSchemma = new mongoose.Schema({
+const notificationsConfigSchema = new mongoose.Schema({
   companyId:{
     type: mongoose.Schema.Types.ObjectId, 
     default: null,
@@ -65,4 +65,4 @@ const notificationsConfigSchemma = new mongoose.Schema({
 });
 
 const modelName = "NotificationsConfig";
-export const CompanyBranch = mongoose.model(modelName, notificationsConfigSchemma);
+export const NotificationsConfig = mongoose.model(modelName, notificationsConfigSchema);

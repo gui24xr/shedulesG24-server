@@ -1,11 +1,11 @@
-import NotificationsConfig from "../../database/models/models.NotificationsConfig.js"
+import {NotificationsConfig} from '../../database/models/models.NotificationsConfig.js'
 import { DataBaseError } from "../../errors/DataBaseError.js"
 
 export class NotificationsConfigsRepository{
 
     async createNotificationsConfig(companyId) {
         try{
-            const createdNotificationsConfig = await new NotificationsConfi.create({
+            const createdNotificationsConfig = await new NotificationsConfig.create({
                 companyId
             })
             return this.getMappedObject(createdNotificationsConfig.toObject())
@@ -52,7 +52,7 @@ export class NotificationsConfigsRepository{
             { $set: updateData },
             { new: true }
           );
-          return this.getMappedObjectupdatedNotificationsCofig);
+          return this.getMappedObject(updatedNotificationsCofig);
         } catch (error) {
             if (error instanceof mongoose.Error) throw new DataBaseError(error.message)
             throw error
