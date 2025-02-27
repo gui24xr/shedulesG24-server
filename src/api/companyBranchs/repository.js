@@ -1,13 +1,14 @@
 import { CompanyBranch } from "../../database/models/models.companyBranch.js";
 
 export class CompanyBranchsRepository {
-  async createCompanyBranch({ name, companyId }) {
+  async createCompanyBranch({ name, companyId,location }) {
     try {
-      const newCompanyBranch = await CompanyBranch({
+      const newCompanyBranch = await CompanyBranch.create({
         name,
         companyId: companyId || null,
+        location
       });
-      return newCompanyBranch.toObject();
+      return this.getMappedObject(newCompanyBranch.toObject());
     } catch (error) {
       throw error;
     }
@@ -17,31 +18,30 @@ export class CompanyBranchsRepository {
     try {
       const foundedBranch = await CompanyBranch.findById(id).lean();
       if (!foundedBranch) throw new Error("No existe la company branch");
-      return foundedBranch;
+      return this.getMappedObject(foundedBranch);
     } catch (error) {
       throw error;
     }
   }
 
-  async getCompaniesBranchs() {
+
+  async getCompanyBranchs({branchsIdList,companyId}) {
     try {
-      const companiesBranch = await CompanyBranch.find().lean();
-      return companiesBranch;
+      console.log('Entre al repoooo')
+      const filter = {}
+      if (branchsIdList) filter._id = { $in: branchsIdList }
+      if (companyId) filter.companyId = companyId
+      console.log('Lista Ingresada', branchsIdList)
+      console.log('Filtro a aplicar: ',filter)
+      const companiesBranch = await CompanyBranch.find(filter).lean();
+      return companiesBranch.map ( item => (this.getMappedObject(item)));
     } catch (error) {
       throw error;
     }
   }
 
-  async getCompanyBranchsList(companiesIdsList) {
-    try {
-      const companiesBranch = await CompanyBranch.find({
-        _id: { $in: companiesIdsList },
-      }).lean();
-      return companiesBranch;
-    } catch (error) {
-      throw error;
-    }
-  }
+
+  
 
   async updateCompanyBranchName(id, newName) {
     try {
@@ -52,48 +52,36 @@ export class CompanyBranchsRepository {
         { $set: { name: newName } },
         { new: true }
       );
-      return updateBranch;
+      return this.getMappedObject(updateBranch);
     } catch (error) {
       throw error;
     }
   }
 
-  async updateCompanyBranchLocation(id, locationData) {
+  async updateCompanyBranchNameAndLocation(id, name,locationData) {
     try {
+
       const updateData = {};
+      updateData.name = name
       for (const [key, value] of Object.entries(locationData)) {
         if (value !== undefined) {
           updateData[key] = value;
         }
       }
-      const updateBranch = await CompanyBranch.findByIdAndUpdate(
+      
+      const updatedBranch = await CompanyBranch.findByIdAndUpdate(
         id,
         { $set: updateData },
         { new: true }
       );
-      return updateBranch;
+
+      return this.getMappedObject(updatedBranch);
     } catch (error) {
       throw error;
     }
   }
 
-  async updateNotificationConfiguration(id, { whatsApp, smsNumber, email }) {
-    try {
-      const updateData = {};
-      if (whatsApp) updateData.whatsApp = whatsApp;
-      if (smsNumber) updateData.smsNumber = smsNumber;
-      if (email) updateData.email = email;
-
-      const updateBranch = await CompanyBranch.findByIdAndUpdate(
-        id,
-        { $set: updateData },
-        { new: true }
-      );
-      return updateBranch;
-    } catch (error) {
-      throw error;
-    }
-  }
+  
 
   async deleteCompanyBranchs(idsList) {
     try {
@@ -106,7 +94,23 @@ export class CompanyBranchsRepository {
     }
   }
 
-  getMappedCompanyBranch(companyBranch) {
-    return companyBranch;
+  getMappedObject(companyBranch) {
+    return {
+      id: companyBranch._id.toString(),
+      name: companyBranch.name,
+      companyId: companyBranch.companyId,
+      location: companyBranch.location ? {
+        "street": companyBranch.location.street,
+        "streeNumber": companyBranch.location.streeNumber,
+        "floor": companyBranch.location.floor,
+        "apartment": companyBranch.location.apartment,
+        "city": companyBranch.location.city,
+        "postalCode": companyBranch.location.postalCode,
+        "state": companyBranch.location.state,
+        "country": companyBranch.location.country,
+        "latitude": companyBranch.location.latitude,
+        "longitude": companyBranch.location.longitude,
+      } : null
+    }
   }
 }

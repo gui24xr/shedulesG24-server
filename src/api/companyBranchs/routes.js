@@ -1,14 +1,14 @@
 import express from  'express'
-import { CompanyBranchsRepository } from './repository.js'
+import { CompanyBranchsControllers } from './controllers.js'
 
 export const router = express.Router()
 
-const companyBranchsRepository = new CompanyBranchsRepository()
+const companyBranchsControllers = new CompanyBranchsControllers()
 const defaultFunction = (req,res,next) => {res.send("Default function")}
 
-router.get('/:bid?',defaultFunction)
-router.post('/', defaultFunction)
-router.delete('/',defaultFunction)
-router.put('/:bid/name')
-router.put('/:bid/location')
-router.put('/:bid/confignotification')
+router.get('/:bid',companyBranchsControllers.getOne)
+router.get('/',companyBranchsControllers.getMany)
+router.post('/', companyBranchsControllers.create)
+router.delete('/',companyBranchsControllers.delete)
+router.put('/:bid',companyBranchsControllers.update)
+

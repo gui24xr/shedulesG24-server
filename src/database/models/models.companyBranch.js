@@ -25,27 +25,6 @@ const companyBranchSchema = new mongoose.Schema({
     },
     default: null,  
   },
-  notificationConfig:{
-    type: {
-        whatsApp: {
-            type: String,
-            required: false,
-            default: null,
-          },
-          SmsNumber: {
-            type: String,
-            required: false,
-            default: null,
-          },
-          email: {
-            type: String,
-            required: false,
-            match: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
-            default: null,
-          },
-    },
-    default: null
-  }
   
 });
 

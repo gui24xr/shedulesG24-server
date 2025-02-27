@@ -28,6 +28,11 @@ const offeringSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "CompanyBranch",
     default: null
+  },
+  notificationsConfig: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "notificationsConfig",
+    default: null
   }
 });
 
