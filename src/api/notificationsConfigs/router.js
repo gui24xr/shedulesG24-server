@@ -5,8 +5,8 @@ export const router = express.Router()
 const notificationsConfigControllers = new NotificationsConfigsControllers()
 
 
-router.get('/:ncid',(req,res,next)=> {res.send('Hola')})
-router.get('/',(req,res,next)=> {res.send('Hola')})
-router.post('/',((req,res,next)=> {res.send('Hola')}))
-router.delete('/',(req,res,next)=> {res.send('Hola')})
-router.put('/:ncid',(req,res,next)=> {res.send('Hola')})
+router.get('/:ncid',notificationsConfigControllers.getOne)
+router.get('/',notificationsConfigControllers.getMany)
+router.post('/',notificationsConfigControllers.create)
+router.delete('/',notificationsConfigControllers.delete)
+router.put('/:ncid',notificationsConfigControllers.update)
