@@ -1,0 +1,29 @@
+POST http://localhost:8085/api/notificationsconfig
+Content-Type: application/json
+
+{
+    "companyId":"67bf64e11da11acc35baf674"
+}
+
+###
+GET http://localhost:8085/api/notificationsconfig
+
+###
+GET http://localhost:8085/api/notificationsconfig?cid=67bf64e11da11acc35baf674
+
+###
+GET http://localhost:8085/api/notificationsconfig/67c73fe18a3474ead33641ef
+
+###
+DELETE http://localhost:8085/api/notificationsconfig?ids=67c8b551132bae7dd99c9410,67c8b569132bae7dd99c9412
+
+###
+PUT http://localhost:8085/api/notificationsconfig/67c73fe18a3474ead33641ef/whatsapp
+Content-Type: application/json
+
+{
+    "phoneNumber":"125987611548",
+    "isEnabled": "true",
+    "isAutomatic": "true"
+}
+

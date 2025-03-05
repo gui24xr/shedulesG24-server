@@ -1,11 +1,13 @@
 import {NotificationsConfig} from '../../database/models/models.NotificationsConfig.js'
 import { DataBaseError } from "../../errors/DataBaseError.js"
+import mongoose from 'mongoose'
 
 export class NotificationsConfigsRepository{
 
+    
     async createNotificationsConfig(companyId) {
         try{
-            const createdNotificationsConfig = await new NotificationsConfig.create({
+            const createdNotificationsConfig = await  NotificationsConfig.create({
                 companyId
             })
             return this.getMappedObject(createdNotificationsConfig.toObject())
@@ -14,12 +16,25 @@ export class NotificationsConfigsRepository{
             throw error
         }
     }
+      
+
+   /*
+  createNotificationsConfig(companyId) {
+
+     return NotificationsConfig.create({companyId})
+            .then(doc => this.getMappedObject(doc.toObject()))
+            .catch(error => { throw error} )
+  }
+*/
+
+
+
 
     async getNotificationsConfigs({companyId}){
         try{
             const filter = {}
             if (companyId) filter.companyId = companyId
-            const result = await NotificationsConfig.find(filter)
+            const result = await NotificationsConfig.find(filter).lean()
             return result.map(item => (this.getMappedObject(item)))
         }
         catch(error){
@@ -28,9 +43,26 @@ export class NotificationsConfigsRepository{
         }
     }
 
+/*
+    getNotificationsConfigs({companyId}){
+
+          const filter = {}
+          if (companyId) filter.companyId = companyId
+          return NotificationsConfig.find(filter).lean()
+          .then(docs => {
+            return docs.map(item => (this.getMappedObject(item)))
+          })
+          .catch(error => {throw error})
+          
+  }
+*/
+
+
+
+
     async getNotificationsConfigById(id){
         try{
-            const foundedNotificationsConfig = await NotificationsConfig.findById(id)
+            const foundedNotificationsConfig = await NotificationsConfig.findById(id).lean()
             if (!foundedNotificationsConfig) throw new Error("No existe la configuracion buscada...")
             return this.getMappedObject(foundedNotificationsConfig)
         }catch(error){
@@ -39,20 +71,23 @@ export class NotificationsConfigsRepository{
         }
     }
 
-      async setWhatsAppConfig(notificationsConfigId,phoneNumber,isEnabled,isAutomatic) {
+      async setWhatsAppConfig(notificationsConfigId,{phoneNumber,isEnabled,isAutomatic}) {
         try {
+        
           const updateData = {}
-          updateData.whatsApp.phoneNumber = phoneNumber;
-          updateData.whatsApp.enabled = isEnabled
-          updateData.whatsApp.isAutomatic = isAutomatic
-          updateData.whatsApp.updatedAt = Date.now()
+          if (phoneNumber) updateData["whatsApp.phoneNumber"] = phoneNumber;
+          if (isEnabled) updateData["whatsApp.enabled"] = isEnabled
+          if (isAutomatic) updateData["whatsApp.automatic"] = isAutomatic
+          updateData["whatsApp.updatedAt"] = Date.now()
 
           const updatedNotificationsCofig = await NotificationsConfig.findByIdAndUpdate(
             notificationsConfigId,
-            { $set: updateData },
+            { $set: {
+              ...updateData
+            } },
             { new: true }
           );
-          return this.getMappedObject(updatedNotificationsCofig);
+          return this.getMappedObject(updatedNotificationsCofig.toObject());
         } catch (error) {
             if (error instanceof mongoose.Error) throw new DataBaseError(error.message)
             throw error
@@ -72,7 +107,7 @@ export class NotificationsConfigsRepository{
             { $set: updateData },
             { new: true }
           );
-          return this.getMappedObject(updatedNotificationsCofig);
+          return this.getMappedObject(updatedNotificationsCofig.toObject());
         } catch (error) {
             if (error instanceof mongoose.Error) throw new DataBaseError(error.message)
             throw error
@@ -92,7 +127,7 @@ export class NotificationsConfigsRepository{
             { $set: updateData },
             { new: true }
           );
-          return this.getMappedObject(updatedNotificationsCofig);
+          return this.getMappedObject(updatedNotificationsCofig.toObject());
         } catch (error) {
             if (error instanceof mongoose.Error) throw new DataBaseError(error.message)
             throw error
@@ -112,7 +147,13 @@ export class NotificationsConfigsRepository{
     }
     
     getMappedObject(notificationsConfig) {
-        return notificationsConfig;
+        const mappedObject = {
+          id: notificationsConfig._id.toString(),
+          ...notificationsConfig
+        }
+        delete mappedObject._id
+        delete mappedObject.__v
+        return mappedObject
     }
 
 
