@@ -5,8 +5,10 @@ export class BookingsRepository{
         try{
             const newBooking = await Booking.create({
                 customer: customerId,
-                sheduleId: sheduleId || null,
-                slotId: slotId || null,
+                sheduleInfo:{
+                    sheduleId: sheduleId || null,
+                    slotId: slotId || null,
+                },
                 note:note || null
             })
             const populatedBooking = await newBooking.populate('customer')
@@ -19,45 +21,71 @@ export class BookingsRepository{
     async getBookingById(bookingId){
         try{
             const foundedBooking = await Booking.findById(bookingId).populate('customer').lean()
-            if (!foundedBooking) return new Error(`No existe la booking id ${bookingId}`)
-             return this.getMappedBooking(foundedBooking)
+            if (!foundedBooking) throw new Error(`No existe la booking id ${bookingId}`)
+            return this.getMappedBooking(foundedBooking)
         }catch(error){
             throw error
         }
     }
 
-    async getBookings(){
+    async getBookings({status,customerId,sheduleId}){
         try{
-            const foundedBookings = await Booking.find().populate('customer').lean()
+            const filter = {}
+            if (status) filter.status = status
+            if (customerId) filter.customer = customerId
+            if (sheduleId) filter["sheduleInfo.sheduleId"] = sheduleId
+
+            console.log('Filtro: ', filter)
+            const foundedBookings = await Booking.find(filter).populate('customer').lean()
             return foundedBookings.map(item => (this.getMappedBooking(item)))
         }catch(error){
             throw error
         }
     }
 
-    async deleteBookings(bookingsIdList){
+    async deleteBookings(idsList){
         try{
+            
             const result = await Booking.deleteMany({
-                _id: {$in: bookingsIdList}
+                _id: {$in: idsList}
             })
+
+            if (result.deletedCount < idsList.length) throw new Error("Uno o mas registros no han sido borrados...")
             return result.deletedCount
         }catch(error){
             throw error
         }
     }
 
-    async updateBookingStatus(bookingId,newStatus){
+    async updateBookingStatus(bookingId,{status}){
         try{
+            console.log('newStatus: ', status)
             const updateBooking = await Booking.findByIdAndUpdate(
                 bookingId,
-                {$set:{status:newStatus}},
+                {$set:{status:status}},
                 {new:true},
             ).populate('customer')
+            if (!updateBooking)  throw new Error('No existe el registro que se intenta actualizar...')
             return this.getMappedBooking(updateBooking)
         }catch(error){
             throw error
         }
     }
+
+    async updateBookingNote(bookingId,{note}){
+        try{
+            const updateBooking = await Booking.findByIdAndUpdate(
+                bookingId,
+                {$set:{note:note}},
+                {new:true},
+            ).populate('customer')
+            if (!updateBooking)  throw new Error('No existe el registro que se intenta actualizar...')
+            return this.getMappedBooking(updateBooking)
+        }catch(error){
+            throw error
+        }
+    }
+
 
     getMappedBooking(booking){
        return  {
@@ -71,9 +99,9 @@ export class BookingsRepository{
             email: booking.customer.email
         } ,
         status: booking.status,
-        sheduleInfo:{
-            sheduleId: booking.sheduleId,//.toString() || null,
-            slotId: booking.slotId//.toString() || null
+        sheduleInfo: {
+            sheduleId: booking.sheduleInfo.sheduleId ? booking.sheduleInfo.sheduleId.toString() : null,
+            slotId: booking.sheduleInfo.slotId ? booking.sheduleInfo.slotId.toString() : null
         },
         note:booking.note 
        }

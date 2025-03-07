@@ -1,4 +1,42 @@
-import { z } from 'zod';
+import {z} from 'zod'
+import { validatorObject } from '../../schemas/commonSchemas.js'
+
+export const companyBranchSchema = {}
+
+const baseSchema = {
+    companyId: validatorObject.isValidId('companyId'),
+    name: z.string(),
+    location: validatorObject.isValidLocation('location')
+}
+
+
+companyBranchSchema.createSchema = z.object({
+  name: baseSchema.name,
+  companyId: baseSchema.companyId,
+  location: baseSchema.location 
+}).strict()
+
+companyBranchSchema.querySchema = z.object({
+  name: baseSchema.name.optional(),
+  companyId: baseSchema.companyId.optional()
+}).strict()
+
+companyBranchSchema.updateSchema = z.object({
+  name: baseSchema.name.optional(),
+  companyId: baseSchema.companyId.optional(),
+  location: baseSchema.location.optional() 
+}).strict()
+
+
+
+
+
+
+
+
+
+
+const objectIdRegex = /^[a-fA-F0-9]{24}$/;
 
 const locationSchema = z.object({
   street: z.string().nullable().default(null),
@@ -13,19 +51,27 @@ const locationSchema = z.object({
   longitude: z.number().nullable().default(null),
 }).nullable().default(null);
 
-const companyBranchSchema = z.object({
+export const companyBranchCreateSchema = z.object({
   name: z.string(),
-  companyId: z.string().nullable().default(null).optional(), // Si es ObjectId, es un string en Zod
-  location: locationSchema,
+  companyId: z.string().regex(objectIdRegex, "Invalid ObjectId companyId").optional(),
+  location: locationSchema.optional() 
+})
+
+
+export const companyBranchQuerySchema = z.object({
+    companyId: z.string().regex(objectIdRegex, "Invalid ObjectId companyId").optional(),
+    name: z.string().optional(),
 });
 
-
-  const querySchema = z.object({
-    company: z.string().regex(/^[0-9a-fA-F]{24}$/, "Invalid ObjectId").optional(),
-    ids: z.string()
-        .regex(/^([0-9a-fA-F]{24})(,[0-9a-fA-F]{24})*$/, "Invalid ObjectId list")
-        .optional()
-});
+export const companyBranchUpdateSchema = z.object({
+  name: z.string().optional(),
+  companyId: z.string().regex(objectIdRegex, "Invalid ObjectId companyId").optional(),
+  location: locationSchema.optional()  
+})
 
 
-export { companyBranchSchema, querySchema };
+
+
+
+
+

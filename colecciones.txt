@@ -1,0 +1,16 @@
+1. NotificationsConfig -->> --> Ok + validaciones
+2. Bookings  --> Ok + validaciones
+5. Customer  ->> Ok + validaciones + falta mapeo correcto por populate x company de company
+4. CompanyBranch --> OK + validaciones + falta mapeo correcto por populate x company
+
+
+3. Company
+
+
+6. Offering
+7. Shedule
+8. User                
+
+
+
+hasta ahora company branches y customer son los modelos de repositorios... bookings y notificationConfigs deberian ser igual

@@ -1,27 +1,35 @@
 import { BookingsRepository } from "./bookings.repository.js";
-import { bookingSchemma } from "./schema.js";
+import { bookingSchema } from "./schema.js";
 
 const bookingsRepository = new BookingsRepository()
 export class BookingsControllers{
     
     async createEmptyBooking(req,res,next) {
         try{
-            bookingSchemma.parse(req.body)
-            const {customerId,sheduleId,slotId,note} = req.body
-            const createdBooking = await bookingsRepository.createPendingBooking({customerId,sheduleId,slotId,note})
-            return res.status(201).json({booking: createdBooking})
+            bookingSchema.createSchema.parse(req.body)
+            const createdBooking = await bookingsRepository.createPendingBooking(req.body)
+            return res.status(201).json({...createdBooking})
         }catch(error){
             next(error)
         }
     }
 
-    async getBookings(req,res,next) {
+    async getOne(req,res,next) {
         try{
-            const {bid:bookingId} = req.params
-            if (bookingId){
-                return res.status(200).json({booking: await bookingsRepository.getBookingById(bookingId)}) 
+           const {bid:bookingId} = req.params
+           return res.status(200).json({...await bookingsRepository.getBookingById(bookingId)}) 
+        }catch(error){
+            next(error)
+        }
+    }
+
+    async getMany(req,res,next) {
+        try{
+            if (Object.keys(req.query).length>0){
+                bookingSchema.querySchema.parse(req.query)
+                return res.status(200).json([...await bookingsRepository.getBookings(req.query)])
             }
-            return res.status(200).json({bookings: await bookingsRepository.getBookings()})
+            return res.status(200).json([...await bookingsRepository.getBookings({})])
         }catch(error){
             next(error)
         }
@@ -30,8 +38,8 @@ export class BookingsControllers{
     async deleteBookings(req,res,next) {
         try{
             const bookingsIdList = req.query.ids?.split(",")
-            const result = await bookingsRepository.deleteBookings(bookingsIdList)
-            return res.status(201).json({message: `Se han borrado ${result} bookings`})
+            await bookingsRepository.deleteBookings(bookingsIdList)
+            return res.status(204)
         }catch(error){
             next(error)
         }
@@ -39,12 +47,22 @@ export class BookingsControllers{
 
     async updateBookingStatus(req,res,next) {
         try{
-            const validateSchema = bookingSchemma.pick({id:true,status:true})
+         console.log(req.body)
+           const {bid:bookingId} = req.params
+           bookingSchema.updateStatusSchema.parse(req.body)
+           const result = await bookingsRepository.updateBookingStatus(bookingId,req.body)
+            return res.status(201).json({...result})
+        }catch(error){
+            next(error)
+        }
+    }
+
+    async updateBookingNote(req,res,next) {
+        try{
             const {bid:bookingId} = req.params
-            const {status} = req.body
-            validateSchema.parse({id: bookingId, status:status})
-            const result = await bookingsRepository.updateBookingStatus(bookingId,status)
-            return res.status(201).json({booking: result})
+            bookingSchema.updateNoteSchema.parse(req.body)
+            const result = await bookingsRepository.updateBookingNote(bookingId,req.body)
+            return res.status(201).json({...result})
         }catch(error){
             next(error)
         }

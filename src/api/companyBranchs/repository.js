@@ -6,7 +6,7 @@ export class CompanyBranchsRepository {
       const newCompanyBranch = await CompanyBranch.create({
         name,
         companyId: companyId || null,
-        location
+        location: location || null
       });
       return this.getMappedObject(newCompanyBranch.toObject());
     } catch (error) {
@@ -25,14 +25,13 @@ export class CompanyBranchsRepository {
   }
 
 
-  async getCompanyBranchs({branchsIdList,companyId}) {
+  async getCompanyBranchs({name,companyId}) {
     try {
       console.log('Entre al repoooo')
       const filter = {}
-      if (branchsIdList) filter._id = { $in: branchsIdList }
+      if (name) filter.name = name
       if (companyId) filter.companyId = companyId
-      console.log('Lista Ingresada', branchsIdList)
-      console.log('Filtro a aplicar: ',filter)
+      
       const companiesBranch = await CompanyBranch.find(filter).lean();
       return companiesBranch.map ( item => (this.getMappedObject(item)));
     } catch (error) {
@@ -47,35 +46,33 @@ export class CompanyBranchsRepository {
     try {
       if (!newName)
         throw new Error("No se ingreso nuevo nombre para actualizar...");
-      const updateBranch = await CompanyBranch.findByIdAndUpdate(
+      const updatedBranch = await CompanyBranch.findByIdAndUpdate(
         id,
         { $set: { name: newName } },
         { new: true }
       );
-      return this.getMappedObject(updateBranch);
+      if (!updatedBranch)  throw new Error('No existe el registro que se intenta actualizar...')
+        return this.getMappedObject(updatedBranch.toObject());
     } catch (error) {
       throw error;
     }
   }
 
-  async updateCompanyBranchNameAndLocation(id, name,locationData) {
+  async updateCompanyBranchNameAndLocation(id,{name,companyId,location}) {
     try {
 
       const updateData = {};
-      updateData.name = name
-      for (const [key, value] of Object.entries(locationData)) {
-        if (value !== undefined) {
-          updateData[key] = value;
-        }
-      }
+      if (name) updateData.name = name
+      if (companyId) updateData.companyId = companyId
+      if (location) updateData.location = location
       
       const updatedBranch = await CompanyBranch.findByIdAndUpdate(
         id,
         { $set: updateData },
         { new: true }
       );
-
-      return this.getMappedObject(updatedBranch);
+      if (!updatedBranch)  throw new Error('No existe el registro que se intenta actualizar...')
+      return this.getMappedObject(updatedBranch.toObject());
     } catch (error) {
       throw error;
     }
@@ -88,6 +85,7 @@ export class CompanyBranchsRepository {
       const result = await CompanyBranch.deleteMany({
         _id: { $in: idsList },
       });
+      if (result.deletedCount < idsList.length) throw new Error("Uno o mas registros no han sido borrados...")
       return result.deletedCount;
     } catch (error) {
       throw error;

@@ -9,7 +9,7 @@ Content-Type: application/json
 GET http://localhost:8085/api/notificationsconfig
 
 ###
-GET http://localhost:8085/api/notificationsconfig?cid=67bf64e11da11acc35baf674
+GET http://localhost:8085/api/notificationsconfig?companyId=67bf64e11da11acc35baf674
 
 ###
 GET http://localhost:8085/api/notificationsconfig/67c73fe18a3474ead33641ef
@@ -22,8 +22,27 @@ PUT http://localhost:8085/api/notificationsconfig/67c73fe18a3474ead33641ef/whats
 Content-Type: application/json
 
 {
-    "phoneNumber":"125987611548",
-    "isEnabled": "true",
-    "isAutomatic": "true"
+    "phoneNumber":"1325987611548",
+    "isEnabled": false,
+    "isAutomatic": true
 }
 
+###
+PUT http://localhost:8085/api/notificationsconfig/67c73fe18a3474ead33641ef/sms
+Content-Type: application/json
+
+{
+    "phoneNumber":"125987611548",
+    "isEnabled": true,
+    "isAutomatic": false
+}
+
+###
+PUT http://localhost:8085/api/notificationsconfig/67c73fe18a3474ead33641ef/email
+Content-Type: application/json
+
+{
+    "email":"une22mail@gmail.com",
+    "isEnabled": false,
+    "isAutomatic": true
+}

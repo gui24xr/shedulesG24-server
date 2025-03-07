@@ -8,31 +8,52 @@ export class CustomersControllers{
 
         async createCustomer(req,res,next){
             try{
-                customerSchema.parse(req.body)
-                const createdCustomer = await customersRepository.createCustomer(req.body)
-                return res.status(201).json({customer: createdCustomer})
+                customerSchema.createSchema.parse(req.body)
+                return res.status(201).json({...await customersRepository.createCustomer(req.body)})
             }catch(error){
                next(error)
             }
         }
 
-        async getCustomers(req,res,next){
+        async getOne(req,res,next){
             try{
                 const {cid:customerId} = req.params
-               if (!customerId){
-                    return res.status(201).json({customers: await customersRepository.getCustomers()})
-                }
-                return res.status(201).json({customer: await customersRepository.getCustomer(customerId)})
+                return res.status(200).json({...await customersRepository.getCustomerById(customerId)})
             }catch(error){
-               next(error)
+                next(error)
+            }
+        }
+
+        
+        async getMany(req,res,next){
+            try{
+                if (Object.keys(req.query).length>0){
+                    customerSchema.querySchema.parse(req.query)
+                    return res.status(200).json([...await customersRepository.getCustomers(req.query)])
+                }
+                return res.status(200).json([...await customersRepository.getCustomers({})])
+                
+            }catch(error){
+                next(error)
+            }
+        }
+
+       
+        async updateCustomerData(req,res,next){
+            try{
+                const {cid:customerId} = req.params
+                customerSchema.updateSchema.parse(req.body)
+                return res.status(200).json({...await customersRepository.updateCustomerData(customerId,req.body)})
+            }catch(error){
+                next(error)
             }
         }
 
         async deleteCustomers(req,res,next){
             try{
                 const ids = req.query.ids?.split(",");
-                const result = await customersRepository.deleteCustomers(ids)
-                return res.status(201).json({message:`Se han borrado ${result} customers.`})
+                await customersRepository.deleteCustomers(ids)
+                return res.status(204) 
             }catch(error){
                 next(error)
             }

@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
 const offeringSchema = new mongoose.Schema({
+  company: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "CompanyBranch",
+    default: null
+  },
   name: {
     type: String,
     required: true,
@@ -24,6 +29,7 @@ const offeringSchema = new mongoose.Schema({
     ref: "Shedule",
     default: null
   },
+  
   companyBranch: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "CompanyBranch",

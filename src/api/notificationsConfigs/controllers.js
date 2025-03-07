@@ -1,12 +1,14 @@
 import { NotificationsConfigsRepository } from "./repository.js";
+import { notificationsConfigSchema } from "./schema.js";
 
 const notificationsConfigsRepository = new NotificationsConfigsRepository()
 
 export class NotificationsConfigsControllers{
     async create(req,res,next){
         try{
-           const created = await notificationsConfigsRepository.createNotificationsConfig(req.body.companyId)
-           return res.status(201).json({...created})
+           notificationsConfigSchema.createSchema.parse(req.body)
+           const result = await notificationsConfigsRepository.createNotificationsConfig(req.body)
+           return res.status(201).json({...result})
         }catch(error){
             next(error)
         }
@@ -15,8 +17,8 @@ export class NotificationsConfigsControllers{
     async getOne(req,res,next){
         try{
            const {ncid:companyId} = req.params
-           const created = await notificationsConfigsRepository.getNotificationsConfigById(companyId)
-           return res.status(200).json({...created})
+           const result = await notificationsConfigsRepository.getNotificationsConfigById(companyId)
+           return res.status(200).json({...result})
         }catch(error){
             next(error)
         }
@@ -24,10 +26,12 @@ export class NotificationsConfigsControllers{
 
     async getMany(req,res,next){
         try{
-           const {cid:companyId} = req.query
-           console.log('cid: ', companyId)
-           const result = await notificationsConfigsRepository.getNotificationsConfigs(companyId ? {companyId:companyId} : {})
-           return res.status(200).json([...result])
+            
+            if (Object.keys(req.query).length>0){
+                notificationsConfigSchema.querySchema.parse(req.query)
+                return res.status(200).json([...await notificationsConfigsRepository.getNotificationsConfigs(req.query)])
+            }
+           return res.status(200).json([...await notificationsConfigsRepository.getNotificationsConfigs({})])
         }catch(error){
             next(error)
         }
@@ -36,8 +40,8 @@ export class NotificationsConfigsControllers{
     async delete(req,res,next){
         try{
             const ids = req.query.ids?.split(",");
-            const result = await notificationsConfigsRepository.deleteNotificationsConfig(ids)
-            return res.status(201).json({message:`Se han borrado ${result} NotificationsConfig.`})
+            await notificationsConfigsRepository.deleteNotificationsConfig(ids)
+            return res.status(204)
         }catch(error){
             next(error)
         }
@@ -45,11 +49,9 @@ export class NotificationsConfigsControllers{
 
     async updateWhatsAppConfig(req,res,next){
         try{
-           //Validar datos whatsappconfig
            const {ncid:notificationsConfigId} = req.params
-           //validar body
-           const updated = await notificationsConfigsRepository.setWhatsAppConfig(notificationsConfigId,{...req.body})
-           return res.status(201).json({...updated})
+           notificationsConfigSchema.updateWhatsAppConfigSchema.parse(req.body)
+           return res.status(201).json({...await notificationsConfigsRepository.setWhatsAppConfig(notificationsConfigId,req.body)})
         }catch(error){
             next(error)
         }
@@ -57,9 +59,9 @@ export class NotificationsConfigsControllers{
 
     async updateSMSConfig(req,res,next){
         try{
-            //Validar datos whatsappconfig
-            const {ncid:notificationsConfigId} = req.params
-            //validar body
+           const {ncid:notificationsConfigId} = req.params
+           notificationsConfigSchema.updateSMSConfigSchema.parse(req.body)
+           return res.status(201).json({...await notificationsConfigsRepository.setSmsConfig(notificationsConfigId,req.body)})
         }catch(error){
             next(error)
         }
@@ -67,9 +69,9 @@ export class NotificationsConfigsControllers{
 
     async updateEmailConfig(req,res,next){
         try{
-            //Validar datos whatsappconfig
-            const {ncid:notificationsConfigId} = req.params
-            //validar body
+           const {ncid:notificationsConfigId} = req.params
+           notificationsConfigSchema.updateEmailConfigSchema.parse(req.body)
+           return res.status(201).json({...await notificationsConfigsRepository.setEmailConfig(notificationsConfigId,req.body)})
         }catch(error){
             next(error)
         }

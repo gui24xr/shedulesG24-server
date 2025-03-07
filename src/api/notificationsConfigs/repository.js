@@ -5,7 +5,7 @@ import mongoose from 'mongoose'
 export class NotificationsConfigsRepository{
 
     
-    async createNotificationsConfig(companyId) {
+    async createNotificationsConfig({companyId}) {
         try{
             const createdNotificationsConfig = await  NotificationsConfig.create({
                 companyId
@@ -17,16 +17,6 @@ export class NotificationsConfigsRepository{
         }
     }
       
-
-   /*
-  createNotificationsConfig(companyId) {
-
-     return NotificationsConfig.create({companyId})
-            .then(doc => this.getMappedObject(doc.toObject()))
-            .catch(error => { throw error} )
-  }
-*/
-
 
 
 
@@ -43,19 +33,7 @@ export class NotificationsConfigsRepository{
         }
     }
 
-/*
-    getNotificationsConfigs({companyId}){
 
-          const filter = {}
-          if (companyId) filter.companyId = companyId
-          return NotificationsConfig.find(filter).lean()
-          .then(docs => {
-            return docs.map(item => (this.getMappedObject(item)))
-          })
-          .catch(error => {throw error})
-          
-  }
-*/
 
 
 
@@ -76,8 +54,8 @@ export class NotificationsConfigsRepository{
         
           const updateData = {}
           if (phoneNumber) updateData["whatsApp.phoneNumber"] = phoneNumber;
-          if (isEnabled) updateData["whatsApp.enabled"] = isEnabled
-          if (isAutomatic) updateData["whatsApp.automatic"] = isAutomatic
+          if (isEnabled != undefined) updateData["whatsApp.enabled"] = isEnabled
+          if (isAutomatic != undefined) updateData["whatsApp.automatic"] = isAutomatic
           updateData["whatsApp.updatedAt"] = Date.now()
 
           const updatedNotificationsCofig = await NotificationsConfig.findByIdAndUpdate(
@@ -87,6 +65,7 @@ export class NotificationsConfigsRepository{
             } },
             { new: true }
           );
+          if (!updatedNotificationsCofig)  throw new Error('No existe el registro que se intenta actualizar...')
           return this.getMappedObject(updatedNotificationsCofig.toObject());
         } catch (error) {
             if (error instanceof mongoose.Error) throw new DataBaseError(error.message)
@@ -94,19 +73,22 @@ export class NotificationsConfigsRepository{
         }
       }
 
-      async setSmsConfig(notificationsConfigId,phoneNumber,isEnabled,isAutomatic) {
+      async setSmsConfig(notificationsConfigId,{phoneNumber,isEnabled,isAutomatic}) {
         try {
           const updateData = {}
-          updateData.sms.phoneNumber = phoneNumber;
-          updateData.sms.enabled = isEnabled
-          updateData.sms.isAutomatic = isAutomatic
-          updateData.sms.updatedAt = Date.now()
+          if (phoneNumber) updateData["sms.phoneNumber"] = phoneNumber;
+          if (isEnabled != undefined) updateData["sms.enabled"] = isEnabled
+          if (isAutomatic != undefined) updateData["sms.automatic"] = isAutomatic
+          updateData["sms.updatedAt"] = Date.now()
 
           const updatedNotificationsCofig = await NotificationsConfig.findByIdAndUpdate(
             notificationsConfigId,
-            { $set: updateData },
+            { $set: {
+              ...updateData
+            } },
             { new: true }
           );
+          if (!updatedNotificationsCofig)  throw new Error('No existe el registro que se intenta actualizar...')
           return this.getMappedObject(updatedNotificationsCofig.toObject());
         } catch (error) {
             if (error instanceof mongoose.Error) throw new DataBaseError(error.message)
@@ -114,19 +96,23 @@ export class NotificationsConfigsRepository{
         }
       }
 
-      async setEmailConfig(notificationsConfigId,email,isEnabled,isAutomatic) {
+      async setEmailConfig(notificationsConfigId,{email,isEnabled,isAutomatic}) {
         try {
+          console.log(email,isEnabled,isAutomatic)
           const updateData = {}
-          updateData.email.phoneNumber = email;
-          updateData.email.enabled = isEnabled
-          updateData.email.isAutomatic = isAutomatic
-          updateData.email.updatedAt = Date.now()
+          if (email) updateData["email.email"] = email;
+          if (isEnabled != undefined) updateData["email.enabled"] = isEnabled
+          if (isAutomatic != undefined) updateData["email.automatic"] = isAutomatic
+          updateData["email.updatedAt"] = Date.now()
 
           const updatedNotificationsCofig = await NotificationsConfig.findByIdAndUpdate(
             notificationsConfigId,
-            { $set: updateData },
+            { $set: {
+              ...updateData
+            } },
             { new: true }
           );
+          if (!updatedNotificationsCofig)  throw new Error('No existe el registro que se intenta actualizar...')
           return this.getMappedObject(updatedNotificationsCofig.toObject());
         } catch (error) {
             if (error instanceof mongoose.Error) throw new DataBaseError(error.message)
@@ -140,6 +126,7 @@ export class NotificationsConfigsRepository{
         const result = await NotificationsConfig.deleteMany({
             _id: { $in: idsList },
         });
+        if (result.deletedCount < idsList.length) throw new Error("Uno o mas registros no han sido borrados...")
         return result.deletedCount;
         } catch (error) {
         throw error;

@@ -1,5 +1,5 @@
 import { CompanyBranchsRepository } from "./repository.js";
-import { companyBranchSchema,querySchema } from "./schema.js";
+import { companyBranchSchema } from "./schema.js";
 
 const companyBranchsRepository = new CompanyBranchsRepository()
 
@@ -7,13 +7,9 @@ export class CompanyBranchsControllers{
     
     async create(req,res,next){
     try{
-        companyBranchSchema.parse(req.body)
-        const createdBranch = await companyBranchsRepository.createCompanyBranch(
-            {name:req.body.name,
-            companyId:req.body.companyId,
-            location: req.body.location
-        })
-        return res.status(201).json({branch: createdBranch})
+        companyBranchSchema.createSchema.parse(req.body)
+        const createdBranch = await companyBranchsRepository.createCompanyBranch(req.body)
+        return res.status(201).json({...createdBranch})
     }catch(error){
         next(error)
     }
@@ -23,7 +19,7 @@ export class CompanyBranchsControllers{
     async getOne(req,res,next){
         try{
             const {bid:branchId} = req.params
-            return res.status(200).json({branchs: await companyBranchsRepository.getCompanyBranchById(branchId)})
+            return res.status(200).json({...await companyBranchsRepository.getCompanyBranchById(branchId)})
         }catch(error){
             next(error)
         }
@@ -31,16 +27,11 @@ export class CompanyBranchsControllers{
    
     async getMany(req,res,next){
         try{
-            if (Object.keys(req.query).length === 0){
-                console.log('entrar a todos: ', req.query)
-                return res.status(200).json({branchs: await companyBranchsRepository.getCompanyBranchs({})})
+            if (Object.keys(req.query).length>0){
+                companyBranchSchema.querySchema.parse(req.query)
+                return res.status(209).json([...await companyBranchsRepository.getCompanyBranchs(req.query)])
             }
-            
-            querySchema.parse(req.query)
-            return res.status(200).json({
-                branchs:  await companyBranchsRepository.getCompanyBranchs({
-                    branchsIdList: req.query.ids && req.query.ids.split(','),
-                    company: req.query.company && req.query.company })})
+            return res.status(209).json([...await companyBranchsRepository.getCompanyBranchs({})])
         }catch(error){
             next(error)
         }
@@ -50,10 +41,9 @@ export class CompanyBranchsControllers{
 
     async delete(req,res,next){
         try{
-            querySchema.parse(req.query)
             const branchsIdList = req.query.ids?.split(",")
-            const result = await companyBranchsRepository.deleteCompanyBranchs(branchsIdList)
-            return res.status(201).json({message: `Se han borrado ${result} bookings`})
+            await companyBranchsRepository.deleteCompanyBranchs(branchsIdList)
+            return res.status(204)
         }catch(error){
             next(error)
         }
@@ -61,9 +51,9 @@ export class CompanyBranchsControllers{
 
     async update(req,res,next){
         try{
-            companyBranchSchema.parse(req.body)
-            const updated = await companyBranchsRepository.updateCompanyBranchNameAndLocation(req.params.bid,req.body.name,req.body.location)
-            res.status(201).json({branchs:updated})
+            const {bid:branchId} = req.params
+            companyBranchSchema.updateSchema.parse(req.body)
+            res.status(201).json({...await companyBranchsRepository.updateCompanyBranchNameAndLocation(branchId, req.body)})
         }catch(error){
             next(error)
         }

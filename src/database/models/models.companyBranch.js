@@ -7,6 +7,7 @@ const companyBranchSchema = new mongoose.Schema({
   },
   companyId:{
     type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Company',
     default: null,
     required: false
   },

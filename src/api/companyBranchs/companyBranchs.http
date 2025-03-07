@@ -2,7 +2,8 @@ POST http://localhost:8085/api/branchs
 Content-Type: application/json
 
 {
-  "name": "Sucursal 24",
+  "name": "Sucursal 29",
+  "companyId": "67ca060c577864c3ff1c2b7f",
   "location": {
     "street": "Avenida Principal 456",
     "streeNumber": "456",
@@ -18,27 +19,41 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8085/api/branchs/67c0a48c715f5ce479202332
+POST http://localhost:8085/api/branchs
+Content-Type: application/json
+
+{
+  "name": "Sucursal 29",
+  "companyId": "67ca060c677864c3ff1c2b7f"
+}
+  
+
 
 ###
+GET http://localhost:8085/api/branchs/67ca063b677864c3ff1c2b85
+
+### TODAS QUERY
+GET http://localhost:8085/api/branchs?companyId=67ca060c677864c3ff1c2b7f
+
+### ODAS
 GET http://localhost:8085/api/branchs
 
 ###
 GET http://localhost:8085/api/branchs?ids=67c090f2113c0a53c768ebc4,67c09114113c0a53c768ebc8
 ###
 
-DELETE http://localhost:8085/api/branchs?ids=67c090f2113c0a53c768ebc4,67c09114113c0a53c768ebc8
+DELETE http://localhost:8085/api/branchs?ids=67ca063b677864c3ff1c2b85,67ca0633677864c3ff1c2b82
 
 
 ###
 
-PUT http://localhost:8085/api/branchs/67c0a48c715f5ce479202332
+PUT http://localhost:8085/api/branchs/67ca08d8e58035d7a690ed5c
 Content-Type: application/json
 
 {
   "name": "Sucursal 2a4",
   "location": {
-    "street": "Avenida Principal 456",
+    "street": "Avenida Principal 4546",
     "streeNumber": "456",
     "floor": "3",
     "apartment": "B",

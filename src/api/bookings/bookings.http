@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "customerId": "67bf64e11da11acc35baf675",
-  "note":"!aaaaaaaaaaaaaaaaaa"  
+  "note":"Booking para update"  
 }
 
 ###
@@ -15,23 +15,64 @@ Content-Type: application/json
   "note":"Booking con customer vacio"  
 }
 
-
-
 ###
-
-GET http://localhost:8085/api/bookings
-
-###
-
-GET http://localhost:8085/api/bookings/67bf650b1da11acc35baf678
-###
-
-PUT http://localhost:8085/api/bookings/67bf650b1da11acc35baf678
+POST http://localhost:8085/api/bookings
 Content-Type: application/json
 
 {
-    "status": "confirmed"
+  "sheduleId": "67bde3b1795bef5891f4c3ec",
+  "slotId": "67bde3b1795bef5891f4c3ed",
+  "note":"Booking con customer vacio y sheduleInfo"  
 }
 
 ###
-DELETE http://localhost:8085/api/bookings?ids=67bf34492527ba2fc292e688,67bf2eb6dcdc2ef53c4ac4ae
+###
+POST http://localhost:8085/api/bookings
+Content-Type: application/json
+
+{
+  "customerId": "67bf64e11da11acc35baf675",
+  "sheduleId": "67bde3b1795bef5891f4c3ec",
+  "slotId": "67bde3b1795bef5891f4c3ed",
+  "note":"Booking con customer y sheduleInfo"  
+}
+
+###GET MANY
+
+GET http://localhost:8085/api/bookings
+
+### GET MANY CON QUERY
+GET http://localhost:8085/api/bookings?status=pending
+
+### GET MANY CON QUERY
+GET http://localhost:8085/api/bookings?customerId=67bf64e11da11acc35baf675
+
+### GET MANY CON QUERY
+GET http://localhost:8085/api/bookings?sheduleId=67bde3b1795bef5891f4c3ec
+
+### GET MANY CON QUERY
+GET http://localhost:8085/api/bookings?sheduleId=67bde3b1795bef5891f4c3ec&&customerId=67bf64e11da11acc35baf675
+
+
+###GET ONE
+
+GET http://localhost:8085/api/bookings/67c9c266f5c2eb274876c381
+
+
+###### UPDATE BOOKING STATUS
+PUT http://localhost:8085/api/bookings/67cb4323c3a4455bcdc87611/status
+Content-Type: application/json
+
+{
+    "status": "pending"
+}
+
+### UPDATE BOOKING NOTE
+PUT http://localhost:8085/api/bookings/67c9c6373641e29cbb8843c8/note
+Content-Type: application/json
+
+{
+    "note":"Booking updateada por nota"  
+}
+###
+DELETE http://localhost:8085/api/bookings?ids=67c9c7fa1aedda9799f0b102,67c9c80c1aedda9799f0b105

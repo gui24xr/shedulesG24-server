@@ -5,8 +5,23 @@ Content-Type: application/json
 {
     "dni" : "11823814",
     "customerNumber": "A24",
-    "firstName" : "2Guillermo",
-    "lastName": "2Apellido",
+    "companyId": "67c73d9e5c2c16dcb3c26824",
+    "firstName" : "Guillermos",
+    "lastName": "Apellidos",
+    "phoneNumber": "21159149165",
+    "email": "unameail@gmail.com"
+}
+###
+
+POST http://localhost:8085/api/customers
+Content-Type: application/json
+
+{
+    "dni" : "12182382",
+    "customerNumber": "A25",
+    "firstName" : "Guillermoe",
+    "companyId": "67c73d9e5c2c16dcb3c26825",
+    "lastName": "Apellidossss",
     "phoneNumber": "21159149165",
     "email": "unameail@gmail.com"
 }
@@ -14,11 +29,19 @@ Content-Type: application/json
 GET http://localhost:8085/api/customers
 
 ###
-GET http://localhost:8085/api/customers/67be0a8e0b8b4c0f0f74ccb5
+GET http://localhost:8085/api/customers/67c9e641d4bb419dde96a0fd
 
 
 ###
-DELETE http://localhost:8085/api/customers?ids=67be0a8e0b8b4c0f0f74ccb5,67be0bba147fa96b0bf77b45
+DELETE http://localhost:8085/api/customers?ids=67c9e641d4bb419dde96a0fd,67c9e646d4bb419dde96a0ff
 
-Content-Type: : application/json
+###UPDATE
+PUT http://localhost:8085/api/customers/67c9e76016a068c9a7bf4715
+Content-Type: application/json
+
+{
+    "dni" : "32456783",
+    "lastName": "Perez",
+    
+}
 
