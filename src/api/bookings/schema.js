@@ -44,8 +44,8 @@ bookingSchema.querySchema = z.object({
 
 bookingSchema.updateStatusSchema = z.object({
     status: z.enum(["pending", "confirmed", "completed", "cancelled"]),
-})
+}).strict()
 
 bookingSchema.updateNoteSchema = z.object({
     note: baseSchema.note
-})
+}).strict()

@@ -35,7 +35,6 @@ export class BookingsRepository{
             if (customerId) filter.customer = customerId
             if (sheduleId) filter["sheduleInfo.sheduleId"] = sheduleId
 
-            console.log('Filtro: ', filter)
             const foundedBookings = await Booking.find(filter).populate('customer').lean()
             return foundedBookings.map(item => (this.getMappedBooking(item)))
         }catch(error){

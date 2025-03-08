@@ -14,16 +14,11 @@ const offeringSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  agent: {
-    firstName: {
-      type: String,
-      required: false,
-    },
-    lastName: {
-      type: String,
-      required: false,
-    },
-  },
+  provider:{ 
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Provider",
+    default: null
+  }, 
   shedule: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Shedule",

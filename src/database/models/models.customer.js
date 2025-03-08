@@ -26,7 +26,7 @@ const customerSchema = new mongoose.Schema({
   },
   phoneNumber: {
     type: String,  
-    required: false,  // Es obligatorio tener al menos un número de teléfono
+    required: false,  
     default: null
   },
   email: {

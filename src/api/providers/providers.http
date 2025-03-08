@@ -1,0 +1,14 @@
+GET http://localhost:8085/api/providers
+
+###
+POST http://localhost:8085/api/providers 
+Content-Type: application/json
+
+{
+  "companyId": "60d5f9b9c3a3dcbf8a46c9d9",  
+  "firstName": "John",                    
+  "lastName": "Doe",                       
+  "specialty": "Cardiology",               
+  "phoneNumber": "+1234567890",            
+  "email": "john.doe@example.com"           
+}

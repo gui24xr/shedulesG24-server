@@ -5,6 +5,8 @@ import { OfferingControllers } from './controllers.js'
 const offeringControllers = new OfferingControllers()
 const defaultFunction = (req,res,next) => {res.send("Default function")}
 
+router.post('/', defaultFunction)
+router.get('/:oid',defaultFunction)
 router.get('/',defaultFunction)
-router.post('/', offeringControllers.createOffering)
-router.delete('/:id',)
+router.delete('/', defaultFunction)
+router.put('/:oid', defaultFunction)
