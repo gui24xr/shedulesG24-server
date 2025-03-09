@@ -1,12 +1,10 @@
 import express from  'express'
-import { CustomersControllers } from './controllers.js'
+import { customersControllers } from './customers.controller.js'
 
 export const router = express.Router()
 
-const customersControllers = new CustomersControllers()
-
-router.post('/', customersControllers.createCustomer)
-router.get('/:cid',customersControllers.getOne)
+router.post('/', customersControllers.create)
+router.get('/:id',customersControllers.getOne)
 router.get('/',customersControllers.getMany)
-router.delete('/',customersControllers.deleteCustomers)
-router.put('/:cid',customersControllers.updateCustomerData)
+router.delete('/',customersControllers.deleteManyById)
+router.put('/:id',customersControllers.updateById)

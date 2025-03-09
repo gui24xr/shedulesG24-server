@@ -3,17 +3,23 @@ import morgan from 'morgan'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import passport from './config/passport.js'
-import { router as pdfRouter } from './api/test/createpdf.js'
-import { router as authRouter } from './api/auth/routes.js'
-import { router as companiesRouter } from './api/companies/routes.js'
-import { router as offeringsRouter } from './api/offerings/routes.js'
-import { router as shedulesRouter } from './api/shedules/routes.js'
-import { router as customersRouter } from './api/customers/customers.routes.js'
-import { router as bookingsRouter } from './api/bookings/bookings.routes.js'
-import { router as companyBranchsRouter } from './api/companyBranchs/routes.js'
-import { router as notificationsConfigsRouter } from './api/notificationsConfigs/router.js'
-import { router as providersRouters } from './api/providers/routes.js'
 import {z} from 'zod'
+import {
+  pdfRouter,
+  authRouter,
+  companiesRouter,
+  offeringsRouter,
+  shedulesRouter,
+  customersRouter,
+  bookingsRouter,
+  companyBranchsRouter,
+  notificationsConfigsRouter,
+  providersRouters,
+  usersRouters
+
+} from './api/routes.index.js'
+
+
 
 
 
@@ -40,8 +46,9 @@ app.use('/api/offerings', offeringsRouter)
 app.use('/api/customers', customersRouter)
 app.use('/api/bookings', bookingsRouter)
 app.use('/api/branchs', companyBranchsRouter)
-app.use('/api/notificationsconfig', notificationsConfigsRouter)
+app.use('/api/notificationsconfigs', notificationsConfigsRouter)
 app.use('/api/providers', providersRouters)
+app.use('/api/users', usersRouters)
 
 
   

@@ -1,5 +1,5 @@
 
-import { User } from "../../database/models/models.user.js";
+import { User } from '../../models/index.js'
 import { UserDTO } from "./users.dto.js";
 
 

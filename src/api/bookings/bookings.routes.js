@@ -1,13 +1,11 @@
 import express from  'express'
-import { BookingsControllers } from './bookings.controllers.js'
+import { bookingsControllers } from './bookings.controller.js'
+
 export const router = express.Router()
 
-const bookingsControllers = new BookingsControllers()
-const defaultFunction = (req,res,next) => {res.send("Default function")}
-
-router.get('/:bid',bookingsControllers.getOne)
+router.post('/', bookingsControllers.create)
+router.get('/:id',bookingsControllers.getOne)
 router.get('/',bookingsControllers.getMany)
-router.post('/', bookingsControllers.createEmptyBooking)
-router.delete('/',bookingsControllers.deleteBookings,defaultFunction)
-router.put('/:bid/status',bookingsControllers.updateBookingStatus)
-router.put('/:bid/note',bookingsControllers.updateBookingNote)
+router.delete('/', bookingsControllers.deleteManyById)
+router.put('/:id', bookingsControllers.updateById)
+
