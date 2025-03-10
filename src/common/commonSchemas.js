@@ -103,3 +103,45 @@ validatorObject.isValidUserName = (field) =>
     z.string().min(8).max(64).regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,64}$/, {
       message: `La contraseña ${field ? `en el campo ${field}` : ""} debe tener entre 8 y 64 caracteres, incluir al menos una mayúscula, una minúscula, un número y un carácter especial.`,
     });
+
+
+    validatorObject.isValidEnum = (field, enumList) =>
+      z.string().refine((val) => enumList.includes(val), {
+        message: `El valor ${field ? `en el campo ${field}` : ""} no es válido. Debe ser uno de: ${enumList.join(", ")}.`,
+      });
+
+
+      validatorObject.isArrayOfValidObjects = (field, objectSchema) =>
+        z.array(objectSchema).refine(
+          (items) => items.length === 0 || items.every((item) => objectSchema.safeParse(item).success),
+          {
+            message: `El campo ${field ? `en el campo ${field}` : ""} debe ser un array vacío o contener solo objetos válidos con la estructura correcta.`,
+          }
+        );
+
+        validatorObject.isArrayOfValidDateTimeOrEmptyArray = (field) => 
+          z.array(z.string().datetime()).refine(
+            dates => dates.length === 0 || dates.every(date => !isNaN(Date.parse(date))), 
+            {
+              message: `El campo${field ? ` ${field}` : ""} debe ser un array vacío o contener solo fechas válidas en formato ISO 8601.`,
+            }
+          );
+
+          validatorObject.isArrayOfValidDateOrEmptyArray = (field) => 
+            z.array(z.string().regex(/^\d{4}-\d{2}-\d{2}$/)).refine(
+              dates => dates.length === 0 || dates.every(date => !isNaN(Date.parse(date))), 
+              {
+                message: `El campo${field ? ` ${field}` : ""} debe ser un array vacío o contener solo fechas válidas en formato YYYY-MM-DD.`,
+              }
+            );
+          
+
+            validatorObject.isValidIntervalTime = (field, referenceTimeInMinutes) => 
+              z.number().refine(
+                duration => duration > referenceTimeInMinutes, 
+                {
+                  message: `La duración en ${field} debe ser mayor a ${referenceTimeInMinutes} minutos.`,
+                }
+              );
+        
+      

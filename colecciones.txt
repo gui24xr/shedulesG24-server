@@ -1,6 +1,24 @@
-Providers
-Companies
-Customers
-CompanyBranchs
+
 Bookings
+Companies
+CompanyBranchs
+Customers
 NotificationsConfigs
+Providers
+Shedules
+users
+waiting
+sheduleSLot
+
+
+faltan
+
+aditionSalot
+
+
+falta revisar
+offering
+
+
+luego ver el tema populate y remapeos
+testeo general de api

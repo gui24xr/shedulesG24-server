@@ -6,6 +6,11 @@ const userSchema = new mongoose.Schema({
     required: true,  
     match: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,  // 
   },
+  role: {
+    type: String,
+    enum: ["dev", "provider", "customer", "company","admin"], 
+    default: "company",
+  },
   userName: {
     type: String,
     required: true,  

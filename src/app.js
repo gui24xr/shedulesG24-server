@@ -15,7 +15,9 @@ import {
   companyBranchsRouter,
   notificationsConfigsRouter,
   providersRouters,
-  usersRouters
+  usersRouters,
+  waitingListsRouter,
+  sheduleSlotsRouter
 
 } from './api/routes.index.js'
 
@@ -49,6 +51,8 @@ app.use('/api/branchs', companyBranchsRouter)
 app.use('/api/notificationsconfigs', notificationsConfigsRouter)
 app.use('/api/providers', providersRouters)
 app.use('/api/users', usersRouters)
+app.use('/api/waitinglists', waitingListsRouter)
+app.use('/api/sheduleslots',sheduleSlotsRouter)
 
 
   

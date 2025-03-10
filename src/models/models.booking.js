@@ -16,12 +16,18 @@ const bookingSchema = new mongoose.Schema({
     required: true, 
     default: Date.now()
   },
-  sheduleInfo: 
-    {
-      sheduleId: {type: mongoose.Schema.Types.ObjectId, ref:'Shedule', default: null, required: false,},
-      slotId: {type: mongoose.Schema.Types.ObjectId, ref:'Shedule.Slot', default: null,required: false,}
-    }
-  ,
+  sheduleId: {
+    type: mongoose.Schema.Types.ObjectId, 
+    ref:'Shedule', 
+    default: null, 
+    required: false,
+  },
+  slotId: {
+    type: mongoose.Schema.Types.ObjectId, 
+    ref:'Shedule.Slot', 
+    default: null,
+    required: false,
+  },
   note: {
     type: String,
     required: false,

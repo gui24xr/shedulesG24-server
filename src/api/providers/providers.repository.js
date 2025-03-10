@@ -9,7 +9,6 @@ class ProvidersRepository extends MongooseRepository{
     }
 }
 
-
 export const providersRepository = new ProvidersRepository({
     model: Provider,
     validateSchema: providerSchema,

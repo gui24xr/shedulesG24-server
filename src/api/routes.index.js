@@ -9,6 +9,8 @@ import { router as companyBranchsRouter } from './companyBranchs/companyBranchs.
 import { router as notificationsConfigsRouter } from './notificationsConfigs/notificationsConfigs.routes.js'
 import { router as providersRouters } from './providers/providers.routes.js'
 import { router as usersRouters } from './users/users.routes.js'
+import { router as waitingListsRouter } from './waitinglists/waitinglists.routes.js'
+import { router as sheduleSlotsRouter } from './sheduleSlots/sheduleSlots.routes.js'
 
 export {
     pdfRouter,
@@ -21,5 +23,7 @@ export {
     companyBranchsRouter,
     notificationsConfigsRouter,
     providersRouters,
-    usersRouters
+    usersRouters,
+    waitingListsRouter,
+    sheduleSlotsRouter
 }

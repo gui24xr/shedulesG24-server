@@ -31,7 +31,7 @@ const sheduleSchema = new mongoose.Schema({
   },
   waitingListId: {
      type: mongoose.Schema.Types.ObjectId,
-     ref: "AdditionalSheduleSlot",
+     ref: "WaitingList",
      required: false,
      default: null
   }

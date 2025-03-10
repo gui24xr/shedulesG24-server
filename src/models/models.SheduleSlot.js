@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const sheduleSlotSchema = new mongoose.Schema({
-  shedule: {
+  sheduleId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Shedule",
     default: null,
@@ -20,17 +20,16 @@ const sheduleSlotSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
-  bookings: {
-    currentBooking: {
+  currentBookingId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Booking",
       default: null,
-    },
-    canceledBookings: {
+  },
+  canceledBookings: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Booking" }],
       default: null,
     },
-  },
+  
 });
 
 const modelName = "SheduleSlot";

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const sheduleWaitingListSchema = new mongoose.Schema({
+const WaitingListSchema = new mongoose.Schema({
   sheduleId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Shedule",
@@ -26,7 +26,7 @@ const sheduleWaitingListSchema = new mongoose.Schema({
   }
 });
 
-const modelName = "SheduleWaitingSlot";
-const SheduleWaitingList = mongoose.model(modelName, sheduleWaitingListSchema);
+const modelName = "WaitingList";
+const WaitingList = mongoose.model(modelName, WaitingListSchema);
 
-export default SheduleWaitingList;
+export default WaitingList;

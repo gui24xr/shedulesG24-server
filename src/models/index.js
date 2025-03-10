@@ -8,7 +8,7 @@ import  Provider  from "./models.provider.js";
 import  Shedule  from "./models.shedule.js";
 import  SheduleSlot from "./models.SheduleSlot.js";
 import  AdditionalSheduleSlot from "./models.additionalSheduleSlot.js";
-import  SheduleWaitingList from "./models.sheduleWaitingList.js";
+import  WaitingList from "./models.WaitingList.js";
 import  User  from "./models.user.js";
 
 
@@ -23,6 +23,6 @@ export {
     Shedule,
     SheduleSlot,
     AdditionalSheduleSlot,
-    SheduleWaitingList,
+    WaitingList,
     User,
 }
