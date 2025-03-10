@@ -6,6 +6,16 @@ const sheduleSlotSchema = new mongoose.Schema({
     ref: "Shedule",
     default: null,
   },
+  type: { 
+    type: String, 
+    enum: ["regular", "additional", "urgent"],
+    default: "regular"
+  },
+  priority: { 
+    type: String, 
+    enum: ["low", "medium", "high", "veryHigh"],
+    default: "normal"
+  },
   startDateTime: {
     type: Date,
     required: true,
@@ -29,7 +39,7 @@ const sheduleSlotSchema = new mongoose.Schema({
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Booking" }],
       default: null,
     },
-  
+    
 });
 
 const modelName = "SheduleSlot";

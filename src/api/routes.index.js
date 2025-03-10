@@ -1,7 +1,7 @@
 import { router as pdfRouter } from './test/createpdf.js'
 import { router as authRouter } from './auth/auth.routes.js'
 import { router as companiesRouter } from './companies/companies.routes.js'
-import { router as offeringsRouter } from './offerings/offerings.routes.js'
+import { router as providedServiceRouter } from './providedServices/providedServices.routes.js'
 import { router as shedulesRouter } from './shedules/shedules.routes.js'
 import { router as customersRouter } from './customers/customers.routes.js'
 import { router as bookingsRouter } from './bookings/bookings.routes.js'
@@ -16,7 +16,7 @@ export {
     pdfRouter,
     authRouter,
     companiesRouter,
-    offeringsRouter,
+    providedServiceRouter,
     shedulesRouter,
     customersRouter,
     bookingsRouter,

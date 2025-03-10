@@ -4,7 +4,7 @@ import { validatorObject } from '../../common/commonSchemas.js'
 export const shedulesSchema = {}
 
 const baseSchema = {
-    offeringId: validatorObject.isValidId('offeringId'),
+    providedServiceId: validatorObject.isValidId('offeringId'),
     companyId: validatorObject.isValidId('companyId'),
     slots: validatorObject.isArrayOfValidIdOrEmptyArray('slots'),
     additionalsSlots: validatorObject.isArrayOfValidIdOrEmptyArray('additionalSlots'),
@@ -13,7 +13,7 @@ const baseSchema = {
 
 
 shedulesSchema.createSchema = z.object({
-    offeringId: baseSchema.offeringId,
+    providedServiceId: baseSchema.providedServiceId,
     companyId: baseSchema.companyId,
     slots: baseSchema.slots.optional(),
     additionalsSlots: baseSchema.additionalsSlots.optional(),
@@ -23,7 +23,7 @@ shedulesSchema.createSchema = z.object({
 
 
 shedulesSchema.querySchema = z.object({
-  
+    companyId: baseSchema.companyId.optional(),
 }).strict()
 
 

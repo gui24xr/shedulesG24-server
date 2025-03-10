@@ -30,8 +30,8 @@ const providerSchema = new mongoose.Schema({
     required: false,  // El email no es obligatorio
     default: null
   },
-  offerings:{
-    type :[{ type: mongoose.Schema.Types.ObjectId,ref: "Offering"}],
+  providedServices:{
+    type :[{ type: mongoose.Schema.Types.ObjectId,ref: "ProvidedService"}],
     default: []
   }, 
 });

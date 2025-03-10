@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const companySchema = new mongoose.Schema({
-  user: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
@@ -9,6 +9,11 @@ const companySchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+  },
+  description: {
+    type: String,
+    required: false,
+    default: null
   },
   logoUrl: {
     type: String,
@@ -42,7 +47,7 @@ const companySchema = new mongoose.Schema({
     default: null,  
   
 },
-  offerings: [
+  providedServices: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Offering",

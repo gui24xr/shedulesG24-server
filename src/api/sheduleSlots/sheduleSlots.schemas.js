@@ -5,6 +5,8 @@ export const sheduleSlotSchema = {}
 
 const baseSchema = {
     sheduleId: validatorObject.isValidId('sheduleId'),
+    type:validatorObject.isValidEnum("type",["regular", "additional", "urgent"]),
+    priority: validatorObject.isValidEnum("priority",["low", "medium", "high", "veryHigh"]),
     startDateTime: validatorObject.isValidDateTime('startDateTime'),
     endDateTime: validatorObject.isValidDateTime('endDateTime'),
     durationInMinutes: validatorObject.isValidIntervalTime('durationInMinutes',1),
@@ -15,6 +17,8 @@ const baseSchema = {
 
 sheduleSlotSchema.createSchema = z.object({
     sheduleId: baseSchema.sheduleId,
+    type: baseSchema.type,
+    priority: baseSchema.priority,
     startDateTime: baseSchema.startDateTime,
     endDateTime: baseSchema.endDateTime,
     durationInMinutes: baseSchema.durationInMinutes,
@@ -26,6 +30,8 @@ sheduleSlotSchema.createSchema = z.object({
 
 sheduleSlotSchema.querySchema = z.object({
     sheduleId: baseSchema.sheduleId.optional(),
+    type: baseSchema.type.optional(),
+    priority: baseSchema.priority.optional(),
     startDateTime: baseSchema.startDateTime.optional(),
     endDateTime: baseSchema.endDateTime.optional(),
     durationInMinutes: baseSchema.durationInMinutes.optional(),
@@ -35,6 +41,8 @@ sheduleSlotSchema.querySchema = z.object({
 
 sheduleSlotSchema.updateSchema = z.object({
     sheduleId: baseSchema.sheduleId.optional(),
+    type: baseSchema.type.optional(),
+    priority: baseSchema.priority.optional(),
     startDateTime: baseSchema.startDateTime.optional(),
     endDateTime: baseSchema.endDateTime.optional(),
     durationInMinutes: baseSchema.durationInMinutes.optional(),

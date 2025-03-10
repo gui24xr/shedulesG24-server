@@ -145,3 +145,15 @@ validatorObject.isValidUserName = (field) =>
               );
         
       
+
+              validatorObject.isValidCompanyName = (field) =>
+                z.string().regex(/^[a-zA-Z0-9\s_.-]{3,100}$/, {
+                  message: `El nombre de la empresa ${field ? `en el campo ${field}` : ""} debe tener entre 3 y 100 caracteres y solo puede contener letras, números, espacios, guiones bajos (_), puntos (.), guiones (-) y espacios.`,
+                });
+              
+
+                validatorObject.isValidDescription = (field) =>
+                  z.string().regex(/^[a-zA-Z0-9\s,._-]{3,500}$/, {
+                    message: `La descripción ${field ? `en el campo ${field}` : ""} debe tener entre 3 y 500 caracteres y solo puede contener letras, números, espacios, comas, puntos, guiones bajos (_), guiones (-) y puntos.`,
+                  });
+                

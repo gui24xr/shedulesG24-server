@@ -8,7 +8,7 @@ import {
   pdfRouter,
   authRouter,
   companiesRouter,
-  offeringsRouter,
+  providedServiceRouter,
   shedulesRouter,
   customersRouter,
   bookingsRouter,
@@ -44,7 +44,7 @@ app.use('/api/docs', pdfRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/companies', companiesRouter)
 app.use('/api/shedules', shedulesRouter)
-app.use('/api/offerings', offeringsRouter)
+app.use('/api/providedservices', providedServiceRouter)
 app.use('/api/customers', customersRouter)
 app.use('/api/bookings', bookingsRouter)
 app.use('/api/branchs', companyBranchsRouter)

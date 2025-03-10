@@ -3,11 +3,10 @@ import  Company  from "./models.company.js";
 import  CompanyBranch  from "./models.companyBranch.js";
 import  Customer  from "./models.customer.js";
 import  NotificationsConfig  from "./models.NotificationsConfig.js";
-import  Offering  from "./models.offering.js";
+import  ProvidedService  from "./models.providedService.js";
 import  Provider  from "./models.provider.js";
 import  Shedule  from "./models.shedule.js";
 import  SheduleSlot from "./models.SheduleSlot.js";
-import  AdditionalSheduleSlot from "./models.additionalSheduleSlot.js";
 import  WaitingList from "./models.WaitingList.js";
 import  User  from "./models.user.js";
 
@@ -18,11 +17,10 @@ export {
     CompanyBranch,
     Customer,
     NotificationsConfig,
-    Offering,
+    ProvidedService,
     Provider,
     Shedule,
     SheduleSlot,
-    AdditionalSheduleSlot,
     WaitingList,
     User,
 }

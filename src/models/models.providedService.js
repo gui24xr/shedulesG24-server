@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-const offeringSchema = new mongoose.Schema({
-  company: {
+const providedServiceSchema = new mongoose.Schema({
+  companyId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "CompanyBranch",
     default: null
@@ -14,30 +14,30 @@ const offeringSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  provider:{ 
+  providerId:{ 
     type: mongoose.Schema.Types.ObjectId,
     ref: "Provider",
     default: null
   }, 
-  shedule: {
+  sheduleId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Shedule",
     default: null
   },
   
-  companyBranch: {
+  companyBranchId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "CompanyBranch",
     default: null
   },
-  notificationsConfig: {
+  notificationsConfigId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "notificationsConfig",
     default: null
   }
 });
 
-const modelName = "Offering";
-const Offering = mongoose.model(modelName, offeringSchema);
+const modelName = "ProvidedService";
+const providedService = mongoose.model(modelName, providedServiceSchema);
 
-export default Offering
+export default providedService

@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 const sheduleSchema = new mongoose.Schema({
- offeringId: {
+ providedServiceId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Offering",
+    ref: "ProvidedService",
     required: false,
     default: null
  },
