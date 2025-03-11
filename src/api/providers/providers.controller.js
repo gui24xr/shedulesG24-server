@@ -1,5 +1,5 @@
 import { RequestControllers } from "../../common/requestController.js";
-import { providerSchema } from "./provider.schemas.js";
+import { providerSchema } from "./providers.schemas.js";
 import { providersRepository } from "./providers.repository.js";
 
 

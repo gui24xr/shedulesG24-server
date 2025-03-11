@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
+import { formatDoc } from "../config/database.plugins.js";
 
 const companySchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-
   name: {
     type: String,
     required: true,
@@ -50,7 +50,7 @@ const companySchema = new mongoose.Schema({
   providedServices: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Offering",
+      ref: "ProvidedService",
       default: [],
     },
   ],
@@ -58,7 +58,7 @@ const companySchema = new mongoose.Schema({
   branchs: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "CompanyBranchs",
+      ref: "CompanyBranch",
       default: [],
     },
   ],
@@ -76,6 +76,28 @@ const companySchema = new mongoose.Schema({
       default: [],
     },
   ],
+});
+
+companySchema.plugin(formatDoc)
+
+companySchema.virtual("user", {
+  ref: 'User',
+  localField: 'userId',
+  foreignField: '_id',
+  justOne: true
+});
+
+//Automatizacion de populates en consultas create/save.
+/*
+companySchema.post("save", async function(doc, next) {
+  await doc.populate(["user","providedServices","branchs"])
+});
+*/
+
+//Automatizacion de populates en consultas find()
+companySchema.pre(/^find/, function(next) {
+  this.populate(["user","providedServices","branchs"]);
+  next();
 });
 
 const modelName = "Company";

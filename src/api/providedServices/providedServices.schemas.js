@@ -35,8 +35,9 @@ providedServiceSchema.querySchema = z.object({
 
 
 providedServiceSchema.updateSchema = z.object({
-    name: baseSchema.name,
-    description: baseSchema.description,
-    companyBranchId: baseSchema.companyBranchId,
+    name: baseSchema.name.optional(),
+    description: baseSchema.description.optional(),
+    companyBranchId: baseSchema.companyBranchId.optional(),
+    providerId: baseSchema.providerId.optional(),
 }).strict()
 

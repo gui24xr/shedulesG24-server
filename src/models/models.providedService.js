@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { formatDoc } from "../config/database.plugins.js";
 
 const providedServiceSchema = new mongoose.Schema({
   companyId: {
@@ -35,6 +36,50 @@ const providedServiceSchema = new mongoose.Schema({
     ref: "notificationsConfig",
     default: null
   }
+});
+
+providedServiceSchema.plugin(formatDoc)
+
+
+providedServiceSchema.virtual("company", {
+  ref: 'Company',
+  localField: 'companyId',
+  foreignField: '_id',
+  justOne: true
+});
+
+providedServiceSchema.virtual("provider", {
+  ref: 'Provider',
+  localField: 'providerId',
+  foreignField: '_id',
+  justOne: true
+});
+
+providedServiceSchema.virtual("companyBranch", {
+  ref: 'CompanyBranch',
+  localField: 'companyBranchId',
+  foreignField: '_id',
+  justOne: true
+});
+
+providedServiceSchema.virtual("notificationsConfig", {
+  ref: 'NotificationsConfig',
+  localField: 'notificationsConfigId',
+  foreignField: '_id',
+  justOne: true
+});
+
+//Automatizacion de populates en consultas create/save.
+/*
+providedServiceSchema.post("save", async function(doc, next) {
+  await doc.populate(["company","provider","companyBranch","notificationsConfig"])
+  next();
+});
+*/
+//Automatizacion de populates en consultas find()
+providedServiceSchema.pre(/^find/, function(next) {
+  this.populate(["company","provider","companyBranch","notificationsConfig"]);
+  next();
 });
 
 const modelName = "ProvidedService";

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { formatDoc } from "../config/database.plugins.js";
 
 const sheduleSchema = new mongoose.Schema({
  providedServiceId: {
@@ -38,6 +39,28 @@ const sheduleSchema = new mongoose.Schema({
 
 })
  
+sheduleSchema.plugin(formatDoc)
+
+sheduleSchema.virtual("providedService", {
+  ref: 'ProvidedService',
+  localField: 'providedServiceId',
+  foreignField: '_id',
+  justOne: true
+});
+
+//Automatizacion de populates en consultas create/save.
+/*
+sheduleSchema.post("save", async function(doc, next) {
+  await doc.populate(["providedService"])
+  next();
+  */
+
+//Automatizacion de populates en consultas find()
+sheduleSchema.pre(/^find/, function(next) {
+  this.populate(["providedService"]);
+  next();
+});
+
 
 
 const modelName = "Shedule";

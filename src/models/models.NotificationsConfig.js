@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { formatDoc } from "../config/database.plugins.js";
 
 const notificationsConfigSchema = new mongoose.Schema({
   companyId:{
@@ -65,6 +66,8 @@ const notificationsConfigSchema = new mongoose.Schema({
    
    },
 });
+
+notificationsConfigSchema.plugin(formatDoc)
 
 const modelName = "NotificationsConfig";
 const  NotificationsConfig = mongoose.model(modelName, notificationsConfigSchema);

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { formatDoc } from "../config/database.plugins.js";
 
 const companyBranchSchema = new mongoose.Schema({
   name: {
@@ -27,6 +28,29 @@ const companyBranchSchema = new mongoose.Schema({
     default: null,  
   },
   
+});
+
+companyBranchSchema.plugin(formatDoc)
+
+companyBranchSchema.virtual("company", {
+  ref: 'Company',
+  localField: 'companyId',
+  foreignField: '_id',
+  justOne: true
+});
+
+//Automatizacion de populates en consultas create/save.
+/*
+companyBranchSchema.post("save", async function(doc, next) {
+  await doc.populate("company")
+  next();
+});
+*/
+
+//Automatizacion de populates en consultas find()
+companyBranchSchema.pre(/^find/, function(next) {
+  this.populate("company");
+  next();
 });
 
 const modelName = "CompanyBranch";

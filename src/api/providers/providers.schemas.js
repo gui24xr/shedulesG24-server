@@ -42,6 +42,6 @@ providerSchema.updateSchema = z.object({
     specialty: baseSchema.specialty.optional(),
     phoneNumber: baseSchema.phoneNumber.optional(),
     email: baseSchema.email.optional(),
-    providersServices: baseSchema.providedServices.optional()
+    providedServices: baseSchema.providedServices.optional()
 }).strict()
 

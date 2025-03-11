@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { formatDoc } from "../config/database.plugins.js";
 
 const sheduleSlotSchema = new mongoose.Schema({
   sheduleId: {
@@ -41,6 +42,31 @@ const sheduleSlotSchema = new mongoose.Schema({
     },
     
 });
+
+sheduleSlotSchema.plugin(formatDoc)
+
+sheduleSlotSchema.virtual("currentBooking", {
+  ref: 'Booking',
+  localField: 'currentBookingId',
+  foreignField: '_id',
+  justOne: true
+});
+
+//Automatizacion de populates en consultas create/save.
+/*sheduleSlotSchema.post("save", async function(doc, next) {
+  await doc.populate(["currentBooking","canceledBookings"])
+  next();
+});
+*/
+
+//Automatizacion de populates en consultas find()
+
+sheduleSlotSchema.pre(/^find/, function(next) {
+  this.populate(["currentBooking","canceledBookings"]);
+  next();
+});
+
+
 
 const modelName = "SheduleSlot";
 const SheduleSlot = mongoose.model(modelName, sheduleSlotSchema);

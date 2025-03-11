@@ -1,6 +1,6 @@
 import { MongooseRepository } from '../../common/mongooseRepository.js'
 import { Provider } from '../../models/index.js'
-import { providerSchema } from './provider.schemas.js'
+import { providerSchema } from './providers.schemas.js'
 
 
 class ProvidersRepository extends MongooseRepository{

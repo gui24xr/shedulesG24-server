@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { formatDoc } from "../config/database.plugins.js";
 
 const customerSchema = new mongoose.Schema({
   dni: {
@@ -35,10 +36,21 @@ const customerSchema = new mongoose.Schema({
     required: false,  // El email no es obligatorio
     default: null
   },
+  bookings: {
+      type: [{ 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Booking"
+      }],
+      required: false,
+      default: []
+    },
 });
 
 //CLAVE UNICA
 customerSchema.index({ dni: 1, companyId: 1 }, { unique: true });
+
+customerSchema.plugin(formatDoc)
+
 
 const modelName = "Customer";
 const Customer = mongoose.model(modelName, customerSchema);

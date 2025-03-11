@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { formatDoc } from "../config/database.plugins.js";
 
 const bookingSchema = new mongoose.Schema({
   customerId: {
@@ -34,7 +35,30 @@ const bookingSchema = new mongoose.Schema({
     default: null
   },
 
- 
+});
+
+
+bookingSchema.plugin(formatDoc)
+
+bookingSchema.virtual("customer", {
+  ref: 'Customer',
+  localField: 'customerId',
+  foreignField: '_id',
+  justOne: true
+});
+
+//Automatizacion de populates en consultas create/save.
+/*
+bookingSchema.post("save", async function(doc, next) {
+  await doc.populate("customer")
+  next();
+});
+*/
+
+//Automatizacion de populates en consultas find()
+bookingSchema.pre(/^find/, function(next) {
+  this.populate("customer");
+  next();
 });
 
 const modelName = "Booking";
