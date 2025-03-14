@@ -1,4 +1,4 @@
-import { NotificationsConfigsRepository } from "./notificationsConfigs..js";
+import { NotificationsConfigsRepository } from "./notificationsConfigs.repository.js";
 import { notificationsConfigSchema } from "./notificationsConfigs.schema.js/index.js";
 
 const notificationsConfigsRepository = new NotificationsConfigsRepository()

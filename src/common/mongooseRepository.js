@@ -57,6 +57,23 @@ export class MongooseRepository {
         }
     }
 
+    async findOneAndCreateOrUpdate(filter,createData,updateData){
+        try{
+            this.validateSchema.querySchema.parse(filter)
+            this.validateSchema.updateSchema.parse(updateData)
+            const updatedObject = await this.model.findOneAndUpdate(
+                filter,
+                { $setOnInsert: createData,$set: updateData },
+                { upsert: true, new: true, }).exec()
+            
+            if (!updatedObject)  throw new Error('No existe el registro que se intenta actualizar...')
+            //return this.getMappedObject(updatedObject)
+            return updatedObject.toObject()
+        }catch(error){
+            throw error
+        }
+    }
+
     async deleteManyById(idsList){
         try{
              const result = await this.model.deleteMany({

@@ -1,11 +1,16 @@
 import express from  'express'
 import  { shedulesControllers } from './shedules.controller.js'
+import { checkRole } from '../../middlewares/checkRole.js'
+import passport from '../../config/passport.js'
 
-export const router = express.Router()
+export const shedulesDevRouter = express.Router()
 
-router.post('/', shedulesControllers.create)
-router.get('/:id',shedulesControllers.getOne)
-router.get('/',shedulesControllers.getMany)
-router.delete('/', shedulesControllers.deleteManyById)
-router.put('/:id', shedulesControllers.updateById)
+shedulesDevRouter.use(passport.authenticate("jwt",{session:false}))
+shedulesDevRouter.use(checkRole(['dev']))
+
+shedulesDevRouter.post('/', shedulesControllers.create)
+shedulesDevRouter.get('/:id',shedulesControllers.getOne)
+shedulesDevRouter.get('/',shedulesControllers.getMany)
+shedulesDevRouter.delete('/', shedulesControllers.deleteManyById)
+shedulesDevRouter.put('/:id', shedulesControllers.updateById)
 

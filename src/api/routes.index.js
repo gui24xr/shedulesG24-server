@@ -1,29 +1,30 @@
 import { router as pdfRouter } from './test/createpdf.js'
-import { router as authRouter } from './auth/auth.routes.js'
-import { router as companiesRouter } from './companies/companies.routes.js'
-import { router as providedServiceRouter } from './providedServices/providedServices.routes.js'
-import { router as shedulesRouter } from './shedules/shedules.routes.js'
-import { router as customersRouter } from './customers/customers.routes.js'
-import { router as bookingsRouter } from './bookings/bookings.routes.js'
-import { router as companyBranchsRouter } from './companyBranchs/companyBranchs.routes.js'
-import { router as notificationsConfigsRouter } from './notificationsConfigs/notificationsConfigs.routes.js'
-import { router as providersRouters } from './providers/providers.routes.js'
-import { router as usersRouters } from './users/users.routes.js'
-import { router as waitingListsRouter } from './waitinglists/waitinglists.routes.js'
-import { router as sheduleSlotsRouter } from './sheduleSlots/sheduleSlots.routes.js'
+import { authRouter } from './auth/auth.routes.js'
+import { companiesDevRouter } from './companies/companies.routes.js'
+import { providedServicesDevRouter } from './providedServices/providedServices.routes.js'
+import { shedulesDevRouter } from './shedules/shedules.routes.js'
+import { customersDevRouter } from './customers/customers.routes.js'
+import { bookingsDevRouter } from './bookings/bookings.routes.js'
+import { companyBranchsDevRouter } from './companyBranchs/companyBranchs.routes.js'
+import { notificationsConfigsDevRouter } from './notificationsConfigs/notificationsConfigs.routes.js'
+import { providersDevRouter  } from './providers/providers.routes.js'
+import { usersDevRouter  } from './users/users.routes.js'
+import { waitingListsDevRouter } from './waitingLists/waitingLists.routes.js'
+import { sheduleSlotsDevRouter  } from './sheduleSlots/sheduleSlots.routes.js'
 
 export {
     pdfRouter,
     authRouter,
-    companiesRouter,
-    providedServiceRouter,
-    shedulesRouter,
-    customersRouter,
-    bookingsRouter,
-    companyBranchsRouter,
-    notificationsConfigsRouter,
-    providersRouters,
-    usersRouters,
-    waitingListsRouter,
-    sheduleSlotsRouter
+
+    bookingsDevRouter,
+    providedServicesDevRouter,
+    shedulesDevRouter,
+    customersDevRouter,
+    companiesDevRouter,
+    companyBranchsDevRouter,
+    notificationsConfigsDevRouter,
+    providersDevRouter,
+    usersDevRouter,
+    waitingListsDevRouter,
+    sheduleSlotsDevRouter,
 }

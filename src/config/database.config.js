@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 
-const DB_URL = process.env.DB_URL//'mongodb+srv://gui24xrdev:2485javiersolis@cluster0.a6zgcio.mongodb.net/bookingsregister?retryWrites=true&w=majority&appName=Cluster0'
-
+const DB_URL = process.env.DB_URL
 
 
 export async function connectToDatabase(){

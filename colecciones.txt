@@ -10,10 +10,8 @@ users
 waiting
 sheduleSLot
 
-
 faltan
 
-aditionSalot
 
 
 falta revisar

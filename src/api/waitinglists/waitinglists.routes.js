@@ -1,11 +1,18 @@
 import express from  'express'
 import { waitingListsControllers } from './waitinglists.controller.js'
+import { checkRole } from '../../middlewares/checkRole.js'
+import passport from '../../config/passport.js'
 
-export const router = express.Router()
 
-router.post('/', waitingListsControllers.create)
-router.get('/:id',waitingListsControllers.getOne)
-router.get('/',waitingListsControllers.getMany)
-router.delete('/', waitingListsControllers.deleteManyById)
-router.put('/:id', waitingListsControllers.updateById)
+export const waitingListsDevRouter = express.Router()
+
+waitingListsDevRouter.use(passport.authenticate("jwt",{session:false}))
+waitingListsDevRouter.use(checkRole(['dev']))
+
+
+waitingListsDevRouter.post('/', waitingListsControllers.create)
+waitingListsDevRouter.get('/:id',waitingListsControllers.getOne)
+waitingListsDevRouter.get('/',waitingListsControllers.getMany)
+waitingListsDevRouter.delete('/', waitingListsControllers.deleteManyById)
+waitingListsDevRouter.put('/:id', waitingListsControllers.updateById)
 

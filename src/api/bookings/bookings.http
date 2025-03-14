@@ -68,7 +68,7 @@ Content-Type: application/json
 }
 
 ### UPDATE BOOKING NOTE
-PUT http://localhost:8085/api/bookings/67c9c6373641e29cbb8843c8/note
+PUT http://localhost:8085/api/bookings/67cb4323c3a4455bcdc87611/note
 Content-Type: application/json
 
 {

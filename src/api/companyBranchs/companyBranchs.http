@@ -6,7 +6,7 @@ Content-Type: application/json
   "companyId": "67ca060c577864c3ff1c2b7f",
   "location": {
     "street": "Avenida Principal 456",
-    "streeNumber": "456",
+    "streeNumber": "4356",
     "floor": "3",
     "apartment": "B",
     "city": "Ciudad Ejemplo",
@@ -51,12 +51,12 @@ PUT http://localhost:8085/api/branchs/67ca08d8e58035d7a690ed5c
 Content-Type: application/json
 
 {
-  "name": "Sucursal 2a4",
+  "name": "Sucursal 2a114",
   "location": {
     "street": "Avenida Principal 4546",
     "streeNumber": "456",
     "floor": "3",
-    "apartment": "B",
+    "apartment": "BA",
     "city": "Ciudad Ejemplo",
     "postalCode": "98765",
     "state": "Estado Ejemplo",

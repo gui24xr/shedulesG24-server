@@ -4,7 +4,7 @@ export const formatDoc = (schema) => {
     virtuals: true,
     transform: (doc, ret) => {
       delete ret.__v;
-      ret.id = ret._id;
+      ret.id = ret._id.toString();
       delete ret._id;
       return ret;
     }
@@ -14,7 +14,7 @@ export const formatDoc = (schema) => {
     virtuals: true,
     transform: (doc, ret) => {
       delete ret.__v;
-      ret.id = ret._id;
+      ret.id = ret._id.toString();
       delete ret._id;
       return ret;
     }

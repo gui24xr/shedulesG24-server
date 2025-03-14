@@ -1,11 +1,16 @@
 import express from  'express'
 import { providedServicesControllers } from './providedServices.controller.js'
+import { checkRole } from '../../middlewares/checkRole.js'
+import passport from '../../config/passport.js'
 
-export const router = express.Router()
+export const providedServicesDevRouter = express.Router()
 
-router.post('/', providedServicesControllers.create)
-router.get('/:id',providedServicesControllers.getOne)
-router.get('/',providedServicesControllers.getMany)
-router.delete('/', providedServicesControllers.deleteManyById)
-router.put('/:id', providedServicesControllers.updateById)
+providedServicesDevRouter.use(passport.authenticate("jwt",{session:false}))
+providedServicesDevRouter.use(checkRole(['dev']))
+
+providedServicesDevRouter.post('/', providedServicesControllers.create)
+providedServicesDevRouter.get('/:id',providedServicesControllers.getOne)
+providedServicesDevRouter.get('/',providedServicesControllers.getMany)
+providedServicesDevRouter.delete('/', providedServicesControllers.deleteManyById)
+providedServicesDevRouter.put('/:id', providedServicesControllers.updateById)
 

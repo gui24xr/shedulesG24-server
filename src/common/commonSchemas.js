@@ -78,10 +78,12 @@ validatorObject.isValidHour = (field) => z.string().refine((val) => {
   })
   
 
-  validatorObject.isValidImageURL = (field) => z.string().url().regex(/\.(jpg|jpeg|png|gif|bmp|webp)$/i, {
+  validatorObject.isValidImageURL = (field) => z
+  .string()
+  .url()
+  .regex(/\.(jpg|jpeg|png|gif|bmp|webp)$/i, {
     message: `La URL ${field ? `en el campo ${field}` : ""} debe ser una URL válida y debe apuntar a una imagen con extensión .jpg, .jpeg, .png, .gif, .bmp o .webp.`,
-});
-
+  });
   
 
 
@@ -157,3 +159,9 @@ validatorObject.isValidUserName = (field) =>
                     message: `La descripción ${field ? `en el campo ${field}` : ""} debe tener entre 3 y 500 caracteres y solo puede contener letras, números, espacios, comas, puntos, guiones bajos (_), guiones (-) y puntos.`,
                   });
                 
+
+
+                  validatorObject.isValidDevPasswordSecretKey = (field) =>
+                    z.string().min(8).max(9).regex(/^[a-zA-Z0-9]+$/, {
+                      message: `La clave secreta de desarrollador ${field ? `en el campo ${field}` : ""} debe tener entre 8 y 9 caracteres y solo puede contener letras y números.`,
+                    });
