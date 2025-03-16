@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { formatDoc } from "../config/database.plugins.js";
+
 
 const waitingListSchema = new mongoose.Schema({
   sheduleId: {
@@ -27,7 +27,7 @@ const waitingListSchema = new mongoose.Schema({
   }
 });
 
-waitingListSchema.plugin(formatDoc)
+
 
 
 

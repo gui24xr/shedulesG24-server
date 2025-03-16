@@ -10,7 +10,6 @@ const baseSchema = {
     specialty: z.string(),
     phoneNumber: validatorObject.isValidPhone('phoneNumber'),
     email: validatorObject.isValidEmail('email'),
-    providedServices: validatorObject.isArrayOfValidIdOrEmptyArray('providedServices')
 }
 
 
@@ -21,7 +20,6 @@ providerSchema.createSchema = z.object({
     specialty: baseSchema.specialty,
     phoneNumber: baseSchema.phoneNumber,
     email: baseSchema.email,
-    providersServices: baseSchema.providedServices.optional()
 }).strict()
 
 
@@ -31,7 +29,6 @@ providerSchema.querySchema = z.object({
     firstName: baseSchema.firstName.optional(),
     lastName: baseSchema.lastName.optional(),
     specialty: baseSchema.specialty.optional(),
-    providersServices: baseSchema.providedServices.optional()
 }).strict()
 
 
@@ -42,6 +39,5 @@ providerSchema.updateSchema = z.object({
     specialty: baseSchema.specialty.optional(),
     phoneNumber: baseSchema.phoneNumber.optional(),
     email: baseSchema.email.optional(),
-    providedServices: baseSchema.providedServices.optional()
 }).strict()
 

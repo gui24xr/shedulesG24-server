@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { formatDoc } from "../config/database.plugins.js";
+
 
 const companyBranchSchema = new mongoose.Schema({
   name: {
@@ -30,7 +30,6 @@ const companyBranchSchema = new mongoose.Schema({
   
 });
 
-companyBranchSchema.plugin(formatDoc)
 
 companyBranchSchema.virtual("company", {
   ref: 'Company',

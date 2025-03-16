@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { logger } from '../../../config/logger.config.js'
 import {auth }from'express-oauth2-jwt-bearer'
 
 // Middleware para verificar el token
@@ -11,27 +12,28 @@ export const verifyAuth0Token = auth({
 
 
 
-
-
-export const getUserDataFromAuth0Token = async (requestHeaderAuthorization) => {
-    //console.log('Pasando x ge token', req.headers.authorization)
+export const getUserDataFromAuth0Token = async (req,res,next) => {
+   
     try{
         const response =  await axios.get(`${process.env.AUTH0_ISSUERBASEURL}/userinfo`, {
             headers: {
-                Authorization: requestHeaderAuthorization
+                Authorization: req.headers.authorization
             }
         });
-        return {
+
+        console.log('User de auth0: ', response.data)
+        
+        req.auth0UserData = {
           email:response.data.email,
           userName: response.data.nickname,
           firstName: response.data.given_name,
           lastName: response.data.family_name,
-          profilePicture: response.data.picture
         }
+
+        return  next()
     }catch(error){
-        console.error(error)
+        logger.error(error)
         throw new Error('No se pudieron extraer los datos desde el servicio de autorizacion externo...')
     }
   }
-
 

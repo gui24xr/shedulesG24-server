@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { formatDoc } from "../config/database.plugins.js";
+
 
 const companySchema = new mongoose.Schema({
   userId: {
@@ -47,21 +47,6 @@ const companySchema = new mongoose.Schema({
     default: null,  
   
 },
-  providedServices: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "ProvidedService",
-      default: [],
-    },
-  ],
-
-  branchs: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "CompanyBranch",
-      default: [],
-    },
-  ],
 
   customersCounter: {
     type: Number,
@@ -69,16 +54,9 @@ const companySchema = new mongoose.Schema({
     default: 0,
   },
 
-  customers: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Customer",
-      default: [],
-    },
-  ],
 });
 
-companySchema.plugin(formatDoc)
+
 
 companySchema.virtual("user", {
   ref: 'User',

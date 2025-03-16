@@ -21,7 +21,7 @@ bookingSchema.createSchema = z.object({
     sheduleId: baseSchema.sheduleId.optional(),
     slotId:baseSchema.slotId.optional(),
     note: baseSchema.note.optional(),
-    bookings: baseSchema.bookings.optional()
+
 }).strict()
 
 
@@ -32,9 +32,19 @@ bookingSchema.querySchema = z.object({
     sheduleId: baseSchema.sheduleId.optional(),
 }).strict()
 
+
+bookingSchema.updateSchema = z.object({
+    customerId: baseSchema.customerId.optional(),
+    status: baseSchema.status.optional(),
+    sheduleId: baseSchema.sheduleId.optional(),
+    slotId: baseSchema.slotId.optional(),
+    note: baseSchema.note.optional(),
+}).strict()
+
+
 bookingSchema.updateStatusSchema = z.object({
     status: z.enum(["pending", "confirmed", "completed", "cancelled"]),
-    bookings: baseSchema.bookings.optional()
+    
 }).strict()
 
 bookingSchema.updateNoteSchema = z.object({

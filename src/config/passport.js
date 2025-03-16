@@ -1,4 +1,5 @@
 import passport from 'passport'
+import { logger } from './logger.config.js';
 import jwt from 'passport-jwt'
 import { UsersManager } from '../api/users/users.manager.js';
 
@@ -19,14 +20,16 @@ passport.use("jwt", new jwt.Strategy({
     secretOrKey: process.env.SERVER_JWT_SIGN
 }, async (jwt_payload, done) => {
     try{
-        //Si llego a aca entonces ya pasport agarro la cookie, comprono y extrajo el token y puso en jwtPayload la info del token
-        //console.log('Pase por el calback de passport JWT y este es el payload del token: ', jwt_payload)
-        //De la info del token tomo userID que es lo que me interesa para buscar el user en la DB
+        //Si llego a aca entonces ya pasport agarro la cookie, comprono y extrajo el token y puso en jwtPayload la info del token. Busco el user en la BD con la info del jwtPayload.
         const foundUser = await usersManager.getUserById(jwt_payload.userId)
-        //console.log('Found Usr: ', foundUser)
+        //El metodo done es el que pone en req.user el user lo que queremos, nosotros pondremos el foundUser
         return done(null, foundUser);
     }catch(error){
-        console.log('Erroe en passport al comprobar: ', error)
+         logger.error({ 
+            message: error.message,
+            name: error.name,
+            stack: error.stack
+          });
         return done(error);
     }
 }))

@@ -1,22 +1,36 @@
-// Plugin para transformar _id a id y eliminar __v
-export const formatDoc = (schema) => {
-  schema.set("toJSON", {
-    virtuals: true,
-    transform: (doc, ret) => {
-      delete ret.__v;
-      ret.id = ret._id.toString();
-      delete ret._id;
-      return ret;
-    }
+import mongoose from 'mongoose'
+import { logger } from './logger.config.js'
+
+
+mongoose.plugin((schema) => {
+    logger.info('Aplicando plugin de timestamps...');
+    schema.set('timestamps', true);
   });
 
-  schema.set("toObject", {
-    virtuals: true,
-    transform: (doc, ret) => {
-      delete ret.__v;
-      ret.id = ret._id.toString();
-      delete ret._id;
-      return ret;
-    }
-  });
-};
+  mongoose.plugin((schema) => {
+    logger.info('Aplicando plugin toJson...');
+    schema.set("toJSON", {
+      virtuals: true,
+      transform: (doc, ret) => {
+        delete ret.__v;
+        ret.id = ret._id.toString();
+        delete ret._id;
+        return ret;
+      }
+    })
+  })
+  
+    
+  
+  mongoose.plugin((schema) => {
+    logger.info('Aplicando plugin toObject...');
+    schema.set("toObject", {
+      virtuals: true,
+      transform: (doc, ret) => {
+        delete ret.__v;
+        ret.id = ret._id.toString();
+        delete ret._id;
+        return ret;
+      }
+    });
+})

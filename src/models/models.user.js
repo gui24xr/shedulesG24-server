@@ -1,7 +1,12 @@
 import mongoose from "mongoose";
-import { formatDoc } from "../config/database.plugins.js";
+
 
 const userSchema = new mongoose.Schema({
+  authProvider: { 
+    type: String, 
+    enum: ['local', 'auth0'], 
+    required: true 
+  },
   email: {
     type: String,
     required: true,  
@@ -46,33 +51,14 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: new Date()
   },
-  companies: {
-    type: [{ 
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Company"
-    }],
-    required: false,
-    default: []
-  },
+ 
 
 
   });
 
-userSchema.plugin(formatDoc)
 
-//Automatizacion de populates en consultas create/save.
-/*
-userSchema.post("save", async function(doc, next) {
-  await doc.populate(["companies"])
-  next();
-});
-*/
 
-//Automatizacion de populates en consultas find()
-userSchema.pre(/^find/, function(next) {
-  this.populate(["companies"]);
-  next();
-});
+
 
 
 const modelName = "User";

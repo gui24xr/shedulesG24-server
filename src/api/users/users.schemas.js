@@ -1,11 +1,13 @@
-import {optional, z} from 'zod'
+import {z} from 'zod'
 import { validatorObject } from '../../common/commonSchemas.js'
 
 export const userSchema = {}
 
+
 const baseSchema = {
+    authProvider: validatorObject.isValidEnum('authProvider',['local','auth0']),
     email: validatorObject.isValidEmail('email'),
-    role:validatorObject.isValidEnum('role',["dev", "provider", "customer", "company","admin"]),
+    role:validatorObject.isValidEnum('role',process.env.USER_ROLES ? [...process.env.USER_ROLES.split(',')] : []),
     userName: validatorObject.isValidUserName('userName'),
     firstName: validatorObject.isValidName('firstName'),
     lastName: validatorObject.isValidName('lastName'),
@@ -19,6 +21,7 @@ const baseSchema = {
 
 
 userSchema.createSchema = z.object({
+    authProvider: baseSchema.authProvider,
     email: baseSchema.email,
     role: baseSchema.role,
     userName: baseSchema.userName,
@@ -28,7 +31,6 @@ userSchema.createSchema = z.object({
     profilePicture: baseSchema.profilePicture.optional(),
     enabled: baseSchema.enabled.optional(),
     lastLogin: baseSchema.lastLogin.optional(), 
-    companies:baseSchema.companies.optional()
 }).strict()
 
 
@@ -38,7 +40,6 @@ userSchema.querySchema = z.object({
     role: baseSchema.role.optional(),
     userName: baseSchema.userName.optional(),
     lastLogin: baseSchema.lastLogin.optional(), 
-    companies:baseSchema.companies.optional()
 }).strict()
 
 
@@ -50,6 +51,5 @@ userSchema.updateSchema = z.object({
     profilePicture: baseSchema.profilePicture.optional(),
     enabled: baseSchema.enabled.optional(),
     lastLogin: baseSchema.lastLogin.optional(), 
-    companies:baseSchema.companies.optional()
 }).strict()
 

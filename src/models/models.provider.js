@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { formatDoc } from "../config/database.plugins.js";
+
 
 const providerSchema = new mongoose.Schema({
   companyId: {
@@ -31,13 +31,9 @@ const providerSchema = new mongoose.Schema({
     required: false,  
     default: null
   },
-  providedServices:{
-    type :[{ type: mongoose.Schema.Types.ObjectId,ref: "ProvidedService"}],
-    default: []
-  }, 
 });
 
-providerSchema.plugin(formatDoc)
+
 
 providerSchema.virtual("company", {
   ref: 'Company',

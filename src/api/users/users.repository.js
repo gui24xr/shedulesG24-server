@@ -11,7 +11,7 @@ class UsersRepository extends MongooseRepository{
     async getUserByEmail(email) {
         try{
             const founded = await this.model.findOne({email:email}).exec()
-            if (!founded) throw new Error(`user con email ${email} no encontrado...`) 
+            
             return founded.toObject({ virtuals: true });  
         }catch(error){
             throw error

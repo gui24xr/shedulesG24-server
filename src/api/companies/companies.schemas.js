@@ -12,10 +12,7 @@ const baseSchema = {
     phoneNumber: validatorObject.isValidPhone('phoneNumber'),
     email: validatorObject.isValidEmail('email'),
     location: validatorObject.isValidLocation('location'),
-    providedServices: validatorObject.isArrayOfValidIdOrEmptyArray('providedServices'),
-    branchs: validatorObject.isArrayOfValidIdOrEmptyArray('branchs'),
     customerCounter: z.number().int().min(0),
-    customers: validatorObject.isArrayOfValidIdOrEmptyArray('customers'),
 }
 
 
@@ -46,9 +43,6 @@ companySchema.updateSchema = z.object({
     phoneNumber:baseSchema.phoneNumber.optional(),
     email: baseSchema.email,
     location: baseSchema.location.optional(),
-    providedService: baseSchema.providedServices.optional(),
-    branchs: baseSchema.branchs.optional(),
     customerCounter: baseSchema.customerCounter.optional(),
-    customers: baseSchema.customers.optional() 
 }).strict()
 

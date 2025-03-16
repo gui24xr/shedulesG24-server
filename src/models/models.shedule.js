@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { formatDoc } from "../config/database.plugins.js";
+
 
 const sheduleSchema = new mongoose.Schema({
  providedServiceId: {
@@ -14,6 +14,7 @@ const sheduleSchema = new mongoose.Schema({
   required: false,
   default: null
 },
+/*
   slots: {
     type: [{ 
       type: mongoose.Schema.Types.ObjectId,
@@ -36,10 +37,11 @@ const sheduleSchema = new mongoose.Schema({
      required: false,
      default: null
   }
+     */
 
 })
  
-sheduleSchema.plugin(formatDoc)
+
 
 sheduleSchema.virtual("providedService", {
   ref: 'ProvidedService',

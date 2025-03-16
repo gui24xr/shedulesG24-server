@@ -6,8 +6,8 @@ import passport from './config/passport.js'
 import {z} from 'zod'
 import {
   pdfRouter,
-    authRouter,
-    
+    authDevsRouter,
+    authUsersRouter,
     bookingsDevRouter,
     providedServicesDevRouter,
     shedulesDevRouter,
@@ -28,6 +28,7 @@ export const app = express()
 app.use(morgan("dev"))
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }))
+app.use(express.static("public"))
 app.use(cookieParser(process.env.SERVER_COOKIES_SIGN))
 app.use(cors({
     origin: "http://localhost:5173", 
@@ -39,7 +40,8 @@ app.use(passport.initialize())
 
 
 app.use('/api/docs', pdfRouter)
-app.use('/api/auth', authRouter)
+app.use('/api/auth', authDevsRouter)
+app.use('/api/auth', authUsersRouter)
 app.use('/api/dev/companies', companiesDevRouter)
 app.use('/api/dev/shedules', shedulesDevRouter)
 app.use('/api/dev/providedservices', providedServicesDevRouter)

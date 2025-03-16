@@ -1,3 +1,4 @@
+import '../config/database.plugins.js'
 import  Booking  from "./models.booking.js";
 import  Company  from "./models.company.js";
 import  CompanyBranch  from "./models.companyBranch.js";

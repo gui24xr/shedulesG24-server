@@ -1,14 +1,14 @@
 import mongoose from 'mongoose'
-
-const DB_URL = process.env.DB_URL
+import { logger } from './logger.config.js'
 
 
 export async function connectToDatabase(){
     try{
-        await mongoose.connect(DB_URL)
-        console.log('Conectado a la base de datos...!')
+        
+        await mongoose.connect(process.env.DB_URL_LOCAL)
+        logger.info('Conectado a la base de datos...!')
     }catch(err){
-        console.error('Error al conectarse a la base datos.')
+        logger.error('Error al conectarse a la base datos.')
         throw err
     }
 

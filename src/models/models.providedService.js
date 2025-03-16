@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { formatDoc } from "../config/database.plugins.js";
+
 
 const providedServiceSchema = new mongoose.Schema({
   companyId: {
@@ -38,7 +38,7 @@ const providedServiceSchema = new mongoose.Schema({
   }
 });
 
-providedServiceSchema.plugin(formatDoc)
+
 
 
 providedServiceSchema.virtual("company", {

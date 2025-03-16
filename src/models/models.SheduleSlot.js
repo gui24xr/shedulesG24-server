@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { formatDoc } from "../config/database.plugins.js";
+
 
 const sheduleSlotSchema = new mongoose.Schema({
   sheduleId: {
@@ -43,7 +43,7 @@ const sheduleSlotSchema = new mongoose.Schema({
     
 });
 
-sheduleSlotSchema.plugin(formatDoc)
+
 
 sheduleSlotSchema.virtual("currentBooking", {
   ref: 'Booking',

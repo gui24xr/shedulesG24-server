@@ -9,7 +9,8 @@ const baseSchema = {
     firstName: validatorObject.isValidName('firstName'),
     lastName: validatorObject.isValidName('lastName'),
     password: validatorObject.isValidPassword('password'),
-    devPasswordKey: validatorObject.isValidDevPasswordSecretKey('devPasswordKey')
+    devPasswordKey: validatorObject.isValidDevPasswordSecretKey('devPasswordKey'),
+    profilePicture: validatorObject.isValidImageURL('profilePicture')
 }
     
 
@@ -20,12 +21,21 @@ authSchema.createDevSchema = z.object({
     firstName: baseSchema.firstName,
     lastName: baseSchema.lastName,
     password: baseSchema.password,
-    devPasswordKey: baseSchema.devPasswordKey
+    devPasswordKey: baseSchema.devPasswordKey,
 }).strict()
+
 
 authSchema.loginDevSchema = z.object({
     email: baseSchema.email,
     password: baseSchema.password
+}).strict()
+
+
+authSchema.createAuth0UserSchema = z.object({
+    email: baseSchema.email,
+    userName: baseSchema.userName,
+    firstName: baseSchema.firstName,
+    lastName: baseSchema.lastName,
 }).strict()
 
 /*

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { formatDoc } from "../config/database.plugins.js";
+
 
 const customerSchema = new mongoose.Schema({
   dni: {
@@ -49,7 +49,7 @@ const customerSchema = new mongoose.Schema({
 //CLAVE UNICA
 customerSchema.index({ dni: 1, companyId: 1 }, { unique: true });
 
-customerSchema.plugin(formatDoc)
+
 
 
 const modelName = "Customer";

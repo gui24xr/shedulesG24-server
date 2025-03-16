@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { formatDoc } from "../config/database.plugins.js";
 
 const bookingSchema = new mongoose.Schema({
   customerId: {
@@ -11,11 +10,6 @@ const bookingSchema = new mongoose.Schema({
     type: String,
     enum: ["pending", "confirmed", "completed", "cancelled"], 
     default: "pending",
-  },
-  scheduledAt: {
-    type: Date,  
-    required: true, 
-    default: Date.now()
   },
   sheduleId: {
     type: mongoose.Schema.Types.ObjectId, 
@@ -38,7 +32,7 @@ const bookingSchema = new mongoose.Schema({
 });
 
 
-bookingSchema.plugin(formatDoc)
+
 
 bookingSchema.virtual("customer", {
   ref: 'Customer',
