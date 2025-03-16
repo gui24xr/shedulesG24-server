@@ -22,3 +22,6 @@ console.log(slotXExceedsSLotYOnBothEnds(newSlot,slot4))
 console.log(slotXisPartialOfSlotY(newSlot,slot3))
 console.log(slotXisPartialOfSlotY(newSlot,slot3))
 console.log(slotXExceedsSLotYOnBothEnds(newSlot,slot3))
+
+
+

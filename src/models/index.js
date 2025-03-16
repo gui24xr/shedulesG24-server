@@ -5,7 +5,7 @@ import  CompanyBranch  from "./models.companyBranch.js";
 import  Customer  from "./models.customer.js";
 import  NotificationsConfig  from "./models.NotificationsConfig.js";
 import  ProvidedService  from "./models.providedService.js";
-import  Provider  from "./models.provider.js";
+import  Employee  from "./models.employee.js";
 import  Shedule  from "./models.shedule.js";
 import  SheduleSlot from "./models.SheduleSlot.js";
 import  WaitingList from "./models.WaitingList.js";
@@ -19,7 +19,7 @@ export {
     Customer,
     NotificationsConfig,
     ProvidedService,
-    Provider,
+    Employee,
     Shedule,
     SheduleSlot,
     WaitingList,

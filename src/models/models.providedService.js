@@ -15,9 +15,9 @@ const providedServiceSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  providerId:{ 
+  employeeId:{ 
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Provider",
+    ref: "Employee",
     default: null
   }, 
   sheduleId: {
@@ -48,9 +48,9 @@ providedServiceSchema.virtual("company", {
   justOne: true
 });
 
-providedServiceSchema.virtual("provider", {
-  ref: 'Provider',
-  localField: 'providerId',
+providedServiceSchema.virtual("employee", {
+  ref: 'Employee',
+  localField: 'employeeId',
   foreignField: '_id',
   justOne: true
 });
@@ -78,7 +78,7 @@ providedServiceSchema.post("save", async function(doc, next) {
 */
 //Automatizacion de populates en consultas find()
 providedServiceSchema.pre(/^find/, function(next) {
-  this.populate(["company","provider","companyBranch","notificationsConfig"]);
+  this.populate(["company","employee","companyBranch","notificationsConfig"]);
   next();
 });
 

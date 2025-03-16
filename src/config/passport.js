@@ -1,7 +1,7 @@
 import passport from 'passport'
 import { logger } from './logger.config.js';
 import jwt from 'passport-jwt'
-import { UsersManager } from '../api/users/users.manager.js';
+import { UsersManager } from '../manager/users.manager.js';
 
 
 const usersManager = new UsersManager()

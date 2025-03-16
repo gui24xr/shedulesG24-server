@@ -15,11 +15,11 @@ import {
     companiesDevRouter,
     companyBranchsDevRouter,
     notificationsConfigsDevRouter,
-    providersDevRouter,
+    employeesDevRouter,
     usersDevRouter,
     waitingListsDevRouter,
     sheduleSlotsDevRouter,
-} from './api/routes.index.js'
+} from './routes/index.js'
 
 
 
@@ -49,7 +49,7 @@ app.use('/api/dev/customers', customersDevRouter)
 app.use('/api/dev/bookings', bookingsDevRouter)
 app.use('/api/dev/branchs', companyBranchsDevRouter)
 app.use('/api/dev/notificationsconfigs', notificationsConfigsDevRouter)
-app.use('/api/dev/providers', providersDevRouter)
+app.use('/api/dev/employees', employeesDevRouter)
 app.use('/api/dev/users', usersDevRouter)
 app.use('/api/dev/waitinglists', waitingListsDevRouter)
 app.use('/api/dev/sheduleslots',sheduleSlotsDevRouter)

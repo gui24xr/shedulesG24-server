@@ -19,7 +19,7 @@ const bookingSchema = new mongoose.Schema({
   },
   slotId: {
     type: mongoose.Schema.Types.ObjectId, 
-    ref:'Shedule.Slot', 
+    ref:'SheduleSlot', 
     default: null,
     required: false,
   },
