@@ -9,25 +9,21 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true,  
+    required: false,  
     match: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,  // 
+  },
+   companyId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Company",
+    required: false,
+    default: null
   },
   role: {
     type: String,
-    enum: ["dev", "provider", "customer", "company","admin"], 
-    default: "company",
+    enum: ["dev", "owner", "admin", "customer", "employee" ,], 
+    default: "admin",
   },
   userName: {
-    type: String,
-    required: true,  
-    unique: false, 
-  },
-  firstName: {
-    type: String,
-    required: true,  
-    unique: false, 
-  },
-  lastName: {
     type: String,
     required: true,  
     unique: false, 
@@ -56,9 +52,15 @@ const userSchema = new mongoose.Schema({
 
   });
 
+userSchema.index({ email: 1, role: 1, companyId: 1 }, { unique: true });
 
 
-
+userSchema.virtual("company", {
+  ref: 'Company',
+  localField: 'companyId',
+  foreignField: '_id',
+  justOne: true
+});
 
 
 const modelName = "User";

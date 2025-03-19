@@ -5,20 +5,21 @@ import { validatorObject } from '../common/commonSchemas.js'
 export const companySchema = {}
 
 const baseSchema = {
-    userId: validatorObject.isValidId('userId'),
+    companyCode: validatorObject.isValidCompanyCode('companyCode'),
     name: validatorObject.isValidCompanyName('name'),
     description: validatorObject.isValidDescription('description'),
     logoUrl: validatorObject.isValidImageURL('logoURL'),
     phoneNumber: validatorObject.isValidPhone('phoneNumber'),
     email: validatorObject.isValidEmail('email'),
     location: validatorObject.isValidLocation('location'),
-    customerCounter: z.number().int().min(0),
+    customersCounter: z.number().int().min(0),
+    employeesCounter: z.number().int().min(0),
 }
 
 
 
 companySchema.createSchema = z.object({
-    userId: baseSchema.userId,
+    companyCode: baseSchema.companyCode,
     name: baseSchema.name,
     description: baseSchema.description,
     logoUrl: baseSchema.logoUrl.optional(),
@@ -30,7 +31,7 @@ companySchema.createSchema = z.object({
 
 
 companySchema.querySchema = z.object({
-    userId: baseSchema.userId.optional(),
+    companyCode: baseSchema.companyCode.optional(),
     name: baseSchema.name.optional(),
     email: baseSchema.email.optional(),
     location: baseSchema.location.optional()
@@ -38,11 +39,15 @@ companySchema.querySchema = z.object({
 
 
 companySchema.updateSchema = z.object({
+    companyCode: baseSchema.companyCode.optional(),
     name: baseSchema.name.optional(),
     logoUrl: baseSchema.logoUrl.optional(),
     phoneNumber:baseSchema.phoneNumber.optional(),
     email: baseSchema.email,
     location: baseSchema.location.optional(),
-    customerCounter: baseSchema.customerCounter.optional(),
+    customerCounter: baseSchema.customersCounter.optional(),
+    employeesCounter: baseSchema.employeesCounter.optional(),
 }).strict()
+
+//---------------------------------------------------
 

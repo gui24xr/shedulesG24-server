@@ -1,5 +1,5 @@
 import { UsersManager } from "../../manager/users.manager.js"
-import { authSchema } from "./auth.schema.js"
+
 
 const usersManager = new UsersManager()
 
@@ -15,7 +15,9 @@ export const authUsersManager = {
             lastName: auth0UserData.lastName,
             role: 'admin'
        })
-       console.log('paso x aca 3')
+
+
+      
        return authUser
     } catch (error) {
         console.error(error);

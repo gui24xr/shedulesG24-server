@@ -240,3 +240,24 @@ validatorObject.isValidDevPasswordSecretKey = (field) =>
         field ? `en el campo ${field}` : ""
       } debe tener entre 8 y 9 caracteres y solo puede contener letras y números.`,
     });
+
+validatorObject.isValidCompanyCode = (field) =>
+  z.string().regex(/^[A-Z]{3}[0-9]{3}$/, {
+    message: `El código de la empresa ${
+      field ? `en el campo ${field}` : ""
+    } debe tener 3 letras mayúsculas seguidas de 3 números (por ejemplo: ABC123).`,
+  });
+
+validatorObject.isValidRecord = (field) =>
+  z.string().regex(/^\d{6}$/, {
+    message: `El legajo ${
+      field ? `en el campo ${field}` : ""
+    } debe ser un número de 6 dígitos (por ejemplo: 123456).`,
+  });
+
+validatorObject.isValidActivationCode = (field) =>
+  z.string().regex(/^[A-Z][0-9]{5}$/, {
+    message: `El código de activación ${
+      field ? `en el campo ${field}` : ""
+    } debe tener una letra mayúscula seguida de 5 números (por ejemplo: A12345).`,
+  });

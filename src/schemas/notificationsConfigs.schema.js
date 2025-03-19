@@ -1,5 +1,4 @@
 import {z} from 'zod'
-
 import { validatorObject } from '../common/commonSchemas.js'
 
 const baseSchema = {

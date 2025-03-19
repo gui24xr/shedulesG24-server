@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 
 
 const companySchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+  companyCode: {
+    type: String,
+    required: true,
   },
   name: {
     type: String,
@@ -29,7 +29,6 @@ const companySchema = new mongoose.Schema({
     type: String,
     required: true,
     match: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
-    default: null,
   },
   location: {
     type: {
@@ -53,6 +52,12 @@ const companySchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
+  employeesCounter: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+
 
 });
 

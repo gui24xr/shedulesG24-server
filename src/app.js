@@ -8,17 +8,7 @@ import {
   pdfRouter,
     authDevsRouter,
     authUsersRouter,
-    bookingsDevRouter,
-    providedServicesDevRouter,
-    shedulesDevRouter,
-    customersDevRouter,
-    companiesDevRouter,
-    companyBranchsDevRouter,
-    notificationsConfigsDevRouter,
-    employeesDevRouter,
-    usersDevRouter,
-    waitingListsDevRouter,
-    sheduleSlotsDevRouter,
+    devRouter,
 } from './routes/index.js'
 
 
@@ -42,17 +32,7 @@ app.use(passport.initialize())
 app.use('/api/docs', pdfRouter)
 app.use('/api/auth', authDevsRouter)
 app.use('/api/auth', authUsersRouter)
-app.use('/api/dev/companies', companiesDevRouter)
-app.use('/api/dev/shedules', shedulesDevRouter)
-app.use('/api/dev/providedservices', providedServicesDevRouter)
-app.use('/api/dev/customers', customersDevRouter)
-app.use('/api/dev/bookings', bookingsDevRouter)
-app.use('/api/dev/branchs', companyBranchsDevRouter)
-app.use('/api/dev/notificationsconfigs', notificationsConfigsDevRouter)
-app.use('/api/dev/employees', employeesDevRouter)
-app.use('/api/dev/users', usersDevRouter)
-app.use('/api/dev/waitinglists', waitingListsDevRouter)
-app.use('/api/dev/sheduleslots',sheduleSlotsDevRouter)
+app.use('/',devRouter)
 
 
   

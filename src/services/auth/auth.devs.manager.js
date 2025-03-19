@@ -7,9 +7,13 @@ export const authDevManager = {
 
     registerAsDev: async (newDevData) => {
         try {
+            console.log('Aca0')
             authSchema.createDevSchema.parse(newDevData)
+            console.log('Aca1')
             if (newDevData.devPasswordKey !== process.env.DEVS_SECRET_PASSWORD_KEY) throw new Error("Unrecognized dev key")
+                console.log('Aca2')
             const createdUser = await usersManager.createLocalUser({...newDevData, role: 'dev'})
+            console.log('Aca3')
             return createdUser
         } catch (error) {
             throw error

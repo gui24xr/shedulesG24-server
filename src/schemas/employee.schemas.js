@@ -4,43 +4,56 @@ import { validatorObject } from '../common/commonSchemas.js'
 export const employeeSchema = {}
 
 const baseSchema = {
-    userId: validatorObject.isValidId('userId'),
     companyId: validatorObject.isValidId('companyId'),
+    employeeRecord: validatorObject.isValidRecord('employeeRecord'),
+    specialty: validatorObject.isValidName('specialty'),
+    category: validatorObject.isValidEnum('category',["admin", "operative",]),
+    status: validatorObject.isValidEnum('status',["active", "inactive",]),
     firstName: validatorObject.isValidName('firstName'),
     lastName: validatorObject.isValidName('lastName'),
-    specialty: z.string(),
     phoneNumber: validatorObject.isValidPhone('phoneNumber'),
     email: validatorObject.isValidEmail('email'),
+    userId: validatorObject.isValidId('userId'),
 }
 
 
 employeeSchema.createSchema = z.object({
-    userId: baseSchema.userId.optional(),
     companyId: baseSchema.companyId,
+    employeeRecord: baseSchema.employeeRecord,
+    specialty: baseSchema.specialty,
+    category: baseSchema.category,
+    status: baseSchema.status,
     firstName: baseSchema.firstName,
     lastName: baseSchema.lastName,
-    specialty: baseSchema.specialty,
-    phoneNumber: baseSchema.phoneNumber,
-    email: baseSchema.email,
+    phoneNumber: baseSchema.phoneNumber.optional(),
+    email: baseSchema.email.optional(),
+    userId: baseSchema.userId.optional(),
 }).strict()
 
 
 
 employeeSchema.querySchema = z.object({
-    userId: baseSchema.userId.optional(),
     companyId: baseSchema.companyId.optional(),
+    employeeRecord: baseSchema.employeeRecord.optional(),
+    specialty: baseSchema.specialty.optional(),
+    category: baseSchema.category.optional(),
+    status: baseSchema.status.optional(),
     firstName: baseSchema.firstName.optional(),
     lastName: baseSchema.lastName.optional(),
-    specialty: baseSchema.specialty.optional(),
+    phoneNumber: baseSchema.phoneNumber.optional(),
+    email: baseSchema.email.optional(),
+    userId: baseSchema.userId.optional(),
 }).strict()
 
 
 employeeSchema.updateSchema = z.object({
-    userId: baseSchema.userId.optional(),
     companyId: baseSchema.companyId.optional(),
+    employeeRecord: baseSchema.employeeRecord.optional(),
+    specialty: baseSchema.specialty.optional(),
+    category: baseSchema.category.optional(),
+    status: baseSchema.status.optional(),
     firstName: baseSchema.firstName.optional(),
     lastName: baseSchema.lastName.optional(),
-    specialty: baseSchema.specialty.optional(),
     phoneNumber: baseSchema.phoneNumber.optional(),
     email: baseSchema.email.optional(),
 }).strict()

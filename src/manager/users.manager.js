@@ -58,6 +58,7 @@ export class UsersManager {
 
     async createLocalUser(newUserData){
       try{
+        console.log('manager users 1')
         //validar
         const existsUser = await usersRepository.existsUserByEmail(newUserData.email)
         if (existsUser) throw new Error('User ya existe...')
@@ -65,8 +66,8 @@ export class UsersManager {
             authProvider: 'local',
             email: newUserData.email,
             userName: newUserData.userName,
-            firstName: newUserData.firstName,
-            lastName: newUserData.lastName,
+            //firstName: newUserData.firstName,
+            //lastName: newUserData.lastName,
             role: newUserData.role,
             password: await bcrypt.hash(newUserData.password, 12,),
             enabled: true,
@@ -80,14 +81,15 @@ export class UsersManager {
 
     async createOrAuthenticateAuth0User(auth0UserData){    
       try{
+      
         const existsUser = await usersRepository.existsUserByEmail(auth0UserData.email)
         if (!existsUser){
             const createdUser = await usersRepository.create({
                 authProvider: 'auth0',
                 email: auth0UserData.email,
                 userName: auth0UserData.userName,
-                firstName: auth0UserData.firstName,
-                lastName: auth0UserData.lastName,
+                //firstName: auth0UserData.firstName,
+                //lastName: auth0UserData.lastName,
                 role: auth0UserData.role,
                 enabled: true,
             })
@@ -99,6 +101,11 @@ export class UsersManager {
         throw error
       }
     }
+
+
+
+
+    
 
 
 

@@ -2,16 +2,30 @@ import mongoose from "mongoose";
 
 
 const employeeSchema = new mongoose.Schema({
-  userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: false,
-      default: null
-    },
   companyId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Company",
     default: null
+  },
+  employeeRecord: {
+    type: String,
+    required: false,
+    default: null
+  },
+  specialty: {
+    type: String,
+    required: false,
+    default: null
+  },
+  category: { 
+    type: String, 
+    enum: ["admin", "operative",],
+    default: "admin"
+  },
+  status: { 
+    type: String, 
+    enum: ["active", "inactive"],
+    default: "active"
   },
   firstName: {
     type: String,
@@ -21,22 +35,24 @@ const employeeSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  specialty: {
+  email: {
     type: String,
     required: false,
-    default: null
+    match: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+    default: null,
   },
   phoneNumber: {
     type: String,  
     required: false,  
     default: null
   },
-  email: {
-    type: String,
-    match: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
-    required: false,  
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: false,
     default: null
   },
+  
 });
 
 

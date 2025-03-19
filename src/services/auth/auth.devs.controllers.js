@@ -8,10 +8,13 @@ export const authDevsControllers = {
 
     registerAsDev: async (req,res,next) => {
         try{
+            console.log('Aca c1', req.body)
             authSchema.createDevSchema.parse(req.body)
+            console.log('Aca conrtro2')
             const createdUser = await authDevManager.registerAsDev(req.body)
             res.status(201).json({...createdUser})
         }catch(error){
+            console.error(error)
             res.status(500).json({error:error.message})
         }
     },

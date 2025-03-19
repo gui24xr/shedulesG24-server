@@ -9,19 +9,17 @@ const baseSchema = {
     sheduleId: validatorObject.isValidId('sheduleId'),
     slotId: validatorObject.isValidId('slotId'),
     note: validatorObject.isValidDescription('note'),
-    bookings: validatorObject.isArrayOfValidIdOrEmptyArray('bookings')
 }
 
 
 
 
 bookingSchema.createSchema = z.object({
-    customerId: baseSchema.customerId.optional(),
+    customerId: baseSchema.customerId,
     status: baseSchema.status.optional(),
     sheduleId: baseSchema.sheduleId.optional(),
-    slotId:baseSchema.slotId.optional(),
+    slotId:baseSchema.slotId,
     note: baseSchema.note.optional(),
-
 }).strict()
 
 
