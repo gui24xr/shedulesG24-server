@@ -10,8 +10,8 @@ import  Shedule  from "./models.shedule.js";
 import  SheduleSlot from "./models.SheduleSlot.js";
 import  WaitingList from "./models.WaitingList.js";
 import  User  from "./models.user.js";
-import PendingEmployeeUser from './models.pendingEmployeeUser.js';
-import Owner from './models.owner.js';
+import  PendingEmployeeUser from './models.pendingEmployeeUser.js';
+import  Owner from './models.owner.js';
 
 
 export {

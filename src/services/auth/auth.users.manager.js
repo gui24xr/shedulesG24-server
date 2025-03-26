@@ -1,7 +1,8 @@
 import { UsersManager } from "../../manager/users.manager.js"
-
+import { CompanyManager } from "../../manager/companies.manager.js"
 
 const usersManager = new UsersManager()
+const companiesManger = new CompanyManager()
 
 export const authUsersManager = {
 
@@ -16,7 +17,7 @@ export const authUsersManager = {
             role: 'admin'
        })
 
-
+       const userCompany = await companiesManger.getCompanyByUserId(authUser._id)
       
        return authUser
     } catch (error) {

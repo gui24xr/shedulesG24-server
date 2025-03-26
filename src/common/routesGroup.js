@@ -1,6 +1,7 @@
 import express from  'express'
 import { checkRole } from '../middlewares/checkRole.js'
 import passport from '../config/passport.js'
+
 import {    
     bookingsControllers,
     companiesControllers,
@@ -14,27 +15,34 @@ import {
     shedulesControllers,
     sheduleSlotsControllers,
     usersControllers,
-    waitingListsControllers } from '../controllers/index.js'
+    waitingListsControllers 
+} from '../controllers/index.js'
 
 
 class RoutesGroup{
     constructor(baseUrl,middlewareOrderedArray){
         this.router = express.Router()
-        this.baseUrl = baseUrl
+        this.basePath = baseUrl
         this.middlewareOrderedArray = middlewareOrderedArray
-
+        
+        //this.router.use(this.baseUrl,...middlewareOrderedArray)
         this.router.use(...middlewareOrderedArray)
     }
 
-    
     addControllersList(controllerInstanceList){
-        controllerInstanceList.forEach(  item => {
-            this.router.post(`${this.baseUrl}/${item.collectionName}`,  item.controller.create,)
-            this.router.get(`${this.baseUrl}/${item.collectionName}/:id`, item.controller.getOne, )
-            this.router.get(`${this.baseUrl}/${item.collectionName}`, item.controller.getMany)
-            this.router.delete(`${this.baseUrl}/${item.collectionName}`, item.controller.deleteManyById)
-            this.router.put(`${this.baseUrl}/${item.collectionName}/:id`, item.controller.updateById)
-            })
+        try{
+
+            controllerInstanceList.forEach(  item => {
+                this.router.post(`${this.basePath}/${item.collectionName}`,  item.controller.create,)
+                this.router.get(`${this.basePath}/${item.collectionName}/:id`, item.controller.getOne, )
+                this.router.get(`${this.basePath}/${item.collectionName}`, item.controller.getMany)
+                this.router.delete(`${this.basePath}/${item.collectionName}`, item.controller.deleteManyById)
+                this.router.put(`${this.basePath}/${item.collectionName}/:id`, item.controller.updateById)
+                })
+        }catch(error){
+            throw error
+        }
+        
     }
 
 
@@ -52,6 +60,7 @@ class RoutesGroup{
     };
 }
 
+//-----------------------------------------------------------------
 
 const middlewareOrderedArray = [
     passport.authenticate("jwt",{session:false}),
@@ -81,6 +90,6 @@ const routesGroup = new RoutesGroup('/api/dev', middlewareOrderedArray)
 routesGroup.addControllersList(routesNamesAndControllersArray)
 const devRouter = routesGroup.getRouterInstance()
 // Mostrar las rutas del `router`
-console.log(routesGroup.getRoutesList());
+//console.log(routesGroup.getRoutesList());
 
 export default devRouter

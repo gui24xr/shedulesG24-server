@@ -1,4 +1,4 @@
-export class DataBaseError extends Error{
+class DataBaseError extends Error{
     constructor(message) {
         super("Error en base de datos...");
         this.name = 'DataBaseError';
@@ -7,7 +7,7 @@ export class DataBaseError extends Error{
     }
 }
 
-export class UnauthorizedError extends Error {
+class UnauthorizedError extends Error {
     constructor(message) {
         super(message);
         this.name = "UnauthorizedError";
@@ -16,10 +16,16 @@ export class UnauthorizedError extends Error {
 }
 
 
-export class OperationNotAllowedError extends Error {
+class OperationNotAllowedError extends Error {
     constructor(message) {
         super(message);
         this.name = "OperationNotAllowedError";
         this.statusCode = 422; // O 405 dependiendo del caso
     }
+}
+
+export {
+    DataBaseError, 
+    UnauthorizedError, 
+    OperationNotAllowedError
 }

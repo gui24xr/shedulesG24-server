@@ -3,7 +3,7 @@ import { companySchema } from "../schemas/companies.schemas.js";
 import { UnauthorizedError, OperationNotAllowedError } from "../errors/index.js";
 
 
-const companiesRepository = new companiesRepository()
+
 
 
 export class CompanyManager{

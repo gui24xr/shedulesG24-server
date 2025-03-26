@@ -19,7 +19,7 @@ export class MongooseRepository {
 
     async getById(id){
         try{
-            const founded = await this.model.findById(id).exec()/*.populate(this.populateFieldsArray).lean()*/
+            const founded = await this.model.findById(id).exec()
             if (!founded) throw new Error(`Registro id ${id} no encontrado...`)
             return founded.toObject({ virtuals: true });
         }catch(error){
