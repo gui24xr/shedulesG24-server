@@ -6,6 +6,11 @@ const companySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  status: { 
+    type: String, 
+    enum: ["active", "inactive","pending_data"],
+    default: "active"
+  },
   name: {
     type: String,
     required: true,
@@ -62,26 +67,6 @@ const companySchema = new mongoose.Schema({
 });
 
 
-
-companySchema.virtual("user", {
-  ref: 'User',
-  localField: 'userId',
-  foreignField: '_id',
-  justOne: true
-});
-
-//Automatizacion de populates en consultas create/save.
-/*
-companySchema.post("save", async function(doc, next) {
-  await doc.populate(["user","providedServices","branchs"])
-});
-*/
-
-//Automatizacion de populates en consultas find()
-companySchema.pre(/^find/, function(next) {
-  this.populate(["user","providedServices","branchs"]);
-  next();
-});
 
 const modelName = "Company";
 const Company = mongoose.model(modelName, companySchema);

@@ -1,29 +1,16 @@
-import { BasicCrud } from '../common/BasicCrud.js'
-import * as validationsSchemas from '../schemas/index.js'
+import MongooseDynamicApi from 'mongoose-dynamic-api'
 import * as mongooseModels from '../models/index.js'
 
 
-const entitiesList = [
-    {collectionName: 'bookings',model: mongooseModels.Booking, validateSchema: validationsSchemas.bookingSchema},
-    {collectionName: 'companies',model: mongooseModels.Company, validateSchema: validationsSchemas.companySchema},
-    {collectionName: 'customers',model: mongooseModels.Customer, validateSchema: validationsSchemas.customerSchema},
-    {collectionName: 'employees',model: mongooseModels.Employee, validateSchema: validationsSchemas.employeeSchema},
-]
-
-const entitiesListWithoutValidation = [
-    {collectionName: 'bookings',model: mongooseModels.Booking, },
-    {collectionName: 'companies',model: mongooseModels.Company},
-    {collectionName: 'customers',model: mongooseModels.Customer},
-    {collectionName: 'employees',model: mongooseModels.Employee},
-]
+const entitiesListWithoutValidation = Object.keys(mongooseModels).map(item => ({ collectionName: item.toLowerCase(), model: mongooseModels[item]}))
 
 
-
-const basicCrudDevelopment = new BasicCrud({
-    middlewareOrderedArray: [],
-    entitiesList: entitiesListWithoutValidation
+const basicCrudDevelopment = new MongooseDynamicApi({
+        apiName: 'Development Crud Api',
+        middlewareOrderedArray: [],
+        fakeUsersEnabled: true,
+        loggingEnabled: false,
+        entitiesList: entitiesListWithoutValidation
 })
 
 export const developmentRouter = basicCrudDevelopment.getRouter()
-
-//console.log(basicCrudDevelopment.getRoutesList())

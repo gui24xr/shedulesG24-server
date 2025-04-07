@@ -3,45 +3,38 @@ import morgan from 'morgan'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import passport from './config/passport.js'
-import {z} from 'zod'
-import {
-  pdfRouter,
-    authDevsRouter,
-    authUsersRouter,
-    devRouter,
-} from './routes/index.js'
+import { z } from 'zod'
+import { developmentRouter } from './routes/development.routes.js'
+
 
 
 
 export const app = express()
 
 app.use(morgan("dev"))
-app.use(express.json()); 
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static("public"))
 app.use(cookieParser(process.env.SERVER_COOKIES_SIGN))
 app.use(cors({
-    origin: "http://localhost:5173", 
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization'], 
-    credentials: true, 
-  }))
+  origin: "http://localhost:5173",
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+}))
 app.use(passport.initialize())
 
 
-app.use('/api/docs', pdfRouter)
-app.use('/api/auth', authDevsRouter)
-app.use('/api/auth', authUsersRouter)
-app.use('/',devRouter)
+app.use('/developments/api', developmentRouter)
 
 
-  
+
 app.use((error, req, res, next) => {
-  console.error("Middlewares de errores: ", error); 
+  console.error("Middlewares de errores: ", error);
   if (error instanceof z.ZodError)
     return res.status(400).json({
       message: "Error de validación",
-      errors: error.errors, 
+      errors: error.errors,
     })
-  return res.status(500).json({error:error.message})
+  return res.status(500).json({ error: error.message })
 })

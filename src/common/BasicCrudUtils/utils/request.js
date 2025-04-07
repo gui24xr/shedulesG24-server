@@ -1,6 +1,3 @@
-
-
-
 const makeRequestGroup = ({validateSchema,model}) =>{
 
     const postRequest = async (req, res, next) => {
@@ -23,7 +20,7 @@ const makeRequestGroup = ({validateSchema,model}) =>{
         }
     }
 
-    const getByQueryRequest = async (req, res, next) => async (req, res, next) => {
+    const getByQueryRequest = async (req, res, next) => {
         try {
             validateSchema && validateSchema.querySchema.parse(req.query)
             const founded = await model.find(req.query).exec()

@@ -1,0 +1,106 @@
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│    Frontend     │     │     Backend     │     │     Auth0       │
+└────────┬────────┘     └────────┬────────┘     └────────┬────────┘
+         │                        │                        │
+         │ 1. Click Login/Create  │                        │
+         │────────────────────────────────────────────────>│
+         │                        │                        │
+         │ 2. Auth0 autentica     │                        │
+         │    y retorna token     │                        │
+         │<────────────────────────────────────────────────│
+         │                        │                        │
+         │ 3. Envía email + token │                        │
+         │    de Auth0            │                        │
+         │───────────────────────>│                        │
+         │                        │                        │
+         │ 4. Verifica token      │                        │
+         │    Auth0 (MIDDLEWARE)  │                        │
+         │    Si no válido → 401  │                        │
+         │                        │                        │
+         │ 5. Busca en DB         │                        │
+         │    por email           │                        │
+         │                        │                        │
+         │ 6a. Si no existe:      │                        │
+         │    - Crea Company      │                        │
+         │    - Crea User         │                        │
+         │    - Crea Owner        │                        │
+         │    - Estado: needs_profile_completion          │
+         │                        │                        │
+         │ 6b. Si existe:         │                        │
+         │    - Verifica estado   │                        │
+         │                        │                        │
+         │ 7. Genera JWT propio   │                        │
+         │    con userId y role   │                        │
+         │                        │                        │
+         │ 8. Envía JWT en cookie │                        │
+         │<───────────────────────│                        │
+         │                        │                        │
+         │ 9a. Si needs_profile_completion:               │
+         │    - Redirige a formulario                     │
+         │    - Envía datos + JWT                         │
+         │───────────────────────>│                        │
+         │                        │                        │
+         │ 10. Valida JWT         │                        │
+         │     (MIDDLEWARE)       │                        │
+         │                        │                        │
+         │ 11. Valida datos       │                        │
+         │     - Actualiza Owner  │                        │
+         │     - Estado: active   │                        │
+         │                        │                        │
+         │ 12. Respuesta          │                        │
+         │<───────────────────────│                        │
+         │                        │                        │
+         │ 13. Si active:         │                        │
+         │     - Redirige a dashboard                     │
+         │                        │                        │
+
+
+
+
+        Aquí están las respuestas HTTP y mensajes estándar de la industria para cada caso:
+POST /api/auth/owners
+Token de Auth0 inválido o no proporcionado:
+Status: 401 Unauthorized
+Mensaje: "Token de autenticación inválido o no proporcionado"
+Email inválido o no proporcionado:
+Status: 400 Bad Request
+Mensaje: "Email inválido o no proporcionado"
+Owner nuevo creado (necesita completar perfil):
+Status: 201 Created
+Mensaje: "Owner creado exitosamente. Por favor complete su perfil"
+Data: { status: "needs_profile_completion" }
+Owner existente en estado needs_profile_completion:
+Status: 200 OK
+Mensaje: "Por favor complete su perfil"
+Data: { status: "needs_profile_completion" }
+Owner existente y activo:
+Status: 200 OK
+Mensaje: "Usuario autenticado correctamente"
+Data: { status: "active" }
+Error interno del servidor:
+Status: 500 Internal Server Error
+Mensaje: "Error interno del servidor"
+PUT /api/owners
+JWT inválido o no proporcionado:
+Status: 401 Unauthorized
+Mensaje: "No autorizado"
+Datos faltantes o inválidos:
+Status: 400 Bad Request
+Mensaje: "Datos inválidos"
+Data: { errors: [{ field: "campo", message: "mensaje de error" }] }
+Owner no encontrado:
+Status: 404 Not Found
+Mensaje: "Owner no encontrado"
+Perfil actualizado exitosamente:
+Status: 200 OK
+Mensaje: "Perfil actualizado exitosamente"
+Data: { status: "active" }
+Error interno del servidor:
+Status: 500 Internal Server Error
+Mensaje: "Error interno del servidor"
+Consideraciones importantes:
+Los mensajes de error deben ser descriptivos pero no revelar información sensible
+Los códigos de estado HTTP deben ser precisos y seguir los estándares
+Las respuestas exitosas deben incluir la información necesaria para el frontend
+Los errores de validación deben incluir detalles específicos de los campos con error
+No exponer detalles técnicos en los mensajes de error en producción

@@ -21,7 +21,7 @@ const ownerSchema = new mongoose.Schema({
   },
   status: { 
     type: String, 
-    enum: ["active", "inactive"],
+    enum: ["active", "inactive","needs_profile_completion"],
     default: "active"
   },
   firstName: {
@@ -37,6 +37,7 @@ const ownerSchema = new mongoose.Schema({
     required: false,  
     default: null
   },
+
 });
 
 

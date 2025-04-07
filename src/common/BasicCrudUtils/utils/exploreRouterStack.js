@@ -11,14 +11,9 @@ const exploreRouterStack = (router) => {
     }
 
 
-const extractUrlInfoFromReqObject = (req) =>{
-    return{
-        hostUrl: `${req.protocol}://${req.get('host')}`,
-        baseUrl: req.baseUrl
-    }
-}   
+  
 
 export {
     exploreRouterStack,
-    extractUrlInfoFromReqObject
+
 } 
