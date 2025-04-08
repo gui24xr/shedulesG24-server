@@ -13,6 +13,18 @@ const baseSchema = {
     phoneNumber: validatorObject.isValidPhone('phone')
 }
 
+const baseOwnerSchema = z.object({
+    email: baseSchema.email,
+    companyId: baseSchema.companyId,
+    userId: baseSchema.userId,
+    status: baseSchema.status,
+    firstName: baseSchema.firstName,
+    lastName: baseSchema.lastName,
+    phoneNumber: baseSchema.phoneNumber
+})
+
+
+                            
 
 ownerSchema.createSchema = z.object({
     email: baseSchema.email,
@@ -44,3 +56,4 @@ ownerSchema.updateSchema = z.object({
     phoneNumber: baseSchema.phoneNumber.optional(),
 }).strict()
 
+export default baseOwnerSchema;

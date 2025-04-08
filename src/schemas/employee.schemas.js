@@ -16,6 +16,19 @@ const baseSchema = {
     userId: validatorObject.isValidId('userId'),
 }
 
+const baseEmployeeSchema = z.object({
+    companyId: baseSchema.companyId,
+    employeeRecord: baseSchema.employeeRecord,
+    specialty: baseSchema.specialty,
+    category: baseSchema.category,
+    status: baseSchema.status,
+    firstName: baseSchema.firstName,
+    lastName: baseSchema.lastName,
+    phoneNumber: baseSchema.phoneNumber,
+    email: baseSchema.email,
+    userId: baseSchema.userId,
+})
+
 
 employeeSchema.createSchema = z.object({
     companyId: baseSchema.companyId,
@@ -58,3 +71,4 @@ employeeSchema.updateSchema = z.object({
     email: baseSchema.email.optional(),
 }).strict()
 
+export default baseEmployeeSchema;

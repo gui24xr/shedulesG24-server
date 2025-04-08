@@ -13,6 +13,15 @@ const baseSchema = {
     notificationsConfigId: validatorObject.isValidId('notificationsConfigId') 
 }
 
+const baseProvidedServiceSchema = z.object({
+    companyId: baseSchema.companyId,
+    name: baseSchema.name,
+    description: baseSchema.description,
+    employeeId: baseSchema.employeeId,
+    sheduleId: baseSchema.sheduleId,
+    companyBranchId: baseSchema.companyBranchId,
+    notificationsConfigId: baseSchema.notificationsConfigId
+})
 
 providedServiceSchema.createSchema = z.object({
     companyId: baseSchema.companyId,
@@ -41,3 +50,4 @@ providedServiceSchema.updateSchema = z.object({
     employeeId: baseSchema.employeeId.optional(),
 }).strict()
 
+export default baseProvidedServiceSchema;

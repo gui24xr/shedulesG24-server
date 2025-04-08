@@ -10,6 +10,13 @@ const baseSchema = {
     isAutomatic: validatorObject.isValidBoolean('isAutomatic')
 }
 
+const baseNotificationsConfigSchema = z.object({
+    companyId: baseSchema.companyId,
+    whatsAppPhoneNumber: baseSchema.whatsAppPhoneNumber,
+    smsPhoneNumber: baseSchema.smsPhoneNumber,
+    email: baseSchema.email,    
+})
+
 export const notificationsConfigSchema = {}
 
 notificationsConfigSchema.createSchema = z.object({
@@ -37,3 +44,5 @@ notificationsConfigSchema.updateEmailConfigSchema= z.object({
     isEnabled: baseSchema.isEnabled.optional(),
     isAutomatic: baseSchema.isAutomatic.optional()
 }).strict()
+
+export default baseNotificationsConfigSchema;

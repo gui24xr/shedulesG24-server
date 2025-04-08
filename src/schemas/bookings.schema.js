@@ -3,6 +3,15 @@ import { validatorObject } from '../common/commonSchemas.js'
 
 export const bookingSchema = {}
 
+const baseBookingSchema = z.object({
+    customerId: validatorObject.isValidId('customerId'),
+    status: validatorObject.isValidEnum('status',["pending", "confirmed", "completed", "cancelled"]),
+    sheduleId: validatorObject.isValidId('sheduleId'),
+    slotId: validatorObject.isValidId('slotId'),
+    note: validatorObject.isValidDescription('note'),
+})
+
+
 const baseSchema = {
     customerId: validatorObject.isValidId('customerId'),
     status: validatorObject.isValidEnum('status',["pending", "confirmed", "completed", "cancelled"]),
@@ -48,3 +57,5 @@ bookingSchema.updateStatusSchema = z.object({
 bookingSchema.updateNoteSchema = z.object({
     note: baseSchema.note
 }).strict()
+
+export default baseBookingSchema;

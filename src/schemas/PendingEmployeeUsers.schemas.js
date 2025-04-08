@@ -12,6 +12,13 @@ const baseSchema = {
     status: validatorObject.isValidEnum('status',["pending", "completed",]),
 }
 
+const basePendingEmployeeUserSchema = z.object({
+    companyId: baseSchema.companyId,
+    employeeRecord: baseSchema.employeeRecord,
+    activationCode: baseSchema.activationCode,
+    role: baseSchema.role,
+    status: baseSchema.status.optional(),
+})
 
 pendingEmployeeUserSchema.createSchema = z.object({
     companyId: baseSchema.companyId,
@@ -35,4 +42,6 @@ pendingEmployeeUserSchema.updateSchema = z.object({
     role: baseSchema.role.optional(),
     status: baseSchema.status.optional(),
 }).strict()
+
+export default basePendingEmployeeUserSchema;
 

@@ -14,6 +14,16 @@ const baseSchema = {
   email: validatorObject.isValidEmail('email')
 }
 
+const baseCustomerSchema = z.object({
+  userId: validatorObject.isValidId('userId'),
+  dni: validatorObject.isValidDNI('dni'),
+  customerNumber: z.string(),
+  companyId: validatorObject.isValidId('companyId'),
+  firstName: validatorObject.isValidName('firstName'),
+  lastName: validatorObject.isValidName('lastName'),
+  phoneNumber: validatorObject.isValidPhone('phoneNumber'),
+  email: validatorObject.isValidEmail('email')
+})
 
 customerSchema.createSchema = z.object({
   userId: baseSchema.userId.optional(),
@@ -45,3 +55,5 @@ customerSchema.updateSchema = z.object({
   email: baseSchema.email.optional(),
   phoneNumber: baseSchema.phoneNumber.optional()
 }).strict()
+
+export default baseCustomerSchema;

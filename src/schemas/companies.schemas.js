@@ -4,6 +4,19 @@ import { validatorObject } from '../common/commonSchemas.js'
 
 export const companySchema = {}
 
+
+const baseCompanySchema = z.object({
+    companyCode: validatorObject.isValidCompanyCode('companyCode'),
+    name: validatorObject.isValidCompanyName('name'),
+    description: validatorObject.isValidDescription('description'),
+    logoUrl: validatorObject.isValidImageURL('logoURL'),
+    phoneNumber: validatorObject.isValidPhone('phoneNumber'),
+    email: validatorObject.isValidEmail('email'),
+    location: validatorObject.isValidLocation('location'),
+    customersCounter: z.number().int().min(0),
+    employeesCounter: z.number().int().min(0),
+})
+ 
 const baseSchema = {
     companyCode: validatorObject.isValidCompanyCode('companyCode'),
     name: validatorObject.isValidCompanyName('name'),
@@ -51,3 +64,4 @@ companySchema.updateSchema = z.object({
 
 //---------------------------------------------------
 
+export default baseCompanySchema;

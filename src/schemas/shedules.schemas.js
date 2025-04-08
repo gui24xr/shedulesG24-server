@@ -8,6 +8,12 @@ const baseSchema = {
     companyId: validatorObject.isValidId('companyId'),
 }
 
+const baseSheduleSchema = z.object({
+    providedServiceId: baseSchema.providedServiceId,
+    companyId: baseSchema.companyId,
+})
+
+
 
 shedulesSchema.createSchema = z.object({
     providedServiceId: baseSchema.providedServiceId,
@@ -27,3 +33,4 @@ shedulesSchema.updateSchema = z.object({
 }).strict()
 
 
+export default baseSheduleSchema;

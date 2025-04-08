@@ -14,6 +14,13 @@ const baseSchema = {
     canceledBookings: validatorObject.isArrayOfValidIdOrEmptyArray('canceledBookings')
 }
 
+const baseSheduleSlotSchema = z.object({
+    sheduleId: baseSchema.sheduleId,
+    type: baseSchema.type,
+    priority: baseSchema.priority,
+    startDateTime: baseSchema.startDateTime,
+    endDateTime: baseSchema.endDateTime,
+})
 
 sheduleSlotSchema.createSchema = z.object({
     sheduleId: baseSchema.sheduleId,
@@ -49,3 +56,4 @@ sheduleSlotSchema.updateSchema = z.object({
     currentBooking: baseSchema.currentBookingId.optional(),
 }).strict()
 
+export default baseSheduleSlotSchema;

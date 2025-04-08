@@ -15,6 +15,12 @@ const baseSchema = {
     items: validatorObject.isArrayOfValidObjects('items', itemObject)
 }
 
+const baseWaitingListSchema = z.object({
+    sheduleId: baseSchema.sheduleId,
+    items: baseSchema.items
+})
+
+
 
 waitingListSchema.createSchema = z.object({
     sheduleId: baseSchema.sheduleId,
@@ -34,3 +40,4 @@ waitingListSchema.updateSchema = z.object({
 }).strict()
 
 
+export default baseWaitingListSchema;

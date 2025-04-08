@@ -3,6 +3,18 @@ import { validatorObject } from '../common/commonSchemas.js'
 
 export const userSchema = {}
 
+const baseUserSchema = z.object({
+    authProvider: validatorObject.isValidEnum('authProvider',['local','auth0']),
+    email: validatorObject.isValidEmail('email'),
+    companyId: validatorObject.isValidId('companyId'),
+    role:validatorObject.isValidEnum('role',["dev", "owner", "admin", "customer", "employee" ]),
+    userName: validatorObject.isValidUserName('userName'),
+    password: validatorObject.isValidPassword('password'),
+    profilePicture: validatorObject.isValidImageURL('profilePicture'),
+    enabled: validatorObject.isValidBoolean('enabled'),
+    lastLogin: validatorObject.isValidDateTime('lastLogin'),
+})
+
 
 const baseSchema = {
     authProvider: validatorObject.isValidEnum('authProvider',['local','auth0']),
@@ -16,7 +28,6 @@ const baseSchema = {
     lastLogin: validatorObject.isValidDateTime('lastLogin'),
 }
     
-
 
 userSchema.createSchema = z.object({
     authProvider: baseSchema.authProvider.optional(),
@@ -51,3 +62,5 @@ userSchema.updateSchema = z.object({
     lastLogin: baseSchema.lastLogin.optional(), 
 }).strict()
 
+
+export default baseUserSchema;

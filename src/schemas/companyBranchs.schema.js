@@ -9,6 +9,13 @@ const baseSchema = {
     location: validatorObject.isValidLocation('location')
 }
 
+const baseCompanyBranchSchema = z.object({
+  companyId: validatorObject.isValidId('companyId'),
+  name: z.string(),
+  location: validatorObject.isValidLocation('location')
+})
+
+
 
 companyBranchSchema.createSchema = z.object({
   name: baseSchema.name,
@@ -72,6 +79,6 @@ export const companyBranchUpdateSchema = z.object({
 
 
 
-
+export default baseCompanyBranchSchema;
 
 
