@@ -1,35 +1,45 @@
-import { logger } from '../config/logger.config.js'
+function createCompanyCode() {
+    const letters = Array.from({ length: 3 }, () =>
+      String.fromCharCode(65 + Math.floor(Math.random() * 26)) // A-Z
+    ).join('');
+    const numbers = String(Math.floor(Math.random() * 1000)).padStart(3, '0'); // 000–999
+    return `${letters}${numbers}`;
+  }
 
-
-
+  
 export default class UsersService{
-    constructor(usersRepository, userSchema){
+    constructor({usersRepository, companiesRepository,ownersRepository,userSchema, companySchema,ownerSchema, dbTransactionsService, logger = null}){
         this.usersRepository = usersRepository;
         this.userSchema = userSchema;
+        this.dbTransactionsService = dbTransactionsService;
+        this.companiesRepository = companiesRepository;
+        this.ownersRepository = ownersRepository;
+        this.companySchema = companySchema;
+        this.ownerSchema = ownerSchema;
+        this.logger = logger;
     }
 
-    findOneAndUpdate = async(filter,updateData)=>{
+
+    findById = async(id)=>{
         try{
-         
-            const validateFilter = this.userSchema.partial().strict().safeParse(filter)
-            const validateUpdateData = this.userSchema.pick({
-                authProvider:true,
-                companyId:true,
-                role:true,
-                userName:true,
-                password:true,
-                profilePicture:true,
-                enabled:true,
-                lastLogin:true,
-            }).partial().strict().safeParse(updateData)
-            
-            console.log('validateUpdateData',validateUpdateData, updateData)
-            if (!validateFilter.success) throw new Error('Datos de filtro inválidos')
-            if (!validateUpdateData.success) throw new Error('Datos de actualización inválidos')
-                    
-           return await this.usersRepository.findOneAndUpdate(filter,updateData,{ new: true })
+            const foundedUser = await this.usersRepository.findOne({_id:id})
+             if (!foundedUser) throw new Error('User not found !')
+            return {
+               id:foundedUser.id.toString(),
+               authProvider:foundedUser.authProvider,
+               email:foundedUser.email,
+               companyId:foundedUser.companyId.toString(),
+               role:foundedUser.role,
+               enabled:foundedUser.enabled,
+               profilePicture:foundedUser.profilePicture,
+               enabled:foundedUser.enabled,
+               createdAt:foundedUser.createdAt.toISOString(),
+               updatedAt:foundedUser.updatedAt.toISOString(),
+            };
+           
+
         }catch(error){
-            logger.error('Error en el servicio de usuarios findOneAndUpdate',error);
+            if(this.logger) this.logger.error('Error en el servicio de usuarios findById',error);
             throw error;
         }
     }
@@ -38,25 +48,62 @@ export default class UsersService{
         try{
             const validateFilter = this.userSchema.partial().strict().safeParse(filter)         
             if (!validateFilter.success) throw new Error('Datos de filtro inválidos')
-           return await this.usersRepository.findOneAndUpdate(filter,{lastLogin:(new Date()).toISOString()},{ new: true })
+            const foundedUser = await this.usersRepository.findOneAndUpdate(filter,{lastLogin:(new Date()).toISOString()},{ new: true })
+            if(!foundedUser) return null;
+            const foundedOwner = await this.ownersRepository.findOne({userId:foundedUser.id})
+            return { 
+                tokenData:{
+                    userId:foundedUser.id, 
+                    role:foundedUser.role,
+                    enabled:foundedUser.enabled
+                },
+                ownerStatus:foundedOwner.status
+            }
         }catch(error){
-            logger.error('Error en el servicio de usuarios findAndAuthUser',error);
+            if(this.logger) this.logger.error('Error en el servicio de usuarios findAndAuthUser',error);
             throw error;
         }
     }
 
     createUserOwnerAndHisCompany = async(userData)=>{
+        const session = await this.dbTransactionsService.startSession();
         try{
+        
             const validateUserData = this.userSchema.pick({
                 email:true,
                 authProvider:true,
             }).partial().strict().safeParse(userData)
 
             if (!validateUserData.success) throw new Error('Datos de usuario inválidos')
-            return await this.usersRepository.create({...userData, role:'owner', enabled:true, lastLogin:(new Date()).toISOString()})
+   
+            session.startTransaction();
+            const [newCompany] = await this.companiesRepository.create([{ companyCode:createCompanyCode(), email:userData.email}], {session})
+            const [newUser] = await this.usersRepository.create([{...userData, role:'owner', companyId:newCompany.id, enabled:true, lastLogin:(new Date()).toISOString()}],{session})
+            const [newOwner] = await this.ownersRepository.create([{
+                email:newUser.email, 
+                companyId:newCompany.id, 
+                userId:newUser.id,
+                status:'pendingData',
+            }],{session})
+            await session.commitTransaction();
+           
+            return { 
+                tokenData:{
+                    userId:newUser.id, 
+                    role:newUser.role,
+                    enabled:newUser.enabled
+                },
+                ownerStatus:newOwner.status
+            }
+                    
+                
+            
         }catch(error){
-            logger.error('Error en el servicio de usuarios createOwner',error);
+            await session.abortTransaction();
+            if(this.logger) this.logger.error('Error en el servicio de usuarios createOwner',error);
             throw error;
+        } finally{
+            await session.endSession();
         }
     }
 }

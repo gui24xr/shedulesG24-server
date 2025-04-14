@@ -2,60 +2,60 @@ import mongoose from "mongoose";
 
 
 const ownerSchema = new mongoose.Schema({
+  authProvider: { 
+    type: String, 
+    enum: ['local', 'auth0'], 
+    required: true 
+  },
   email: {
     type: String,
     required: false,  
     unique: true,
     match: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,  // 
   },
-  companyId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Company",
-    default: null
-  },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: false,
-    default: null
-  },
   status: { 
     type: String, 
-    enum: ["active", "inactive","needs_profile_completion"],
-    default: "active"
+    enum: ["active", "inactive","pendingData"],
+    default: "pendingData"
   },
   firstName: {
     type: String,
-    required: true,
+    required: false,
+    default: null
   },
   lastName: {
     type: String,
     required: false,
+    default: null
   },
   phoneNumber: {
     type: String,  
     required: false,  
     default: null
   },
-
+  profilePicture: {
+    type: String,
+    required: false,  
+    default: null,
+  },
+  enabled: {
+    type: Boolean,
+    required: true,
+    default: true
+  },
+  lastLogin:{
+    type: Date,
+    default: new Date()
+  },
 });
 
 
-
-ownerSchema.virtual("user", {
-    ref: 'User',
-    localField: 'userId',
-    foreignField: '_id',
-    justOne: true
-  });
-
-ownerSchema.virtual("company", {
-ref: 'Company',
-localField: 'companyId',
-foreignField: '_id',
-justOne: true
+ownerSchema.virtual("companies", {
+  ref: 'Company',
+  localField: '_id',
+  foreignField: 'ownerId',
+  justOne: false
 });
-
 
 
 
@@ -67,11 +67,7 @@ providerSchema.post("save", async function(doc, next) {
 });
 */
 
-//Automatizacion de populates en consultas find()
-ownerSchema.pre(/^find/, function(next) {
-  this.populate(["company"]);
-  next();
-});
+
 
 
 

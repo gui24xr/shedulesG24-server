@@ -2,10 +2,40 @@ import { logger } from '../config/logger.config.js'
 import jwt from 'jsonwebtoken'
 
 export default class AuthService{
-    constructor(usersService){
-        this.usersService = usersService;
+    constructor({ownersService, authSchema}){
+        this.ownersService = ownersService;
+        this.authSchema = authSchema || null;
     }
 
+    handleLoginOrRegisterOwner = async(auth0UserData) => {
+        try{
+            const auth0UserEmail = auth0UserData.email;
+            const authUser = await this.ownersService.findOrCreateAndSetLastLoginToOwner({auth0UserEmail,authProvider:'auth0'})
+            const token = jwt.sign(
+                { ownerId: authUser.id, lastLogin:authUser.lastLogin },
+                process.env.JWT_SECRET_KEY,
+                {expiresIn: "1h"})
+            return { 
+                token, 
+                ownerProfileData: {
+                    email:authUser.email,
+                    status:authUser.status,
+                    firstName:authUser.firstName,
+                    lastName:authUser.lastName,
+                    phoneNumber:authUser.phoneNumber,
+                    profilePicture:authUser.profilePicture,
+                    lastLogin:authUser.lastLogin,
+                    createdAt:authUser.createdAt,
+                    updatedAt:authUser.updatedAt,
+                                    } }
+        }catch(error){
+            logger.error('Error al manejar el login o registro del propietario',error);
+            throw error;
+        }
+    }
+
+    /*
+    Guardado para futra creacion de employess, esto si van a usar login-register
     handleLoginOrRegisterOwner = async(auth0UserData) => {
         try{
             const auth0UserEmail = auth0UserData.email;
@@ -18,17 +48,12 @@ export default class AuthService{
                    })
                 }
 
-                const token = jwt.sign({
-                    userId:authUser.id,
-                    role: authUser.role,
-                    enabled: authUser.enabled
-                },
-                process.env.SERVER_JWT_SIGN,{expiresIn: "1h"})
-
-                return { token, user: authUser }
+            const token = jwt.sign({...authUser.tokenData},process.env.SERVER_JWT_SIGN,{expiresIn: "1h"})
+            return { token, ownerStatus:authUser.ownerStatus }
         }catch(error){
             logger.error('Error al manejar el login o registro del propietario',error);
             throw error;
         }
     }
+        */
 }

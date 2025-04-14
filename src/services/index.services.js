@@ -1,13 +1,14 @@
 import {logger} from '../config/logger.config.js'
 
-import User from '../models/models.user.js'
+import DbTransactionsService from './dbtransactions.service.js'
+
+import {UserClientApp, Company, Owner} from '../models/index.js'
 import AuthService from './auth.services.js'
 import UsersService from './users.service.js'
-import CompaniesService from './companies.services.js'
-import OwnerService from './owners.service.js'
+import OwnersService from './owners.service.js'
 
 
-import { Company, Owner} from '../models/index.js'
+
 
 
 import {
@@ -22,12 +23,31 @@ import {
 
 
 
+const usersService = new UsersService({
+    usersRepository:UserClientApp, 
+    companiesRepository:Company,
+    ownersRepository:Owner,
+    userSchema: userSchema, 
+    companySchema: companySchema,
+    ownerSchema: ownerSchema,
+    dbTransactionsService:DbTransactionsService,
+    logger:logger
+});
 
-const usersService = new UsersService(User, userSchema);
-const authService = new AuthService(usersService, authSchema);
-        const companiesService = new CompaniesService(Company, companySchema, logger);
-const ownerService = new OwnerService(Owner, ownerSchema, logger);
 
-export { usersService, authService, companiesService, ownerService };
+const ownersService = new OwnersService({
+    ownersRepository:Owner,
+    companiesRepository:Company,
+    ownerSchema:ownerSchema,
+    logger:logger   
+});
+
+const authService = new AuthService({
+   ownersService:ownersService, 
+    authSchema
+});
+
+
+export { usersService, authService, ownersService };
 
 

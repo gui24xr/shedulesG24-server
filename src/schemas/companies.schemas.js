@@ -7,6 +7,8 @@ export const companySchema = {}
 
 const baseCompanySchema = z.object({
     companyCode: validatorObject.isValidCompanyCode('companyCode'),
+    ownerId: validatorObject.isValidId('ownerId'),
+    status: validatorObject.isValidEnum('status',['active','inactive','pendingData']),
     name: validatorObject.isValidCompanyName('name'),
     description: validatorObject.isValidDescription('description'),
     logoUrl: validatorObject.isValidImageURL('logoURL'),
@@ -19,6 +21,7 @@ const baseCompanySchema = z.object({
  
 const baseSchema = {
     companyCode: validatorObject.isValidCompanyCode('companyCode'),
+    ownerId: validatorObject.isValidId('ownerId'),
     name: validatorObject.isValidCompanyName('name'),
     description: validatorObject.isValidDescription('description'),
     logoUrl: validatorObject.isValidImageURL('logoURL'),
@@ -32,7 +35,8 @@ const baseSchema = {
 
 
 companySchema.createSchema = z.object({
-    companyCode: baseSchema.companyCode,
+    companyCode: baseSchema.companyCode,    
+    ownerId: baseSchema.ownerId,
     name: baseSchema.name,
     description: baseSchema.description,
     logoUrl: baseSchema.logoUrl.optional(),
@@ -45,6 +49,7 @@ companySchema.createSchema = z.object({
 
 companySchema.querySchema = z.object({
     companyCode: baseSchema.companyCode.optional(),
+    ownerId: baseSchema.ownerId.optional(),
     name: baseSchema.name.optional(),
     email: baseSchema.email.optional(),
     location: baseSchema.location.optional()
@@ -53,6 +58,7 @@ companySchema.querySchema = z.object({
 
 companySchema.updateSchema = z.object({
     companyCode: baseSchema.companyCode.optional(),
+    ownerId: baseSchema.ownerId.optional(),
     name: baseSchema.name.optional(),
     logoUrl: baseSchema.logoUrl.optional(),
     phoneNumber:baseSchema.phoneNumber.optional(),

@@ -4,16 +4,25 @@ import mongoose from "mongoose";
 const companySchema = new mongoose.Schema({
   companyCode: {
     type: String,
-    required: true,
+    required: true, 
+    unique: true,
+   default: ()=> Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+  },
+  ownerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Owner",
+    required: false,
+    default: null
   },
   status: { 
     type: String, 
-    enum: ["active", "inactive","pending_data"],
-    default: "active"
+    enum: ["active", "inactive","pendingData"],
+    default: "pendingData"
   },
   name: {
     type: String,
-    required: true,
+    required: false,
+    default: null
   },
   description: {
     type: String,
@@ -67,6 +76,13 @@ const companySchema = new mongoose.Schema({
 });
 
 
+
+companySchema.virtual("owner", {
+  ref: 'Owner',
+  localField: 'ownerId',
+  foreignField: '_id',
+  justOne: true
+});
 
 const modelName = "Company";
 const Company = mongoose.model(modelName, companySchema);

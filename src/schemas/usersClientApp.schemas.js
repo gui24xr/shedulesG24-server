@@ -1,7 +1,7 @@
 import {z} from 'zod'
 import { validatorObject } from '../common/commonSchemas.js'
 
-export const userSchema = {}
+export const usersClientAppSchema = {}
 
 const baseUserSchema = z.object({
     authProvider: validatorObject.isValidEnum('authProvider',['local','auth0']),
@@ -29,7 +29,7 @@ const baseSchema = {
 }
     
 
-userSchema.createSchema = z.object({
+usersClientAppSchema.createSchema = z.object({
     authProvider: baseSchema.authProvider.optional(),
     email: baseSchema.email.optional(),
     companyId: baseSchema.companyId.optional(),
@@ -43,7 +43,7 @@ userSchema.createSchema = z.object({
 
 
 
-userSchema.querySchema = z.object({
+usersClientAppSchema.querySchema = z.object({
     email: baseSchema.email.optional(),
     companyId: baseSchema.companyId.optional(),
     role: baseSchema.role.optional(),
@@ -53,7 +53,7 @@ userSchema.querySchema = z.object({
 }).strict()
 
 
-userSchema.updateSchema = z.object({
+usersClientAppSchema.updateSchema = z.object({
     email: baseSchema.email.optional(),
     role: baseSchema.role.optional(),
     password: baseSchema.password.optional(),

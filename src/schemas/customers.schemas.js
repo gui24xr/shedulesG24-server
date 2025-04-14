@@ -4,7 +4,7 @@ import { validatorObject } from '../common/commonSchemas.js'
 export const customerSchema = {}
 
 const baseSchema = {
-  userId: validatorObject.isValidId('userId'),
+  userClientAppId: validatorObject.isValidId('userClientAppId'),
   dni: validatorObject.isValidDNI('dni'),
   customerNumber: z.string(),
   companyId: validatorObject.isValidId('companyId'),
@@ -15,7 +15,7 @@ const baseSchema = {
 }
 
 const baseCustomerSchema = z.object({
-  userId: validatorObject.isValidId('userId'),
+  userClientAppId: validatorObject.isValidId('userClientAppId'),  
   dni: validatorObject.isValidDNI('dni'),
   customerNumber: z.string(),
   companyId: validatorObject.isValidId('companyId'),
@@ -26,7 +26,7 @@ const baseCustomerSchema = z.object({
 })
 
 customerSchema.createSchema = z.object({
-  userId: baseSchema.userId.optional(),
+  userClientAppId: baseSchema.userClientAppId.optional(),
   companyId: baseSchema.companyId,
   customerNumber: baseSchema.customerNumber.optional(),
   dni: baseSchema.dni.optional(), //Ojo aca
@@ -38,7 +38,7 @@ customerSchema.createSchema = z.object({
 
 
 customerSchema.querySchema = z.object({
-  userId: baseSchema.userId.optional(),
+  userClientAppId: baseSchema.userClientAppId.optional(),
   dni: baseSchema.dni.optional(),
   companyId: baseSchema.companyId.optional(),
   firstName: baseSchema.firstName.optional(),
@@ -48,7 +48,7 @@ customerSchema.querySchema = z.object({
 }).strict()
 
 customerSchema.updateSchema = z.object({
-  userId: baseSchema.userId.optional(),
+  userClientAppId: baseSchema.userClientAppId.optional(),
   dni: baseSchema.dni.optional(),
   firstName: baseSchema.firstName.optional(),
   lastName: baseSchema.lastName.optional(),

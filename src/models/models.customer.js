@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 
 
 const customerSchema = new mongoose.Schema({
-  userId: {
+  userClientAppId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "UserClientApp",
       required: false,
       default: null
     },
@@ -62,9 +62,9 @@ customerSchema.virtual("user", {
   justOne: true
 });
 
-customerSchema.virtual("user", {
-  ref: 'User',
-  localField: 'userId',
+customerSchema.virtual("userClientApp", {
+  ref: 'UserClientApp',
+  localField: 'userClientAppId',
   foreignField: '_id',
   justOne: true
 });

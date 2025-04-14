@@ -4,23 +4,27 @@ import { validatorObject } from '../common/commonSchemas.js'
 export const ownerSchema = {}
 
 const baseSchema = {
+    authProvider: validatorObject.isValidEnum('authProvider',['local','auth0']),
     email: validatorObject.isValidEmail('email'),
-    companyId: validatorObject.isValidId('companyId'),
-    userId: validatorObject.isValidId('userId'),
-    status: validatorObject.isValidEnum('status',["active", "inactive",]),
+    status: validatorObject.isValidEnum('status',["active", "inactive","pendingData"]),
     firstName: validatorObject.isValidName('firstName'),
     lastName: validatorObject.isValidName('lastName'),
-    phoneNumber: validatorObject.isValidPhone('phone')
+    phoneNumber: validatorObject.isValidPhone('phone'),
+    profilePicture: validatorObject.isValidImageURL('profilePicture'),
+    enabled: validatorObject.isValidBoolean('enabled'),
+    lastLogin: validatorObject.isValidDateTime('lastLogin'),
 }
 
 const baseOwnerSchema = z.object({
+    authProvider: baseSchema.authProvider,
     email: baseSchema.email,
-    companyId: baseSchema.companyId,
-    userId: baseSchema.userId,
     status: baseSchema.status,
     firstName: baseSchema.firstName,
     lastName: baseSchema.lastName,
-    phoneNumber: baseSchema.phoneNumber
+    phoneNumber: baseSchema.phoneNumber,
+    profilePicture: baseSchema.profilePicture.optional(),
+    enabled: baseSchema.enabled.optional(),
+    lastLogin: baseSchema.lastLogin.optional(),
 })
 
 
@@ -28,24 +32,26 @@ const baseOwnerSchema = z.object({
 
 ownerSchema.createSchema = z.object({
     email: baseSchema.email,
-    companyId: baseSchema.companyId,
-    userId: baseSchema.userId.optional(),
     status: baseSchema.status.optional(),
     firstName: baseSchema.firstName.optional(),
     lastName: baseSchema.lastName.optional(),
     phoneNumber: baseSchema.phoneNumber.optional(),
+    profilePicture: baseSchema.profilePicture.optional(),
+    enabled: baseSchema.enabled.optional(),
+    lastLogin: baseSchema.lastLogin.optional(),
 }).strict()
 
 
 
 ownerSchema.querySchema = z.object({
     email: baseSchema.email.optional(),
-    companyId: baseSchema.companyId.optional(),
-    userId: baseSchema.userId.optional(),
     status: baseSchema.status.optional(),
     firstName: baseSchema.firstName.optional(),
     lastName: baseSchema.lastName.optional(),
     phoneNumber: baseSchema.phoneNumber.optional(),
+    profilePicture: baseSchema.profilePicture.optional(),
+    enabled: baseSchema.enabled.optional(),
+    lastLogin: baseSchema.lastLogin.optional(),
 }).strict()
 
 
@@ -54,6 +60,9 @@ ownerSchema.updateSchema = z.object({
     firstName: baseSchema.firstName.optional(),
     lastName: baseSchema.lastName.optional(),
     phoneNumber: baseSchema.phoneNumber.optional(),
+    profilePicture: baseSchema.profilePicture.optional(),
+    enabled: baseSchema.enabled.optional(),
+    lastLogin: baseSchema.lastLogin.optional(),
 }).strict()
 
 export default baseOwnerSchema;

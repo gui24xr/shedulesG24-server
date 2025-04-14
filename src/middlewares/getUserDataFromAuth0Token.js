@@ -3,7 +3,7 @@ import { logger } from '../config/logger.config.js'
 import {auth }from'express-oauth2-jwt-bearer'
 
 // Middleware para verificar el token
-export const verifyAuth0Token = auth({
+const verifyAuth0Token = auth({
     audience: process.env.AUTH0_AUDIENCE,
     issuerBaseURL:process.env.AUTH0_ISSUERBASEURL,
     tokenSigningAlg: 'RS256'
@@ -11,8 +11,7 @@ export const verifyAuth0Token = auth({
 
 
 
-
-export const getUserDataFromAuth0Token = async (req,res,next) => {
+const getUserDataFromAuth0Token = async (req,res,next) => {
    
     try{
         const response =  await axios.get(`${process.env.AUTH0_ISSUERBASEURL}/userinfo`, {
@@ -33,7 +32,11 @@ export const getUserDataFromAuth0Token = async (req,res,next) => {
         return  next()
     }catch(error){
         logger.error(error)
-        throw new Error('No se pudieron extraer los datos desde el servicio de autorizacion externo...')
+        next(new Error('No se pudieron extraer los datos desde el servicio de autorizacion externo...'))
     }
   }
 
+
+  const verifyAuth0TokenAndGetUserData = [verifyAuth0Token,getUserDataFromAuth0Token]
+
+  export default verifyAuth0TokenAndGetUserData;

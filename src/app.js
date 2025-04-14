@@ -7,9 +7,8 @@ import { developmentRouter } from './routes/development.routes.js'
 import {
 
       pdfRouter,
-      authDevsRouter,
-      authUsersRouter,
       authRouter,
+      ownerRouter,
       //devRouter,
   } from './routes/index.js'
 
@@ -22,7 +21,8 @@ const routesArray = [
     //{path: '/api/auth', router: authUsersRouter},
     //{path: '/', router: devRouter},
     {path: '/developments/api', router: developmentRouter},
-    {path: '/api/auth', router: authRouter}
+    {path: '/api/auth', router: authRouter},
+    {path: '/api/owners', router: ownerRouter}
 ]
 
 

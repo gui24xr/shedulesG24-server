@@ -9,9 +9,10 @@ export default class AuthController{
 
     postLoginOrRegisterOwner = async(req,res,next)=>{
         try {
-         
-               const { token, user: authUser } = await this.authService.handleLoginOrRegisterOwner(req.auth0UserData);
-               res.cookie(process.env.SERVER_COOKIES_JWT_NAME,token,{
+               const { token, ownerProfileData } = await this.authService.handleLoginOrRegisterOwner(req.auth0UserData);
+               console.log('ownerProfileData:', ownerProfileData, 'token:',token)
+              
+               res.cookie(process.env.COOKIE_NAME_OWNERS_APP,token,{
                 //httpOnly: true,
                  //secure: true,
                  //sameSite: "none",
@@ -19,10 +20,9 @@ export default class AuthController{
                  signed: true
                })
                logger.info(`Generated token en auth.routes.js: ${token}`);
- 
              return res.status(201).json({
                  message:'User autenticado exitosamente...',
-                 user: authUser
+                 ownerProfileData:ownerProfileData
              })
                  
              

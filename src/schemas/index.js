@@ -9,10 +9,10 @@ import { pendingEmployeeUserSchema } from "./PendingEmployeeUsers.schemas.js"
 import { providedServiceSchema } from "./providedServices.schemas.js";
 import { shedulesSchema } from "./shedules.schemas.js";
 import { sheduleSlotSchema } from "./sheduleSlots.schemas.js";
-import { userSchema } from "./users.schemas.js";
+import { usersClientAppSchema } from "./usersClientApp.schemas.js";
 import { waitingListSchema } from "./waitinglists.schemas.js"
 
-import baseUserSchema from './users.schemas.js'
+import baseUserSchema from './usersClientApp.schemas.js'
 import authSchema from './auth.schema.js'
 import baseCompanySchema from './companies.schemas.js'
 import baseBookingSchema from './bookings.schema.js'
@@ -38,7 +38,7 @@ export {
     providedServiceSchema,
     shedulesSchema,
     sheduleSlotSchema,
-    userSchema,
+    usersClientAppSchema as userSchema,
     waitingListSchema,
 
     //------------------------------------------------

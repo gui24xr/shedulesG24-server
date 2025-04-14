@@ -9,7 +9,7 @@ import  Employee  from "./models.employee.js";
 import  Shedule  from "./models.shedule.js";
 import  SheduleSlot from "./models.SheduleSlot.js";
 import  WaitingList from "./models.WaitingList.js";
-import  User  from "./models.user.js";
+import  UserClientApp from "./models.userClientApp.js";
 import  PendingEmployeeUser from './models.pendingEmployeeUser.js';
 import  Owner from './models.owner.js';
 
@@ -25,7 +25,7 @@ export {
     Shedule,
     SheduleSlot,
     WaitingList,
-    User,
+    UserClientApp,
     PendingEmployeeUser,
     Owner
 }

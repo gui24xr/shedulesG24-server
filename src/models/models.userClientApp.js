@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 
-const userSchema = new mongoose.Schema({
+const userClientAppSchema = new mongoose.Schema({
   authProvider: { 
     type: String, 
     enum: ['local', 'auth0'], 
@@ -52,10 +52,11 @@ const userSchema = new mongoose.Schema({
 
   });
 
-userSchema.index({ email: 1, role: 1, companyId: 1 }, { unique: true });
+  userClientAppSchema.index({ email: 1, companyId: 1 }, { unique: true });
 
 
-userSchema.virtual("company", {
+
+userClientAppSchema.virtual("company", {
   ref: 'Company',
   localField: 'companyId',
   foreignField: '_id',
@@ -63,7 +64,7 @@ userSchema.virtual("company", {
 });
 
 
-const modelName = "User";
-const User = mongoose.model(modelName, userSchema);
+const modelName = "UserClientApp";
+const UserClientApp = mongoose.model(modelName, userClientAppSchema);
 
-export default User
+export default UserClientApp
