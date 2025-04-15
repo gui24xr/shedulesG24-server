@@ -5,4 +5,4 @@ import verifyAuth0TokenAndGetUserData from './getUserDataFromAuth0Token.js'
 export {checkRole, 
         checkUserEnabled,  
         verifyAuth0TokenAndGetUserData
-         }
+ }

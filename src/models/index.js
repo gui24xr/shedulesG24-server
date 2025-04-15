@@ -1,14 +1,14 @@
 import '../config/database.plugins.js'
 import  Booking  from "./models.booking.js";
-import  Company  from "./models.company.js";
-import  CompanyBranch  from "./models.companyBranch.js";
+import  Establishment  from "./models.establishment.js";
+import  Branch  from "./models.branch.js";
 import  Customer  from "./models.customer.js";
-import  NotificationsConfig  from "./models.NotificationsConfig.js";
+import  NotificationsConfig  from "./models.notificationsConfig.js";
 import  ProvidedService  from "./models.providedService.js";
 import  Employee  from "./models.employee.js";
 import  Shedule  from "./models.shedule.js";
-import  SheduleSlot from "./models.SheduleSlot.js";
-import  WaitingList from "./models.WaitingList.js";
+import  SheduleSlot  from "./models.sheduleSlot.js";
+import  WaitingList from "./models.waitingList.js";
 import  UserClientApp from "./models.userClientApp.js";
 import  PendingEmployeeUser from './models.pendingEmployeeUser.js';
 import  Owner from './models.owner.js';
@@ -16,8 +16,8 @@ import  Owner from './models.owner.js';
 
 export {
     Booking,
-    Company,
-    CompanyBranch,
+    Establishment,  
+    Branch, 
     Customer,
     NotificationsConfig,
     ProvidedService,

@@ -1,7 +1,7 @@
 export default class OwnersService {
-    constructor({ownersRepository, companiesRepository, ownerSchema, logger}) {
+    constructor({ownersRepository, companiesRepository: establishmentsRepository, ownerSchema, logger}) {
         this.ownersRepository = ownersRepository;
-        this.companiesRepository = companiesRepository;
+        this.establishmentsRepository = establishmentsRepository;
         this.ownerSchema = ownerSchema;
         this.logger = logger;
     }

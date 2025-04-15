@@ -216,9 +216,9 @@ validatorObject.isValidIntervalTime = (field, referenceTimeInMinutes) =>
     message: `La duración en ${field} debe ser mayor a ${referenceTimeInMinutes} minutos.`,
   });
 
-validatorObject.isValidCompanyName = (field) =>
+validatorObject.isValidStablishmentName = (field) =>
   z.string().regex(/^[a-zA-Z0-9\s_.-]{3,100}$/, {
-    message: `El nombre de la empresa ${
+    message: `El nombre del establecimiento ${
       field ? `en el campo ${field}` : ""
     } debe tener entre 3 y 100 caracteres y solo puede contener letras, números, espacios, guiones bajos (_), puntos (.), guiones (-) y espacios.`,
   });

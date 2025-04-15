@@ -17,10 +17,10 @@ const customerSchema = new mongoose.Schema({
     required: false,
     default: null
   },
-  companyId:{
+  establishmentId:{
       type: mongoose.Schema.Types.ObjectId, 
       default: null,
-      ref:'Company',
+      ref:'Establishment',
       required: false
     },
   firstName: {
@@ -55,13 +55,6 @@ const customerSchema = new mongoose.Schema({
 //CLAVE UNICA
 customerSchema.index({ dni: 1, companyId: 1 }, { unique: true });
 
-customerSchema.virtual("user", {
-  ref: 'User',
-  localField: 'userId',
-  foreignField: '_id',
-  justOne: true
-});
-
 customerSchema.virtual("userClientApp", {
   ref: 'UserClientApp',
   localField: 'userClientAppId',
@@ -69,6 +62,11 @@ customerSchema.virtual("userClientApp", {
   justOne: true
 });
 
+//Automatizacion de populates en consultas find()
+customerSchema.pre(/^find/, function(next) {
+  this.populate("userClientApp");
+  next();
+});
 
 const modelName = "Customer";
 const Customer = mongoose.model(modelName, customerSchema);

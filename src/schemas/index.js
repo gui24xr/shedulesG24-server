@@ -1,59 +1,33 @@
-import { bookingSchema } from "./bookings.schema.js";
-import { companySchema } from "./companies.schemas.js";
-import { companyBranchSchema } from "./companyBranchs.schema.js";
-import { customerSchema } from "./customers.schemas.js";
-import { employeeSchema } from "./employee.schemas.js";
-import { notificationsConfigSchema } from "./notificationsConfigs.schema.js";
-import { ownerSchema } from "./owner.schemas.js";
-import { pendingEmployeeUserSchema } from "./PendingEmployeeUsers.schemas.js"
-import { providedServiceSchema } from "./providedServices.schemas.js";
-import { shedulesSchema } from "./shedules.schemas.js";
-import { sheduleSlotSchema } from "./sheduleSlots.schemas.js";
-import { usersClientAppSchema } from "./usersClientApp.schemas.js";
-import { waitingListSchema } from "./waitinglists.schemas.js"
+import authSchema from "./schemas.auth.js";
+import bookingSchema from "./schemas.booking.js";
+import branchSchema from "./schemas.branch.js";
+import customerSchema from "./schemas.customer.js";
+import employeeSchema from "./schemas.employee.js";
+import establishmentSchema from "./schemas.establishment.js";
+import notificationsConfigSchema from "./schemas.notificationsConfig.js";
+import ownerSchema from "./schemas.owner.js";
+import pendingEmployeeUserSchema from "./schemas.pendingEmployeeUser.js";
+import providedServiceSchema from "./schemas.providedService.js";
+import sheduleSchema from "./schemas.shedule.js";
+import sheduleSlotSchema from "./schemas.sheduleSlot.js";
+import userClientAppSchema from "./schemas.userClientApp..js";
+import waitingListSchema from "./schemas.waitingList..js";
 
-import baseUserSchema from './usersClientApp.schemas.js'
-import authSchema from './auth.schema.js'
-import baseCompanySchema from './companies.schemas.js'
-import baseBookingSchema from './bookings.schema.js'
-import baseCompanyBranchSchema from './companyBranchs.schema.js'
-import baseCustomerSchema from './customers.schemas.js'
-import baseEmployeeSchema from './employee.schemas.js'
-import baseNotificationsConfigSchema from './notificationsConfigs.schema.js'
-import baseOwnerSchema from './owner.schemas.js'
-import basePendingEmployeeUserSchema from './PendingEmployeeUsers.schemas.js'
-import baseProvidedServiceSchema from './providedServices.schemas.js'
-import baseSheduleSchema from './shedules.schemas.js'
-import baseSheduleSlotSchema from './sheduleSlots.schemas.js'
-import baseWaitingListSchema from './waitinglists.schemas.js'
 export {
+    authSchema,
     bookingSchema,
-    companySchema,
-    companyBranchSchema,
+    branchSchema,
     customerSchema,
     employeeSchema,
+    establishmentSchema,
     notificationsConfigSchema,
     ownerSchema,
     pendingEmployeeUserSchema,
     providedServiceSchema,
-    shedulesSchema,
+    sheduleSchema,
     sheduleSlotSchema,
-    usersClientAppSchema as userSchema,
-    waitingListSchema,
-
-    //------------------------------------------------
-    baseUserSchema,
-    authSchema,
-    baseCompanySchema,
-    baseBookingSchema,
-    baseCompanyBranchSchema,
-    baseCustomerSchema,
-    baseEmployeeSchema,
-    baseNotificationsConfigSchema,
-    baseOwnerSchema,
-    basePendingEmployeeUserSchema,
-    baseProvidedServiceSchema,
-    baseSheduleSchema,
-    baseSheduleSlotSchema,
-    baseWaitingListSchema
+    userClientAppSchema,
+    waitingListSchema
 }
+
+

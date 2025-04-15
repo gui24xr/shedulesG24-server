@@ -2,10 +2,15 @@ import mongoose from "mongoose";
 
 
 const providedServiceSchema = new mongoose.Schema({
-  companyId: {
+  establishmentId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "CompanyBranch",
+    ref: "Establishment",
     default: null
+  },
+  status: {
+    type: String,
+    enum: ["active", "inactive"],
+    default: "active"
   },
   name: {
     type: String,
@@ -26,10 +31,11 @@ const providedServiceSchema = new mongoose.Schema({
     default: null
   },
   
-  companyBranchId: {
+  branchId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "CompanyBranch",
-    default: null
+    ref: "Branch",
+    required: true,
+    default: null,
   },
   notificationsConfigId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -41,9 +47,9 @@ const providedServiceSchema = new mongoose.Schema({
 
 
 
-providedServiceSchema.virtual("company", {
-  ref: 'Company',
-  localField: 'companyId',
+providedServiceSchema.virtual("establishment", {
+  ref: 'Establishment',
+  localField: 'establishmentId',
   foreignField: '_id',
   justOne: true
 });
@@ -55,9 +61,9 @@ providedServiceSchema.virtual("employee", {
   justOne: true
 });
 
-providedServiceSchema.virtual("companyBranch", {
-  ref: 'CompanyBranch',
-  localField: 'companyBranchId',
+providedServiceSchema.virtual("branch", {
+  ref: 'Branch',
+  localField: 'branchId',
   foreignField: '_id',
   justOne: true
 });
@@ -78,7 +84,7 @@ providedServiceSchema.post("save", async function(doc, next) {
 */
 //Automatizacion de populates en consultas find()
 providedServiceSchema.pre(/^find/, function(next) {
-  this.populate(["company","employee","companyBranch","notificationsConfig"]);
+  this.populate(["establishment","employee","branch","notificationsConfig"]);
   next();
 });
 

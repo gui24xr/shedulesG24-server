@@ -1,5 +1,5 @@
 import { bookingsControllers } from "./bookings.controller.js";
-import { companiesControllers } from "./companies.controller.js";
+import { companiesControllers } from "./establishments.controller.js";
 import { companyBranchsControllers } from "./companyBranchs.controller.js";
 import { customersControllers } from "./customers.controller.js";
 import { employeesControllers } from "./employees.controller.js";

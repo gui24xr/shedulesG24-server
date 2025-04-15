@@ -12,9 +12,9 @@ const userClientAppSchema = new mongoose.Schema({
     required: false,  
     match: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,  // 
   },
-   companyId: {
+  establishmentId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Company",
+    ref: "Establishment",
     required: false,
     default: null
   },
@@ -52,17 +52,22 @@ const userClientAppSchema = new mongoose.Schema({
 
   });
 
-  userClientAppSchema.index({ email: 1, companyId: 1 }, { unique: true });
+  userClientAppSchema.index({ email: 1, establishmentId: 1 }, { unique: true });
 
 
 
-userClientAppSchema.virtual("company", {
-  ref: 'Company',
-  localField: 'companyId',
+userClientAppSchema.virtual("establishment", {
+  ref: 'Establishment',
+  localField: 'establishmentId',
   foreignField: '_id',
   justOne: true
 });
 
+//Automatizacion de populates en consultas find()
+userClientAppSchema.pre(/^find/, function(next) {
+  this.populate("establishment");
+  next();
+});
 
 const modelName = "UserClientApp";
 const UserClientApp = mongoose.model(modelName, userClientAppSchema);

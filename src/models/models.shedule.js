@@ -8,12 +8,7 @@ const sheduleSchema = new mongoose.Schema({
     required: false,
     default: null
  },
- companyId: {
-  type: mongoose.Schema.Types.ObjectId,
-  ref: "Company",
-  required: false,
-  default: null
-},
+ 
 /*
   slots: {
     type: [{ 

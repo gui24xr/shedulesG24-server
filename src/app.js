@@ -1,7 +1,7 @@
 import { ExpressServer } from './common/expressServer.js'
 import { logger } from './config/logger.config.js'
 import errorHandlerMiddleware from './middlewares/handlerError.js'
-import { developmentRouter } from './routes/development.routes.js'
+
 
 
 import {
@@ -20,7 +20,7 @@ const routesArray = [
     //{path: '/api/auth', router: authDevsRouter},
     //{path: '/api/auth', router: authUsersRouter},
     //{path: '/', router: devRouter},
-    {path: '/developments/api', router: developmentRouter},
+   
     {path: '/api/auth', router: authRouter},
     {path: '/api/owners', router: ownerRouter}
 ]

@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 
 
 const employeeSchema = new mongoose.Schema({
-  companyId: {
+  establishmentId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Company",
+    ref: "Establishment",
     default: null
   },
   employeeRecord: {
@@ -57,9 +57,9 @@ const employeeSchema = new mongoose.Schema({
 
 
 
-employeeSchema.virtual("company", {
-  ref: 'Company',
-  localField: 'companyId',
+employeeSchema.virtual("establishment", {
+  ref: 'Establishment',
+  localField: 'establishmentId',
   foreignField: '_id',
   justOne: true
 });
@@ -81,7 +81,7 @@ providerSchema.post("save", async function(doc, next) {
 
 //Automatizacion de populates en consultas find()
 employeeSchema.pre(/^find/, function(next) {
-  this.populate(["userClientApp  ","company"]);
+  this.populate(["userClientApp  ","establishment"]);
   next();
 });
 

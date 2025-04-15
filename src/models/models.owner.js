@@ -50,8 +50,8 @@ const ownerSchema = new mongoose.Schema({
 });
 
 
-ownerSchema.virtual("companies", {
-  ref: 'Company',
+ownerSchema.virtual("establishments", {
+  ref: 'Establishment',
   localField: '_id',
   foreignField: 'ownerId',
   justOne: false

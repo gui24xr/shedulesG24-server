@@ -42,7 +42,7 @@ export default class AuthService{
             let authUser = await this.usersService.findAndAuthUser({ email: auth0UserEmail,role:'owner' })
 
             if (!authUser) {
-                authUser = await this.usersService.createUserOwnerAndHisCompany({
+                authUser = await this.usersService.createUserOwnerAndHisEstablishment({
                     authProvider: 'auth0',
                     email:auth0UserEmail,
                    })
@@ -55,5 +55,5 @@ export default class AuthService{
             throw error;
         }
     }
-        */
+    */
 }

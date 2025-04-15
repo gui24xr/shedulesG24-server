@@ -2,20 +2,17 @@ import {logger} from '../config/logger.config.js'
 
 import DbTransactionsService from './dbtransactions.service.js'
 
-import {UserClientApp, Company, Owner} from '../models/index.js'
+import {UserClientApp, Establishment, Owner} from '../models/index.js'
 import AuthService from './auth.services.js'
 import UsersService from './users.service.js'
 import OwnersService from './owners.service.js'
 
 
-
-
-
 import {
-    baseUserSchema as userSchema,
     authSchema,
-    baseCompanySchema as companySchema,
-    baseOwnerSchema as ownerSchema
+    userClientAppSchema,
+    establishmentSchema,
+    ownerSchema,
 } from '../schemas/index.js'
 
 
@@ -25,10 +22,10 @@ import {
 
 const usersService = new UsersService({
     usersRepository:UserClientApp, 
-    companiesRepository:Company,
+    companiesRepository:Establishment,
     ownersRepository:Owner,
-    userSchema: userSchema, 
-    companySchema: companySchema,
+    userSchema: userClientAppSchema, 
+    companySchema: establishmentSchema,
     ownerSchema: ownerSchema,
     dbTransactionsService:DbTransactionsService,
     logger:logger
@@ -37,14 +34,14 @@ const usersService = new UsersService({
 
 const ownersService = new OwnersService({
     ownersRepository:Owner,
-    companiesRepository:Company,
+    establishmentsRepository:Establishment,
     ownerSchema:ownerSchema,
     logger:logger   
 });
 
 const authService = new AuthService({
    ownersService:ownersService, 
-    authSchema
+   authSchema:authSchema,
 });
 
 

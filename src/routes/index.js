@@ -1,16 +1,16 @@
 import { router as pdfRouter } from '../services/createpdf.js'
 
 
-import { developmentRouter } from './development.routes.js'
 
-import authRouter from './auth.routes.js'
-import ownerRouter from './owner.routes.js'
+import authRouter from './routes.auth.js'
+import ownerRouter from './routes.owners.js'
+
 
 export {
    
     pdfRouter,
   
-    developmentRouter,
+
     authRouter,
     ownerRouter
 }

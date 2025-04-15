@@ -1,11 +1,10 @@
 import mongoose from "mongoose";
 
 const notificationsConfigSchema = new mongoose.Schema({
-  companyId:{
+  establishmentId:{
     type: mongoose.Schema.Types.ObjectId, 
-    default: null,
-    ref:'Company',
-    required: false
+    ref:'Establishment',
+    required: true
   },
   whatsApp: {
    

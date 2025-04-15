@@ -2,16 +2,11 @@ import mongoose from "mongoose";
 
 
 const pendingEmployeeUserSchema = new mongoose.Schema({
-  companyId: {
+  establishmentId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Company",
+    ref: "Establishment",
     required: false,
     default: null
-  },
-  companyCode: {
-    type: String,
-    required: true,  
-    unique: false, 
   },
   employeeRecord: {
     type: String,
