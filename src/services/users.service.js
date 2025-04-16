@@ -8,7 +8,7 @@ function createCompanyCode() {
 
   
 export default class UsersService{
-    constructor({usersRepository, companiesRepository,ownersRepository,userSchema, companySchema,ownerSchema, dbTransactionsService, logger = null}){
+    constructor({usersRepository, companiesRepository,ownersRepository,userSchema, companySchema,ownerSchema, dbTransactionsService, loggerManager = null}){
         this.usersRepository = usersRepository;
         this.userSchema = userSchema;
         this.dbTransactionsService = dbTransactionsService;
@@ -16,7 +16,7 @@ export default class UsersService{
         this.ownersRepository = ownersRepository;
         this.companySchema = companySchema;
         this.ownerSchema = ownerSchema;
-        this.logger = logger;
+        this.loggerManager = loggerManager;
     }
 
 
@@ -39,7 +39,7 @@ export default class UsersService{
            
 
         }catch(error){
-            if(this.logger) this.logger.error('Error en el servicio de usuarios findById',error);
+            this.loggerManager && this.loggerManager.error('Error en el servicio de usuarios findById',error);
             throw error;
         }
     }
@@ -60,7 +60,7 @@ export default class UsersService{
                 ownerStatus:foundedOwner.status
             }
         }catch(error){
-            if(this.logger) this.logger.error('Error en el servicio de usuarios findAndAuthUser',error);
+           this.loggerManager && this.loggerManager.error('Error en el servicio de usuarios findAndAuthUser',error);
             throw error;
         }
     }
@@ -100,7 +100,7 @@ export default class UsersService{
             
         }catch(error){
             await session.abortTransaction();
-            if(this.logger) this.logger.error('Error en el servicio de usuarios createOwner',error);
+            this.loggerManager && this.loggerManager.error('Error en el servicio de usuarios createOwner',error);
             throw error;
         } finally{
             await session.endSession();

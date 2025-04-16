@@ -8,22 +8,19 @@ import {
 
       pdfRouter,
       authRouter,
-      ownerRouter,
+      ownersRouter,
+      catalogsRouter,
       //devRouter,
   } from './routes/index.js'
 
 
 
 const routesArray = [
-     
-    //{path: '/api/docs', router: pdfRouter},
-    //{path: '/api/auth', router: authDevsRouter},
-    //{path: '/api/auth', router: authUsersRouter},
-    //{path: '/', router: devRouter},
-   
     {path: '/api/auth', router: authRouter},
-    {path: '/api/owners', router: ownerRouter}
+    {path: '/api/owners', router: ownersRouter},
+    {path: '/api/catalogs', router: catalogsRouter}
 ]
+
 
 
 

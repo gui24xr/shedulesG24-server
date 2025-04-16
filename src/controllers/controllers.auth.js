@@ -1,9 +1,9 @@
 
 
 export default class AuthController{
-    constructor({authService,logger}){
+    constructor({authService,loggerManager= null}){
         this.authService = authService;
-        this.logger = logger;
+        this.loggerManager = loggerManager;
     }
 
     postLoginOrRegisterOwner = async(req,res,next)=>{
@@ -18,17 +18,14 @@ export default class AuthController{
                  secure:false,
                  signed: true
                })
-               this.logger.info(`Generated token en auth.routes.js: ${token}`);
+               this.loggerManager && this.loggerManager.debug(`Generated token en auth.routes.js: ${token}`);
              return res.status(201).json({
                  message:'User autenticado exitosamente...',
                  ownerProfileData:ownerProfileData
              })
                  
-             
- 
-       
         }catch (error) {
-            this.logger.error(error.message)
+            this.loggerManager && this.loggerManager.error(error.message)
             next(error)
         }
     }

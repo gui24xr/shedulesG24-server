@@ -1,20 +1,20 @@
-import { logger } from '../config/logger.config.js'
-import jwt from 'jsonwebtoken'
 
 export default class AuthService{
-    constructor({ownersService, authSchema}){
+    constructor({ownersService, authSchema, loggerManager = null,jwtManager}){
         this.ownersService = ownersService;
         this.authSchema = authSchema || null;
+        this.loggerManager = loggerManager;
+        this.jwtManager = jwtManager;
     }
 
     handleLoginOrRegisterOwner = async(auth0UserData) => {
         try{
             const auth0UserEmail = auth0UserData.email;
             const authUser = await this.ownersService.findOrCreateAndSetLastLoginToOwner({auth0UserEmail,authProvider:'auth0'})
-            const token = jwt.sign(
-                { ownerId: authUser.id, lastLogin:authUser.lastLogin },
-                process.env.JWT_SECRET_KEY,
-                {expiresIn: "1h"})
+            const token = this.jwtManager.generateToken(
+                    { ownerId: authUser.id, lastLogin:authUser.lastLogin },
+                     process.env.JWT_SECRET_KEY,
+                    { expiresIn: "1h"})
             return { 
                 token, 
                 ownerProfileData: {
@@ -29,7 +29,7 @@ export default class AuthService{
                     updatedAt:authUser.updatedAt,
                                     } }
         }catch(error){
-            logger.error('Error al manejar el login o registro del propietario',error);
+            this.loggerManager && this.loggerManager.error('Error al manejar el login o registro del propietario',error);
             throw error;
         }
     }

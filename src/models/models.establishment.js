@@ -50,7 +50,8 @@ const establishmentSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true,
+    required: false,
+    default: null,
     match: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
   },
   location: {

@@ -1,9 +1,9 @@
 export default class OwnersService {
-    constructor({ownersRepository, companiesRepository: establishmentsRepository, ownerSchema, logger}) {
+    constructor({ownersRepository, companiesRepository: establishmentsRepository, ownerSchema, loggerManager = null}) {
         this.ownersRepository = ownersRepository;
         this.establishmentsRepository = establishmentsRepository;
         this.ownerSchema = ownerSchema;
-        this.logger = logger;
+        this.loggerManager = loggerManager;
     }
 
     findOrCreateAndSetLastLoginToOwner = async({auth0UserEmail,authProvider}) =>{
@@ -28,7 +28,7 @@ export default class OwnersService {
                 updatedAt:foundedOwner.updatedAt.toISOString(),
                                 }
         }catch(error){
-            this.logger.error('Error creating/updating owner', error);
+            this.loggerManager && this.loggerManager.error('Error creating/updating owner', error);
             throw error;
         }
     }
@@ -56,7 +56,7 @@ export default class OwnersService {
                 updatedAt:foundedOwner.updatedAt.toISOString(),
             }
         }catch(error){
-            this.logger.error('Error finding owner', error);
+            this.loggerManager && this.loggerManager.error('Error finding owner', error);
             throw error;
         }
     }
@@ -88,7 +88,7 @@ export default class OwnersService {
                 updatedAt:updatedOwner.updatedAt.toISOString(),
             }
         }catch(error){
-            this.logger.error('Error updating owner', error);
+            this.loggerManager && this.loggerManager.error('Error updating owner', error);
             throw error;
         }
     }

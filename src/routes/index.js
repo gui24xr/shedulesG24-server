@@ -1,10 +1,10 @@
-import { router as pdfRouter } from '../services/createpdf.js'
+import { router as pdfRouter } from '../managers/createpdf.js'
 
 
 
 import authRouter from './routes.auth.js'
-import ownerRouter from './routes.owners.js'
-
+import ownersRouter from './routes.owners.js'
+import catalogsRouter from './routes.catalogs.js'
 
 export {
    
@@ -12,5 +12,6 @@ export {
   
 
     authRouter,
-    ownerRouter
+    ownersRouter,
+    catalogsRouter
 }
