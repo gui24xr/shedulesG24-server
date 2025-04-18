@@ -1,4 +1,8 @@
 import mongoose from "mongoose";
+import businessCategories from "../constants/constants.businessCategories.js";
+import schedulingConfigType from "../constants/constants.shedulingConfigType.js";
+import establishmentStatus from "../constants/constants.establishmentStatus.js";
+
 
 const establishmentSchema = new mongoose.Schema({
   establishmentCode: {
@@ -13,17 +17,29 @@ const establishmentSchema = new mongoose.Schema({
     required: false,
     default: null
   },
-  category: {
-    type: Number,
+  businessCategory: {
+    type: String,
+    enum: businessCategories.map(category => category.category),
     required: true,
-    default: 1
+    default: null
+  },
+  schedulingConfigType: {
+    type: String,
+    enum: schedulingConfigType.map(shedulingConfigType => shedulingConfigType.type),
+    required: true,
+    default: null,
   },
   status: { 
     type: String, 
-    enum: ["pendingData", "active", "inactive"],
-    default: "inactive"
+    enum: establishmentStatus.map(status => status.status),
+    default: "pendingData"
   },
   hasOnlyBranch: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  hasEmployees: {
     type: Boolean,
     required: true,
     default: false

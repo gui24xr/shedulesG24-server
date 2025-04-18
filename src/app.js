@@ -10,6 +10,7 @@ import {
       authRouter,
       ownersRouter,
       catalogsRouter,
+      establishmentsRouter,
       //devRouter,
   } from './routes/index.js'
 
@@ -18,7 +19,8 @@ import {
 const routesArray = [
     {path: '/api/auth', router: authRouter},
     {path: '/api/owners', router: ownersRouter},
-    {path: '/api/catalogs', router: catalogsRouter}
+    {path: '/api/catalogs', router: catalogsRouter},
+    {path: '/api/establishments', router: establishmentsRouter}
 ]
 
 

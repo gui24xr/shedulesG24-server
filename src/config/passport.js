@@ -3,6 +3,53 @@ import jwt from 'passport-jwt'
 import { loggerManager } from '../managers/index.js'
 import { usersService, ownersService } from '../services/index.js'
 
+const getJWTfromListOfSignedCookie = (req, cookiesNamesList) => {
+    let extractedToken = null;
+            for (const cookieName of cookiesNamesList) {
+                if (req?.signedCookies?.[cookieName]) {
+                extractedToken = req.signedCookies[cookieName];
+                req.jwtSourceCookieName = cookieName;
+                break; 
+                }
+            }
+        if(extractedToken){
+            return extractedToken;
+        }
+        return null;
+  };
+
+
+passport.use("jwt_all_clientesApp", new jwt.Strategy({
+    secretOrKey: process.env.JWT_SECRET_KEY,
+    passReqToCallback: true,
+    jwtFromRequest: jwt.ExtractJwt.fromExtractors([
+        (req)=> getJWTfromListOfSignedCookie(req, [process.env.COOKIE_NAME_CLIENTS_APP,process.env.COOKIE_NAME_OWNERS_APP])
+    ]),
+}, async (req,jwt_payload, done) => {
+    try{
+        const jwtSourceCookieName = req.jwtSourceCookieName; //-->> De que cookie vino el token.
+        if(jwtSourceCookieName === process.env.COOKIE_NAME_OWNERS_APP){
+            const foundOwner = await ownersService.getOwnerById(jwt_payload.ownerId)
+            return done(null, { authData:{owner: foundOwner} });
+        }
+        if(jwtSourceCookieName === process.env.COOKIE_NAME_CLIENTS_APP){
+            const foundUser = await usersService.findById(jwt_payload.userId)
+            loggerManager.debug('foundUser in passport: ', foundUser)
+            return done(null, { authData:{user: foundUser} });
+        }
+        return done(null, false);
+    }catch(error){
+         loggerManager.error('Error en passport: ', error)
+        return done(error);
+    }
+}))
+
+
+
+export default passport
+
+
+/*
 
 const getJWTfromSignedCookie = (req, cookieName) => {
     if (req?.signedCookies?.[cookieName]) {
@@ -46,6 +93,4 @@ passport.use("jwt_owners_app", new jwt.Strategy({
         return done(error);
     }
 }))
-
-
-export default passport
+*/

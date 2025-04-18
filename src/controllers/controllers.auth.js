@@ -1,5 +1,4 @@
 
-
 export default class AuthController{
     constructor({authService,loggerManager= null}){
         this.authService = authService;

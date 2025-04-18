@@ -2,6 +2,7 @@ import { loggerManager } from "../managers/index.js";
 import AuthController from "./controllers.auth.js";
 import OwnersController from "./controllers.owners..js";
 import CatalogsController from "./controllers.catalogs.js";
+import EstablishmentsController from "./controllers.establishments..js";
 import { authService, ownersService, catalogsService, establishmentsService} from "../services/index.js";
 
 
@@ -13,10 +14,11 @@ const ownersController = new OwnersController({
     establishmentsService:establishmentsService
 });
 const catalogsController = new CatalogsController({catalogsService:catalogsService,loggerManager:loggerManager});
-
+const establishmentsController = new EstablishmentsController({establishmentsService:establishmentsService,loggerManager:loggerManager});
 export {
     authController,
     ownersController,
-    catalogsController
+    catalogsController,
+    establishmentsController
 }
 

@@ -21,4 +21,34 @@ export default class EstablishmentsService{
             throw error;
         }
     }
+
+    getOwnerEstablishments = async(ownerId)=>{
+        try{
+            const ownerEstablishments = await this.establishmentsRepository.find({ownerId:ownerId})
+            return ownerEstablishments
+        }catch(error){
+            this.loggerManager && this.loggerManager.error('Error getting owner establishments', error);
+            throw error;
+        }
+    }
+
+    getOwnerEstablishmentById = async(ownerId,establishmentId)=>{
+        try{
+            const foundedEstablishment = await this.establishmentsRepository.findOne({
+                _id:establishmentId,
+                ownerId:ownerId
+            })
+
+            console.log('foundedEstablishment',foundedEstablishment)
+            console.log('ownerId ingresado',ownerId)
+
+
+            if(!foundedEstablishment) throw new Error('Establecimiento no encontrado o no existe...');
+            if(foundedEstablishment.ownerId.toString() !== ownerId) throw new Error('No tenes permisos para acceder a este establecimiento');
+            return foundedEstablishment
+        }catch(error){
+            this.loggerManager && this.loggerManager.error('Error getting owner establishment by id', error);
+            throw error;
+        }
+    }
 }
