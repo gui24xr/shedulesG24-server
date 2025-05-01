@@ -7,6 +7,31 @@ export default class AuthService{
         this.jwtManager = jwtManager;
     }
 
+    
+    handleLoginOrRegisterOwner = async(auth0UserData) => {
+        try{
+            let authUser = await this.ownersService.findAndAuthOwner(auth0UserData.email,)
+            if (!authUser){
+                authUser = await this.ownersService.createOwner(auth0UserData,{})
+            }
+
+            if (authUser.status === 'inactive') throw new Error('Owner is inactive')
+            
+                const token = this.jwtManager.generateToken(
+                { ownerId: authUser.id, lastLogin:authUser.lastLogin },
+                  process.env.JWT_SECRET_KEY,
+                { expiresIn: "1h"})
+
+            return { 
+                token, 
+                ownerProfileData: authUser.profile
+            }
+        }catch(error){
+            this.loggerManager && this.loggerManager.error('Error al manejar el login o registro del propietario',error);
+            throw error;
+        }
+    }
+    /*
     handleLoginOrRegisterOwner = async(auth0UserData) => {
         try{
             const auth0UserEmail = auth0UserData.email;
@@ -20,10 +45,10 @@ export default class AuthService{
                 ownerProfileData: {
                     email:authUser.email,
                     status:authUser.status,
-                    firstName:authUser.firstName,
-                    lastName:authUser.lastName,
-                    phoneNumber:authUser.phoneNumber,
-                    profilePicture:authUser.profilePicture,
+                    firstName:authUser.profile.firstName,
+                    lastName:authUser.profile.lastName,
+                    phoneNumber:authUser.profile.phoneNumber,
+                    profilePicture:authUser.profile.profilePicture,
                     lastLogin:authUser.lastLogin,
                     createdAt:authUser.createdAt,
                     updatedAt:authUser.updatedAt,
@@ -33,6 +58,7 @@ export default class AuthService{
             throw error;
         }
     }
+        */
 
     /*
     Guardado para futra creacion de employess, esto si van a usar login-register

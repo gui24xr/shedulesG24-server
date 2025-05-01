@@ -15,39 +15,25 @@ const ownerSchema = new mongoose.Schema({
   },
   status: { 
     type: String, 
-    enum: ["active", "inactive","pendingData"],
-    default: "pendingData"
-  },
-  firstName: {
-    type: String,
-    required: false,
-    default: null
-  },
-  lastName: {
-    type: String,
-    required: false,
-    default: null
-  },
-  phoneNumber: {
-    type: String,  
-    required: false,  
-    default: null
-  },
-  profilePicture: {
-    type: String,
-    required: false,  
-    default: null,
-  },
-  enabled: {
-    type: Boolean,
-    required: true,
-    default: true
+    enum: ["active", "inactive"],
+    default: "active"
   },
   lastLogin:{
     type: Date,
     default: new Date()
   },
 });
+
+
+
+
+ownerSchema.virtual("profile", {
+  ref: 'Profile',
+  localField: '_id',
+  foreignField: 'ownerId',
+  justOne: true
+});
+
 
 
 ownerSchema.virtual("establishments", {
@@ -66,9 +52,6 @@ providerSchema.post("save", async function(doc, next) {
   next();
 });
 */
-
-
-
 
 
 const modelName = "Owner";

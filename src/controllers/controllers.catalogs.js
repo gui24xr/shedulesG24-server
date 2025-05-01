@@ -33,6 +33,26 @@ class CatalogsController{
             next(error);
         }
     }
+
+    getAttendanceModes = (req,res,next)=>{
+        try{
+            const attendanceModes = this.catalogsService.getAttendanceModes();
+            return res.status(200).json(attendanceModes);
+        }catch(error){
+            this.loggerManager && this.loggerManager.error('Error getting attendance modes', error);
+            next(error);
+        }
+    }
+
+    getEmployeeTypes = (req,res,next)=>{
+        try{
+            const employeeTypes = this.catalogsService.getEmployeeTypes();
+            return res.status(200).json(employeeTypes);
+        }catch(error){
+            this.loggerManager && this.loggerManager.error('Error getting employee types', error);
+            next(error);
+        }
+    }
 }
 
 export default CatalogsController;         

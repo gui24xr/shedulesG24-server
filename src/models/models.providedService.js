@@ -30,16 +30,20 @@ const providedServiceSchema = new mongoose.Schema({
     ref: "Shedule",
     default: null
   },
-  
-  branchId: {
+  defaultBranchId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Branch",
-    required: true,
+    required: false,
     default: null,
   },
-  notificationsConfigId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "notificationsConfig",
+  notificationsConfig: {
+    type: {
+      email: { type: Boolean, default: false }, 
+      sms: { type: Boolean, default: false },
+      push: { type: Boolean, default: false },
+      whatsapp: { type: Boolean, default: false },
+    },
+    required: false,
     default: null
   }
 });
@@ -63,17 +67,11 @@ providedServiceSchema.virtual("employee", {
 
 providedServiceSchema.virtual("branch", {
   ref: 'Branch',
-  localField: 'branchId',
+  localField: 'defaultBranchId',
   foreignField: '_id',
   justOne: true
 });
 
-providedServiceSchema.virtual("notificationsConfig", {
-  ref: 'NotificationsConfig',
-  localField: 'notificationsConfigId',
-  foreignField: '_id',
-  justOne: true
-});
 
 //Automatizacion de populates en consultas create/save.
 /*
@@ -84,7 +82,7 @@ providedServiceSchema.post("save", async function(doc, next) {
 */
 //Automatizacion de populates en consultas find()
 providedServiceSchema.pre(/^find/, function(next) {
-  this.populate(["establishment","employee","branch","notificationsConfig"]);
+  this.populate(["establishment","employee","defaultBranch"]);
   next();
 });
 

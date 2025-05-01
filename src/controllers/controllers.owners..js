@@ -1,16 +1,15 @@
 export default class OwnersController{
-    constructor({ownersService,establishmentsService,loggerManager= null}){
+    constructor({ownersService,loggerManager= null}){
         this.ownersService = ownersService;
-        this.establishmentsService = establishmentsService;
         this.loggerManager = loggerManager;
     }
 
-    getOwnerById = async(req,res,next)=>{
+    getOwnerProfileById = async(req,res,next)=>{
         try{
-            const foundedOwner = await this.ownersService.getOwnerById(req.user.authData.owner.id)
-            return res.status(200).json(foundedOwner)
+            const foundedOwnerProfile = await this.ownersService.getOwnerProfileById(req.user.authData.owner.id)
+            return res.status(200).json(foundedOwnerProfile)
         }catch(error){
-            this.loggerManager && this.loggerManager.error('Error getting owner by id', error);
+            this.loggerManager && this.loggerManager.error('Error getting owner profile by id', error);
             next(error)
         }
     }
@@ -25,26 +24,6 @@ export default class OwnersController{
         }
     }
 
-    createBasicEstablishment = async(req,res,next)=>{
-        try{
-            //validar que body tenga category,hasOnlyBranch,businessCategory,schedulingConfigType)
-            const basicEstablishmentData = {...req.body, ownerId: req.user.authData.owner.id}
-            const newEstablishment = await this.establishmentsService.createBasicEstablishment(basicEstablishmentData)
-            return res.status(201).json(newEstablishment)
-        }catch(error){
-            this.loggerManager && this.loggerManager.error('Error creating establishment', error);
-            next(error)
-        }
-    }
-
-    getOwnerEstablishments = async(req,res,next) =>{
-        try{
-            const ownerEstablishments = await this.establishmentsService.getOwnerEstablishments(req.user.authData.owner.id)
-            return res.status(200).json(ownerEstablishments)
-        }catch(error){
-            this.loggerManager && this.loggerManager.error('Error getting owner establishments', error);
-            next(error)
-        }
-    }
+      
 
 }

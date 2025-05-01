@@ -5,6 +5,13 @@ const employeeSchema = new mongoose.Schema({
   establishmentId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Establishment",
+    required: true,
+    default: null
+  },
+  tenantsAppUserId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "TenantsAppUser",
+    required: false,
     default: null
   },
   employeeRecord: {
@@ -12,50 +19,34 @@ const employeeSchema = new mongoose.Schema({
     required: false,
     default: null
   },
-  specialty: {
-    type: String,
-    required: false,
-    default: null
-  },
-  category: { 
-    type: String, 
-    enum: ["admin", "operative",],
-    default: "admin"
-  },
   status: { 
     type: String, 
     enum: ["active", "inactive"],
     default: "active"
   },
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
-    type: String,
-    required: false,
-  },
-  email: {
-    type: String,
-    required: false,
-    match: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
-    default: null,
-  },
-  phoneNumber: {
-    type: String,  
-    required: false,  
-    default: null
-  },
-  userClientAppId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "UserClientApp",
-    required: false,
-    default: null
-  },
   
+    
 });
 
 
+
+
+
+
+
+employeeSchema.virtual("profile", {
+  ref: 'Profile',
+  localField: '_id',
+  foreignField: 'employeeId',
+  justOne: true
+});
+
+employeeSchema.virtual("workProfileData", {
+  ref: 'WorkProfileData',
+  localField: '_id',
+  foreignField: 'employeeId',
+  justOne: true
+});
 
 employeeSchema.virtual("establishment", {
   ref: 'Establishment',
@@ -63,14 +54,14 @@ employeeSchema.virtual("establishment", {
   foreignField: '_id',
   justOne: true
 });
-
-employeeSchema.virtual("userClientApp", {
-  ref: 'UserClientApp',
-  localField: 'userClientAppId',
+/*
+employeeSchema.virtual("tenantsAppUser", {
+  ref: 'TenantsAppUser',
+  localField: 'tenantsAppUserId',
   foreignField: '_id',
   justOne: true
 });
-
+*/
 //Automatizacion de populates en consultas create/save.
 /*
 providerSchema.post("save", async function(doc, next) {
@@ -80,12 +71,13 @@ providerSchema.post("save", async function(doc, next) {
 */
 
 //Automatizacion de populates en consultas find()
+/*
 employeeSchema.pre(/^find/, function(next) {
-  this.populate(["userClientApp  ","establishment"]);
+    this.populate(["tenantsAppUser  ","establishment"]);
   next();
 });
 
-
+*/
 
 const modelName = "Employee";
 const Employee = mongoose.model(modelName, employeeSchema);

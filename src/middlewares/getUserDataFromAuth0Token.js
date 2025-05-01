@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { logger } from '../config/logger.config.js'
+import { loggerManager } from '../managers/index.js'
 import {auth }from'express-oauth2-jwt-bearer'
 
 // Middleware para verificar el token
@@ -20,7 +20,7 @@ const getUserDataFromAuth0Token = async (req,res,next) => {
             }
         });
 
-        console.log('User de auth0: ', response.data)
+        loggerManager.debug('User de auth0: ', response.data)
         
         req.auth0UserData = {
           email:response.data.email,

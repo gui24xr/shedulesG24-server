@@ -10,9 +10,9 @@ import pendingEmployeeUserSchema from "./schemas.pendingEmployeeUser.js";
 import providedServiceSchema from "./schemas.providedService.js";
 import sheduleSchema from "./schemas.shedule.js";
 import sheduleSlotSchema from "./schemas.sheduleSlot.js";
-import userClientAppSchema from "./schemas.userClientApp..js";
+import tenantsAppsUserSchema from "./schemas.tenantsAppsUser.js";
 import waitingListSchema from "./schemas.waitingList..js";
-
+import profileSchema from "./schemas.profile.js";
 export {
     authSchema,
     bookingSchema,
@@ -26,8 +26,9 @@ export {
     providedServiceSchema,
     sheduleSchema,
     sheduleSlotSchema,
-    userClientAppSchema,
-    waitingListSchema
+    tenantsAppsUserSchema,
+    waitingListSchema,
+    profileSchema
 }
 
 

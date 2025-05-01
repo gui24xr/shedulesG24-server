@@ -7,14 +7,16 @@ import { validatorObject } from '../common/commonSchemas.js'
 const employeeSchema = z.object({
     establishmentId: validatorObject.isValidId('establishmentId'),
     employeeRecord: validatorObject.isValidRecord('employeeRecord'),
-    specialty: validatorObject.isValidName('specialty'),
-    category: validatorObject.isValidEnum('category',['admin','operative']),
+    type: validatorObject.isValidEnum('type',['admin','operative']),
     status: validatorObject.isValidEnum('status',['active','inactive']),
-    firstName: validatorObject.isValidName('firstName'),
-    lastName: validatorObject.isValidName('lastName'),
-    email: validatorObject.isValidEmail('email'),
-    phoneNumber: validatorObject.isValidPhone('phoneNumber'),
-    userClientAppId: validatorObject.isValidId('userClientAppId'),
+    specialty: validatorObject.isValidName('specialty'),
+    profileId: validatorObject.isValidId('profileId'),
+    workData: z.object({
+        phone: validatorObject.isValidPhone('phone'),
+        email: validatorObject.isValidEmail('email'),
+        displayName: validatorObject.isValidName('displayName'),
+    }),
+    tenantsAppsUserId: validatorObject.isValidId('tenantsAppsUserId'),
 })
 
 

@@ -36,8 +36,6 @@ export default class UsersService{
                createdAt:foundedUser.createdAt.toISOString(),
                updatedAt:foundedUser.updatedAt.toISOString(),
             };
-           
-
         }catch(error){
             this.loggerManager && this.loggerManager.error('Error en el servicio de usuarios findById',error);
             throw error;

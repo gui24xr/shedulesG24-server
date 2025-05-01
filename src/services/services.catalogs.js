@@ -30,6 +30,24 @@ class CatalogsService{
             throw error;
         }
     }
+
+    getAttendanceModes = () => {
+        try{
+            return this.catalogsData.attendanceModes;
+        }catch(error){
+            this.loggerManager && this.loggerManager.error('Error getting attendance modes', error);
+            throw error;
+        }
+    }
+
+    getEmployeeTypes = () => {
+        try{
+            return this.catalogsData.employeeTypes;
+        }catch(error){
+            this.loggerManager && this.loggerManager.error('Error getting employee types', error);
+            throw error;
+        }
+    }
 }
 
 export default CatalogsService;

@@ -9,8 +9,13 @@ const providedServiceSchema = z.object({
     description: z.string(),
     employeeId: validatorObject.isValidId('employeeId'),
     sheduleId: validatorObject.isValidId('sheduleId'),
-    branchId: validatorObject.isValidId('branchId'),
-    notificationsConfigId: validatorObject.isValidId('notificationsConfigId') 
+    defaultBranchId: validatorObject.isValidId('defaultBranchId'),
+    notificationsConfig: z.object({
+        email: z.boolean(),
+        sms: z.boolean(),
+        push: z.boolean(),
+        whatsapp: z.boolean(),
+    })
 })
 
 

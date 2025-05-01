@@ -2,18 +2,24 @@ import { loggerManager, jwtManager } from '../managers/index.js'
 import catalogsData from '../constants/index.js'
 import DbTransactionsService from './dbtransactions.service.js'
 
-import {UserClientApp, Establishment, Owner, Branch} from '../models/index.js'
+import {TenantsAppsUser, Establishment, Owner, Employee, Profile,Location,Branch,EstablishmentConfig} from '../models/index.js'
+
 import AuthService from './auth.services.js'
 import UsersService from './users.service.js'
 import OwnersService  from './services.owners.js'
 import EstablishmentsService from './services.establishments.js'
 import CatalogsService from './services.catalogs.js'
+import EmployeesService from './services.employees.js'
+import WorkProfileData from '../models/models.workProfileData.js'
 
 import {
     authSchema,
-    userClientAppSchema,
+    tenantsAppsUserSchema,
     establishmentSchema,
-    ownerSchema,
+    ownerSchema,    
+    employeeSchema,
+    profileSchema,
+    
 } from '../schemas/index.js'
 
 
@@ -21,11 +27,11 @@ import {
 
 
 
-const usersService = new UsersService({
-    usersRepository:UserClientApp, 
+const tenantsAppsUsersService = new UsersService({
+    usersRepository:TenantsAppsUser, 
     companiesRepository:Establishment,
     ownersRepository:Owner,
-    userSchema: userClientAppSchema, 
+    userSchema: tenantsAppsUserSchema, 
     companySchema: establishmentSchema,
     ownerSchema: ownerSchema,
     dbTransactionsService:DbTransactionsService,
@@ -36,8 +42,11 @@ const usersService = new UsersService({
 const ownersService = new OwnersService({
     ownersRepository:Owner,
     establishmentsRepository:Establishment,
+    profilesRepository:Profile,  
+    profileSchema:profileSchema,
     ownerSchema:ownerSchema,
-    loggerManager:loggerManager
+    dbTransactionsService:DbTransactionsService,
+    loggerManager:loggerManager,
 });
 
 const authService = new AuthService({
@@ -55,11 +64,24 @@ const catalogsService = new CatalogsService({
 
 const establishmentsService = new EstablishmentsService({
     establishmentsRepository:Establishment,
-    branchesRepository:Branch,
+    employeesRepository:Employee,
     establishmentSchema:establishmentSchema,
+    locationsRepository:Location,
+    branchesRepository:Branch,
+    establishmentsConfigRepository:EstablishmentConfig,
+    dbTransactionsService:DbTransactionsService,
     loggerManager:loggerManager
 });
 
-export { usersService, authService, ownersService, establishmentsService, catalogsService };
+const employeesService = new EmployeesService({
+    employeesRepository:Employee,
+    profilesRepository:Profile,
+    workProfileDataRepository:WorkProfileData,
+    establishmentsRepository:Establishment,
+    dbTransactionsService:DbTransactionsService,
+    loggerManager:loggerManager
+});
+
+export { tenantsAppsUsersService, authService, ownersService, establishmentsService, catalogsService, employeesService };
 
 

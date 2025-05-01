@@ -3,29 +3,38 @@ import  Booking  from "./models.booking.js";
 import  Establishment  from "./models.establishment.js";
 import  Branch  from "./models.branch.js";
 import  Customer  from "./models.customer.js";
-import  NotificationsConfig  from "./models.notificationsConfig.js";
 import  ProvidedService  from "./models.providedService.js";
 import  Employee  from "./models.employee.js";
 import  Shedule  from "./models.shedule.js";
 import  SheduleSlot  from "./models.sheduleSlot.js";
 import  WaitingList from "./models.waitingList.js";
-import  UserClientApp from "./models.userClientApp.js";
+import  TenantsAppsUser from "./models.tenantsAppsUser.js";
 import  PendingEmployeeUser from './models.pendingEmployeeUser.js';
 import  Owner from './models.owner.js';
-
+import  Profile from './models.profile.js';
+import  WorkProfileData from './models.workProfileData.js';
+import  Location from './models.location.js';
+import  CommunicationProvider from './models.communicationProvider.js';  
+import  NotificationsProfile from './models.notificationsProfile.js';
+import  EstablishmentConfig from './models.establishmentConfig.js';
 
 export {
     Booking,
     Establishment,  
     Branch, 
     Customer,
-    NotificationsConfig,
     ProvidedService,
     Employee,
     Shedule,
     SheduleSlot,
     WaitingList,
-    UserClientApp,
+    TenantsAppsUser,
     PendingEmployeeUser,
-    Owner
+    Owner,
+    Profile,
+    WorkProfileData,
+    Location,
+    CommunicationProvider,
+    NotificationsProfile,
+    EstablishmentConfig
 }

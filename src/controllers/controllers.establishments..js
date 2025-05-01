@@ -4,6 +4,19 @@ class EstablishmentsController{
         this.loggerManager = loggerManager;
     }
 
+    createEstablishment = async(req,res,next)=>{
+        try{
+            //validar que body tenga category,hasOnlyBranch,businessCategory,schedulingConfigType)
+            const ownerId = req.user.authData.owner.id
+            const payload = req.body
+            const newEstablishment = await this.establishmentsService.createEstablishment({ownerId,payload})
+            return res.status(201).json(newEstablishment)
+        }catch(error){
+            this.loggerManager && this.loggerManager.error('Error creating establishment', error);
+            next(error)
+        }
+    }
+
     getEstablishmentById = async(req,res,next)=>{
         try{
             //Por ahora queda asi pero yo aca divido caminos si es clienntApp o adminApp
@@ -15,6 +28,19 @@ class EstablishmentsController{
             next(error)
         }
     }
+
+    getOwnerEstablishments = async(req,res,next) =>{
+        try{
+            //const ownerEstablishments = await this.establishmentsService.getOwnerEstablishments(req.user.authData.owner.id)
+             const ownerEstablishments = await this.establishmentsService.getOwnerEstablishments(req.user.authData.owner.id)
+             return res.status(200).json(ownerEstablishments)
+        }catch(error){
+            this.loggerManager && this.loggerManager.error('Error getting owner establishments', error);
+            next(error)
+        }
+    }
+
+
 }
 
 export default EstablishmentsController;

@@ -6,6 +6,7 @@ import authRouter from './routes.auth.js'
 import ownersRouter from './routes.owners.js'
 import catalogsRouter from './routes.catalogs.js'
 import establishmentsRouter from './routes.establishments.js'
+import employeesRouter from './routes.employees.js'
 export {
    
     pdfRouter,
@@ -14,5 +15,6 @@ export {
     authRouter,
     ownersRouter,
     catalogsRouter,
-    establishmentsRouter
+    establishmentsRouter,
+    employeesRouter
 }

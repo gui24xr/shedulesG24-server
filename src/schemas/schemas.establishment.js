@@ -3,14 +3,15 @@ import { validatorObject } from '../common/commonSchemas.js'
 import businessCategories from '../constants/constants.businessCategories.js'
 import schedulingConfigType from '../constants/constants.shedulingConfigType.js'
 import establishmentStatus from '../constants/constants.establishmentStatus.js'
-
+import attendanceModes from '../constants/constants.attendanceModes.js'
 const establishmentSchema = z.object({
     establishmentCode: validatorObject.isValidCompanyCode('establishmentCode'),
     ownerId: validatorObject.isValidId('ownerId'),
     businessCategory: validatorObject.isValidEnum('businessCategory',businessCategories.map(category => category.category)),
     schedulingConfigType: validatorObject.isValidEnum('schedulingConfigType',schedulingConfigType.map(shedulingConfigType => shedulingConfigType.type)),
     status: validatorObject.isValidEnum('status',establishmentStatus.map(status => status.status)),
-    hasOnlyBranch: validatorObject.isValidBoolean('hasOnlyBranch'),
+    attendanceMode: validatorObject.isValidEnum('attendanceMode',attendanceModes.map(attendanceMode => attendanceMode.type)),
+    ownerIsProvider: validatorObject.isValidBoolean('ownerIsProvider'),
     hasEmployees: validatorObject.isValidBoolean('hasEmployees'),
     name: validatorObject.isValidStablishmentName('name'),
     description: validatorObject.isValidDescription('description'),

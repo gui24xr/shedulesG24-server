@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 
-const userClientAppSchema = new mongoose.Schema({
+const tenantsAppsUserSchema = new mongoose.Schema({
   authProvider: { 
     type: String, 
     enum: ['local', 'auth0'], 
@@ -33,11 +33,6 @@ const userClientAppSchema = new mongoose.Schema({
     required: false, 
     minlength: 6,  
   },
-  profilePicture: {
-    type: String,
-    required: false,  
-    default: null,
-  },
   enabled: {
     type: Boolean,
     required: true,
@@ -52,11 +47,16 @@ const userClientAppSchema = new mongoose.Schema({
 
   });
 
-  userClientAppSchema.index({ email: 1, establishmentId: 1 }, { unique: true });
+  tenantsAppsUserSchema.index({ email: 1, establishmentId: 1 }, { unique: true });
 
+tenantsAppsUserSchema.virtual("profile", {
+  ref: 'Profile',
+  localField: 'profileId',
+  foreignField: '_id',
+  justOne: true
+});
 
-
-userClientAppSchema.virtual("establishment", {
+tenantsAppsUserSchema.virtual("establishment", {
   ref: 'Establishment',
   localField: 'establishmentId',
   foreignField: '_id',
@@ -64,12 +64,12 @@ userClientAppSchema.virtual("establishment", {
 });
 
 //Automatizacion de populates en consultas find()
-userClientAppSchema.pre(/^find/, function(next) {
+tenantsAppsUserSchema.pre(/^find/, function(next) {
   this.populate("establishment");
   next();
 });
 
-const modelName = "UserClientApp";
-const UserClientApp = mongoose.model(modelName, userClientAppSchema);
+const modelName = "TenantsAppsUser";
+const TenantsAppsUser = mongoose.model(modelName, tenantsAppsUserSchema);
 
-export default UserClientApp
+export default TenantsAppsUser

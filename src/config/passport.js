@@ -1,7 +1,7 @@
 import passport from 'passport'
 import jwt from 'passport-jwt'
 import { loggerManager } from '../managers/index.js'
-import { usersService, ownersService } from '../services/index.js'
+import { tenantsAppsUsersService, ownersService } from '../services/index.js'
 
 const getJWTfromListOfSignedCookie = (req, cookiesNamesList) => {
     let extractedToken = null;
@@ -19,11 +19,11 @@ const getJWTfromListOfSignedCookie = (req, cookiesNamesList) => {
   };
 
 
-passport.use("jwt_all_clientesApp", new jwt.Strategy({
+passport.use("jwt_admin_and_users", new jwt.Strategy({
     secretOrKey: process.env.JWT_SECRET_KEY,
     passReqToCallback: true,
     jwtFromRequest: jwt.ExtractJwt.fromExtractors([
-        (req)=> getJWTfromListOfSignedCookie(req, [process.env.COOKIE_NAME_CLIENTS_APP,process.env.COOKIE_NAME_OWNERS_APP])
+        (req)=> getJWTfromListOfSignedCookie(req, [process.env.COOKIE_NAME_TENANT_APP,process.env.COOKIE_NAME_OWNERS_APP])
     ]),
 }, async (req,jwt_payload, done) => {
     try{
@@ -32,7 +32,7 @@ passport.use("jwt_all_clientesApp", new jwt.Strategy({
             const foundOwner = await ownersService.getOwnerById(jwt_payload.ownerId)
             return done(null, { authData:{owner: foundOwner} });
         }
-        if(jwtSourceCookieName === process.env.COOKIE_NAME_CLIENTS_APP){
+        if(jwtSourceCookieName === process.env.COOKIE_NAME_TENANT_APP){
             const foundUser = await usersService.findById(jwt_payload.userId)
             loggerManager.debug('foundUser in passport: ', foundUser)
             return done(null, { authData:{user: foundUser} });
@@ -43,8 +43,6 @@ passport.use("jwt_all_clientesApp", new jwt.Strategy({
         return done(error);
     }
 }))
-
-
 
 export default passport
 
@@ -62,7 +60,7 @@ const getJWTfromSignedCookie = (req, cookieName) => {
   };
 
 passport.use("jwt_clients_app", new jwt.Strategy({
-    jwtFromRequest: jwt.ExtractJwt.fromExtractors([(req)=> getJWTfromSignedCookie(req, process.env.COOKIE_NAME_CLIENTS_APP)]),
+    jwtFromRequest: jwt.ExtractJwt.fromExtractors([(req)=> getJWTfromSignedCookie(req, process.env.COOKIE_NAME_TENANT_APP)]),
     secretOrKey: process.env.JWT_SECRET_KEY
 }, async (jwt_payload, done) => {
     try{
