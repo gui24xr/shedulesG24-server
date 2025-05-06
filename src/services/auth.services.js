@@ -10,27 +10,56 @@ export default class AuthService{
     
     handleLoginOrRegisterOwner = async(auth0UserData) => {
         try{
-            let authUser = await this.ownersService.findAndAuthOwner(auth0UserData.email,)
-            if (!authUser){
-                authUser = await this.ownersService.createOwner(auth0UserData,{})
+            let authOwner = await this.ownersService.findAndAuthOwner(auth0UserData.email,)
+            if (!authOwner){
+                authOwner = await this.ownersService.createOwner(auth0UserData,{})
             }
 
-            if (authUser.status === 'inactive') throw new Error('Owner is inactive')
-            
-                const token = this.jwtManager.generateToken(
-                { ownerId: authUser.id, lastLogin:authUser.lastLogin },
-                  process.env.JWT_SECRET_KEY,
-                { expiresIn: "1h"})
-
-            return { 
-                token, 
-                ownerProfileData: authUser.profile
-            }
+            if (authOwner.status === 'inactive') throw new Error('Owner is inactive')
+            const refreshToken = await this.createRefreshToken(authOwner.id)
+            const accessToken = await this.createAccessToken(authOwner.id)
+            return {accessToken: accessToken, refreshToken: refreshToken}
         }catch(error){
             this.loggerManager && this.loggerManager.error('Error al manejar el login o registro del propietario',error);
             throw error;
         }
     }
+
+
+    createRefreshToken = async (ownerId) => {
+        try{
+            const foundedOwner = await this.ownersService.getOwnerById(ownerId)
+            const tokenPayload = { id:foundedOwner.id}
+            const refreshToken = this.jwtManager.generateToken(tokenPayload,process.env.JWT_SECRET_KEY,{ expiresIn: "48h"})
+            return refreshToken
+        }catch(error){
+            this.loggerManager && this.loggerManager.error('Error al crear el refresh token',error);
+            throw error;
+        }
+    }
+
+    createAccessToken = async (ownerId) => {
+        try{
+            const foundedOwner = await this.ownersService.getOwnerById(ownerId)
+            const tokenPayload = { id:foundedOwner.id }
+            const accessToken = this.jwtManager.generateToken(tokenPayload,process.env.JWT_SECRET_KEY,{ expiresIn: "15m"})
+            return accessToken
+        }catch(error){
+            this.loggerManager && this.loggerManager.error('Error al crear el access token',error);
+            throw error;
+        }
+    }
+
+    handleRefreshToken = async (ownerId) => {
+        try{
+            const newAccessToken = await this.createAccessToken(ownerId)
+            return newAccessToken
+        }catch(error){
+            this.loggerManager && this.loggerManager.error('Error al manejar el refresh token',error);
+            throw error;
+        }
+    }
+
     /*
     handleLoginOrRegisterOwner = async(auth0UserData) => {
         try{

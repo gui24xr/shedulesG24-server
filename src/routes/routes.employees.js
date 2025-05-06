@@ -3,7 +3,7 @@ import { employeesController } from "../controllers/index.js";
 import passport from "passport";
 const employeesRouter = express.Router();
 
-employeesRouter.post('/:eid',passport.authenticate("jwt_admin_and_users",{session:false}),employeesController.createEmployee);
-employeesRouter.get('/',passport.authenticate("jwt_admin_and_users",{session:false}),employeesController.getEmployeesByOwner);
-employeesRouter.get('/:eid',passport.authenticate("jwt_admin_and_users",{session:false}),employeesController.getEmployeeById);
+employeesRouter.post('/:eid',passport.authenticate("access_token",{session:false}),employeesController.createEmployee);
+employeesRouter.get('/',passport.authenticate("access_token",{session:false}),employeesController.getEmployeesByOwner);
+employeesRouter.get('/:eid',passport.authenticate("access_token",{session:false}),employeesController.getEmployeeById);
 export default employeesRouter;

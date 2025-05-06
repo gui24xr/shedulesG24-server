@@ -6,7 +6,7 @@ export default class OwnersController{
 
     getOwnerProfileById = async(req,res,next)=>{
         try{
-            const foundedOwnerProfile = await this.ownersService.getOwnerProfileById(req.user.authData.owner.id)
+            const foundedOwnerProfile = await this.ownersService.getOwnerProfileById(req.user.owner.id)
             return res.status(200).json(foundedOwnerProfile)
         }catch(error){
             this.loggerManager && this.loggerManager.error('Error getting owner profile by id', error);
@@ -16,7 +16,7 @@ export default class OwnersController{
 
     updateOwnerProfile = async(req,res,next)=>{
         try{
-            const updatedOwner = await this.ownersService.updateOwnerProfile(req.user.authData.owner.id, req.body)
+            const updatedOwner = await this.ownersService.updateOwnerProfile(req.user.owner.id, req.body)
             return res.status(200).json(updatedOwner)
         }catch(error){
             this.loggerManager && this.loggerManager.error('Error updating owner profile', error);

@@ -16,11 +16,11 @@ export default class OwnersService {
 
          //Aca valido que no venga basura.
             await session.startTransaction();
-            const newOwner = await this.ownersRepository.create([ownerData],{session})
+            const [newOwner] = await this.ownersRepository.create([ownerData],{session})
             if (!newOwner) throw new Error('Problemas al crear el owner...')
-            await this.profilesRepository.create([{ownerId:newOwner[0].id,email:ownerData.email,...profileData}],{session})
+            await this.profilesRepository.create([{ownerId:newOwner.id,email:ownerData.email,...profileData}],{session})
             await session.commitTransaction();
-            return await this.findAndAuthOwner(newOwner[0].email)
+            return await this.findAndAuthOwner(newOwner.email)
         }catch(error){
             await session.abortTransaction();
             this.loggerManager && this.loggerManager.error('Error creating/updating owner', error);
@@ -35,7 +35,7 @@ export default class OwnersService {
             const foundedOwner = await this.ownersRepository.findOneAndUpdate(
                 { email:ownerEmail},
                 { lastLogin:(new Date()).toISOString()},
-                { new: true}).populate('profile')
+                { new: true}).populate('profile','establishments')
 
             if(!foundedOwner) return null
 
@@ -47,15 +47,7 @@ export default class OwnersService {
                 lastLogin:foundedOwner.lastLogin,
                 createdAt:foundedOwner.createdAt.toISOString(),
                 updatedAt:foundedOwner.updatedAt.toISOString(),
-                profile:{
-                    status:foundedOwner.profile.status,
-                    email:foundedOwner.profile.email,
-                    firstName:foundedOwner.profile.firstName,
-                    lastName:foundedOwner.profile.lastName,
-                    phoneNumber:foundedOwner.profile.phoneNumber,
-                    profilePicture:foundedOwner.profile.profilePicture,
-                    updatedAt:foundedOwner.profile.updatedAt.toISOString(),
-                },
+                
             }
         }catch(error){
             this.loggerManager && this.loggerManager.error('Error creating/updating owner', error);

@@ -78,7 +78,6 @@ class EmployeesService{
             await this.profilesRepository.create([profileData],{session})
             await this.workProfileDataRepository.create([workProfileData],{session})
             await session.commitTransaction();
-            console.log('employee creado: ',newEmployee)
             return await this.getEmployeeById(newEmployee.id)
         }catch(error){
             await session.abortTransaction();
@@ -93,7 +92,6 @@ class EmployeesService{
         try{
             const employee = await this.employeesRepository.findById(employeeId).populate('profile').populate('workProfileData').populate('establishment')
             if (!employee) throw new Error('Empleado no encontrado...')
-            console.log('employee obtenido: ',employee)
             return this.#getEmployeeDTO(employee)
         }catch(error){
             this.loggerManager && this.loggerManager.error('Error getting employee by id', error);
@@ -103,7 +101,6 @@ class EmployeesService{
 
     getEmployeesByOwner = async({ownerId, establishmentId})=>{
         try{
-            console.log('AAAAAAAAAAA: ', ownerId, establishmentId)
             const filter = establishmentId ? {establishmentId} : {}
             const employees = await this.employeesRepository.find(filter)
             .populate({ path: 'establishment',match: { ownerId: ownerId },})
