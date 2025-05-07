@@ -5,8 +5,8 @@ import { ownersController } from '../controllers/index.js'
 
 const ownersRouter = express.Router()
 
-ownersRouter.get('/profile',passport.authenticate("access_token",{session:false}),ownersController.getOwnerProfileById)
-ownersRouter.put('/profile',passport.authenticate("access_token",{session:false}),ownersController.updateOwnerProfile)
+ownersRouter.get('/profile',passport.authenticate("extractOwnerAccessToken",{session:false}),ownersController.getOwnerProfileById)
+ownersRouter.put('/profile',passport.authenticate("extractOwnerAccessToken",{session:false}),ownersController.updateOwnerProfile)
 
 
 

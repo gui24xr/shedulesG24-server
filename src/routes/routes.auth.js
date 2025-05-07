@@ -4,9 +4,11 @@ import { authController } from '../controllers/index.js'
 import passport from '../config/passport.js'
 const authRouter = express.Router();
 
-authRouter.post('/owners/login-or-register',verifyAuth0TokenAndGetUserData,authController.postLoginOrRegisterOwner);
-authRouter.post('/owners/refresh-token',passport.authenticate("extact_refresh_token",{session:false}),authController.handleRefreshToken);
-authRouter.post('/owners/logout',authController.logoutOwner);
+authRouter.post('/owners/login-or-register',verifyAuth0TokenAndGetUserData,authController.ownersHandleLoginOrRegister);
+authRouter.post('/owners/refresh-token',passport.authenticate("extractOwnerRefreshToken",{session:false}),authController.ownersHandleRefreshToken);
+authRouter.post('/owners/logout',passport.authenticate("extractOwnerRefreshToken",{session:false}),authController.ownersHandleLogout);
+
+authRouter.post('/tenants/logout',passport.authenticate("extractTenantRefreshToken",{session:false}),authController.tenantsHandleLogout);
 
 
 export default authRouter;

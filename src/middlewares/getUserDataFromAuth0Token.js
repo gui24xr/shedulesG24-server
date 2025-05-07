@@ -1,42 +1,34 @@
 import axios from 'axios'
 import { loggerManager } from '../managers/index.js'
-import {auth }from'express-oauth2-jwt-bearer'
-
-// Middleware para verificar el token
+import { auth } from 'express-oauth2-jwt-bearer'
+// Middleware para verificar el token de auth0.
 const verifyAuth0Token = auth({
-    audience: process.env.AUTH0_AUDIENCE,
-    issuerBaseURL:process.env.AUTH0_ISSUERBASEURL,
-    tokenSigningAlg: 'RS256'
-  })
+  audience: process.env.AUTH0_AUDIENCE,
+  issuerBaseURL: process.env.AUTH0_ISSUERBASEURL,
+  tokenSigningAlg: 'RS256'
+})
 
-
-
-const getUserDataFromAuth0Token = async (req,res,next) => {
-   
-    try{
-        const response =  await axios.get(`${process.env.AUTH0_ISSUERBASEURL}/userinfo`, {
-            headers: {
-                Authorization: req.headers.authorization
-            }
-        });
-
-        loggerManager.debug('User de auth0: ', response.data)
-        
-        req.auth0UserData = {
-          email:response.data.email,
-          userName: response.data.nickname,
-          firstName: response.data.given_name,
-          lastName: response.data.family_name,
-        }
-
-        return  next()
-    }catch(error){
-        logger.error(error)
-        next(new Error('No se pudieron extraer los datos desde el servicio de autorizacion externo...'))
+const getUserDataFromAuth0Token = async (req, res, next) => {
+  try {
+    const response = await axios.get(`${process.env.AUTH0_ISSUERBASEURL}/userinfo`, {
+      headers: {
+        Authorization: req.headers.authorization
+      }
+    });
+    loggerManager.debug('User de auth0: ', response.data)
+    req.auth0UserData = {
+      email: response.data.email,
+      userName: response.data.nickname,
+      firstName: response.data.given_name,
+      lastName: response.data.family_name,
     }
+    return next()
+  } catch (error) {
+    logger.error(error)
+    next(new Error('No se pudieron extraer los datos desde el servicio de autorizacion externo...'))
   }
+}
 
+const verifyAuth0TokenAndGetUserData = [verifyAuth0Token, getUserDataFromAuth0Token]
 
-  const verifyAuth0TokenAndGetUserData = [verifyAuth0Token,getUserDataFromAuth0Token]
-
-  export default verifyAuth0TokenAndGetUserData;
+export default verifyAuth0TokenAndGetUserData;

@@ -30,7 +30,7 @@ const routesArray = [
 
 
 export const server = new ExpressServer({
-    port:process.env.PORT,
+    port:process.env.SERVER_PORT,
     serverCookiesSign:process.env.SERVER_COOKIES_SIGN,
     logger:logger,
     routerList:routesArray,

@@ -2,7 +2,7 @@ import { loggerManager, jwtManager } from '../managers/index.js'
 import catalogsData from '../constants/index.js'
 import DbTransactionsService from './dbtransactions.service.js'
 
-import {TenantsAppsUser, Establishment, Owner, Employee, Profile,Location,Branch,EstablishmentConfig} from '../models/index.js'
+import {TenantsAppsUser, Establishment, Owner, Employee, Profile,Location,Branch,EstablishmentConfig,IssuedRefreshToken} from '../models/index.js'
 
 import AuthService from './auth.services.js'
 import UsersService from './users.service.js'
@@ -51,6 +51,7 @@ const ownersService = new OwnersService({
 
 const authService = new AuthService({
    ownersService:ownersService, 
+   issuedRefreshToken:IssuedRefreshToken,
    authSchema:authSchema,
    loggerManager:loggerManager,
    jwtManager:jwtManager

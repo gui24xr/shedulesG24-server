@@ -17,6 +17,7 @@ import  Location from './models.location.js';
 import  CommunicationProvider from './models.communicationProvider.js';  
 import  NotificationsProfile from './models.notificationsProfile.js';
 import  EstablishmentConfig from './models.establishmentConfig.js';
+import  IssuedRefreshToken from './models.issuedRefreshToken.js';
 
 export {
     Booking,
@@ -36,5 +37,6 @@ export {
     Location,
     CommunicationProvider,
     NotificationsProfile,
-    EstablishmentConfig
+    EstablishmentConfig,
+    IssuedRefreshToken
 }
