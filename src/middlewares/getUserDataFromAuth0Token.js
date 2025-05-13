@@ -24,8 +24,8 @@ const getUserDataFromAuth0Token = async (req, res, next) => {
     }
     return next()
   } catch (error) {
-    logger.error(error)
-    next(new Error('No se pudieron extraer los datos desde el servicio de autorizacion externo...'))
+    loggerManager.error(error)
+    return next(new Error('No se pudieron extraer los datos desde el servicio de autorizacion externo...'))
   }
 }
 

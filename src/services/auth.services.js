@@ -19,13 +19,23 @@ export default class AuthService{
             if (authOwner.status === 'inactive') throw new Error('Owner is inactive')
             const ownerRefreshToken = await this.ownersCreateRefreshToken(authOwner.id)
             const ownerAccessToken = await this.ownersCreateAccessToken(authOwner.id)
-            return { ownerRefreshToken, ownerAccessToken }
+            return { ownerRefreshToken, ownerAccessToken, authOwner }
         }catch(error){
             this.loggerManager && this.loggerManager.error('Error al manejar el login o registro del propietario',error);
             throw error;
         }
     }
 
+    ownersHandleCheckSession = async (ownerId) => {
+        try{
+            const foundedOwner = await this.ownersService.getOwnerById(ownerId)
+            if (!foundedOwner) throw new Error('Propietario no encontrado')
+            return foundedOwner
+        }catch(error){
+            this.loggerManager && this.loggerManager.error('Error al verificar la sesion del propietario',error);
+            throw error;
+        }
+    }
 
     ownersCreateRefreshToken = async (ownerId) => {
         try{

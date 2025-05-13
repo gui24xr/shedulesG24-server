@@ -18,6 +18,7 @@ passport.use("extractOwnerRefreshToken", new jwt.Strategy({
     ])
 }, async (req, jwtPayload, done) => {
     try {
+        console.log('ENTRA AQUI A PASSPORT OWNER REFRESH TOKEN')
         loggerManager.debug('Payload (refresh token, owners app):', jwtPayload);
         return done(null, { type: 'owner', owner: { ...jwtPayload } });
     } catch (error) {
@@ -53,9 +54,9 @@ passport.use("extractOwnerAccessToken", new jwt.Strategy({
     ])
 }, async (req, jwtPayload, done) => {
     try {
-        loggerManager.debug('Payload (refresh token, Owners app):', jwtPayload);
+        loggerManager.debug('Payload (Access token, Owners app):', jwtPayload);
         console.log('ENTRA AQUI A PASSPORT OWNER ACCESS TOKEN')
-        console.log('Payload (refresh token, owners app):', jwtPayload);
+        console.log('Payload (Access token, owners app):', jwtPayload);
         return done(null, { type: 'tenant', owner: { ...jwtPayload } });
     } catch (error) {
         loggerManager.error('Error en passport (refresh strategy):', error);
@@ -73,7 +74,7 @@ passport.use("extractTenantAccessToken", new jwt.Strategy({
     ])
 }, async (req, jwtPayload, done) => {
     try {
-        loggerManager.debug('Payload (refresh token, tenants app):', jwtPayload);
+        loggerManager.debug('Payload access token, tenants app):', jwtPayload);
         return done(null, { type: 'tenant', tenant: { ...jwtPayload } });
     } catch (error) {
         loggerManager.error('Error en passport (refresh strategy):', error);

@@ -20,24 +20,6 @@ const issuedRefreshTokenSchema = new mongoose.Schema({
       type: String,        
       required: true,
     },
-    device: {
-      type: String,        
-      default: 'Unknown',
-    },
-    ip: {
-      type: String,
-    },
-    userAgent: {
-      type: String,
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    expiresAt: {
-      type: Date,
-      required: true,
-    },
     revoked: {
       type: Boolean,
       default: false,
